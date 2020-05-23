@@ -1,0 +1,23 @@
+{
+  "name": "gliese_876",
+  "version": "0.0.1",
+  "description": "A simulation of the planetary system Gliese 876",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lkamil/Gliese-876.git"
+  },
+  "author": "Laila Kamil",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lkamil/Gliese-876/issues"
+  },
+  "homepage": "https://github.com/lkamil/Gliese-876#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "three": "^0.116.1"
+  }
+}
