@@ -2,7 +2,7 @@
 // attach listeners to dom elements (eg windowresize)
 // start render loop
 
-let canvas = document.getElementById('canvas');
+let canvas = document.getElementById("canvas");
 let sceneManager = new SceneManager(canvas);
 
 //bindEventListeners();
@@ -10,8 +10,8 @@ render();
 //addAxesHelper();
 
 function render() {
-    requestAnimationFrame(render);
     sceneManager.update();
+    requestAnimationFrame(render);
 }
 
 function bindEventListeners() {

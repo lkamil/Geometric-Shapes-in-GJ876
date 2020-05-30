@@ -23,11 +23,11 @@ class Sun {
     update() {
         //console.log("Update Sun");
         if (this.radius <= 4) {
-            let scale = 1.1;
+            let scale = 1.00001;
             this.radius = this.radius * scale;
             this.mesh.scale.set(scale, scale, scale);
         } else if (this.radius >= 4){
-            let scale = 0.9;
+            let scale = 0.00009;
             this.radius = this.radius * scale;
             this.mesh.scale.set(scale, scale, scale);
         }

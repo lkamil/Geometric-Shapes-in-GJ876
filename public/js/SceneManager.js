@@ -1,87 +1,80 @@
 
-function SceneManager(canvas) {
+class SceneManager {
 
-    let screenDimensions = {
-        width: canvas.width,
-        heigt: canvas.height
+    constructor(canvas) {
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+        this.scene = this.initScene();
+        this.renderer = this.initRenderer(canvas);
+        this.camera = this.initCamera();
+        this.sceneSubjects = this.createSceneSubjects(this.scene); 
     }
 
-    const scene = initScene();
-    const renderer = initRenderer(screenDimensions);
-    const camera = initCamera(screenDimensions);
-    const sceneSubjects = createSceneSubjects(scene);
-
-    function initScene() {
+    initScene() {
+        console.log("Init Scene");
         const scene = new THREE.Scene();
         scene.background = new THREE.Color("#c85976");
-
         return scene;
     }
 
-    // COOL :)
-    function initRenderer({ width, height }) {
-
+    initRenderer(canvas) {
         //const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
         let renderer = new THREE.WebGLRenderer();
-        renderer.setSize(width, height); // Define the size of the scene
+        renderer.setSize(this.width, this.height); // Define the size of the scene
         ///renderer.setClearColor(0x0e1628, 1.0); // Set a background color
         renderer.shadowMap.enabled = true;
-
         var axes = new THREE.AxesHelper(20);
-        scene.add(axes);
+        this.scene.add(axes);
 
+        // Append renderer??
+        canvas.appendChild(renderer.domElement);
+        // document.getElementById("canvas").appendChild(renderer.domElement);
         return renderer;
     }
 
-    function initCamera({width, height}) {
+    initCamera() {
         let fov = 45;
-        let aspect = width / height;
+        let aspect = this.width / this.height;
         let near = 0.1;
         let far = 1000;
-
         const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-
         camera.position.x = -30;
         camera.position.y = 40;
         camera.position.z = 30;
-
         // Making the camera point to the center of the scene using lookAt()
-        camera.lookAt(scene.position);
-        console.log("Scene Position: " + scene.position.x + " " + scene.position.y + " " + scene.position.z);
+        camera.lookAt(this.scene.position);
+        console.log("Scene Position: " + this.scene.position.x + " " + this.scene.position.y + " " + this.scene.position.z);
 
         return camera;
     }
 
-    function createSceneSubjects(scene) {
+    createSceneSubjects(scene) {
         // Add new scene Subjects here
         const sceneSubjects = [
             new BasicLight(scene),
             new Sun(scene),
-            // new Plane(scene)
-            // new Planet(scene)
         ];
-        
         return sceneSubjects;
     }
 
-    this.update = function() {
-        // console.log(sceneSubjects);
-        for (let i = 0; i < sceneSubjects.length; i++) {
-            sceneSubjects[i].update();
+    update() {
+        // console.log(this.sceneSubjects);
+        for (let i = 0; i < this.sceneSubjects.length; i++) {
+            this.sceneSubjects[i].update();
         }
-    
-        renderer.render(scene, camera);
+        this.renderer.render(this.scene, this.camera);
     }
 
-    this.onWindowResize = function() {
+    onWindowResize () {
+        console.log("Window resized");
         let { width, height } = canvas;
+        this.width = width;
+        this.heigt = height;
 
-        screenDimensions.width = width;
-        screenDimensions.heigt = height;
-
-        // camera.aspect = width / height;
-        // ...
-    }
-
+        this.camera.aspect = width / height;
+        this.camera.updateProjectionMatrix();
+        
+        this.renderer.setSize(width, height);
+    };
 }
 
