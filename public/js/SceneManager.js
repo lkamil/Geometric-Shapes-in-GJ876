@@ -7,13 +7,13 @@ class SceneManager {
         this.scene = this.initScene();
         this.renderer = this.initRenderer(canvas);
         this.camera = this.initCamera();
-        this.sceneSubjects = this.createSceneSubjects(this.scene); 
+        this.sceneSubjects = this.createSceneSubjects(this.scene);
     }
 
     initScene() {
         console.log("Init Scene");
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color("#c85976");
+        scene.background = new THREE.Color("#120f36");
         return scene;
     }
 
