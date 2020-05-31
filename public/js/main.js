@@ -5,7 +5,7 @@
 let canvas = document.getElementById("canvas");
 let sceneManager = new SceneManager(canvas);
 
-//bindEventListeners();
+bindEventListeners();
 render();
 //addAxesHelper();
 

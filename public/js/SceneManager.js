@@ -67,14 +67,14 @@ class SceneManager {
 
     onWindowResize () {
         console.log("Window resized");
-        let { width, height } = canvas;
-        this.width = width;
-        this.heigt = height;
 
-        this.camera.aspect = width / height;
+        this.width = window.innerWidth;
+        this.heigt = window.innerHeight;
+
+        this.camera.aspect = this.width / this.height;
         this.camera.updateProjectionMatrix();
         
-        this.renderer.setSize(width, height);
+        this.renderer.setSize(this.width, this.height);
     };
 }
 
