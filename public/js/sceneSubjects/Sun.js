@@ -4,11 +4,11 @@ class Sun {
         this.radius = controls.scale;
 
         let sunGeometry = new THREE.SphereGeometry(this.radius, 20, 20);
-        let sunMaterial = new THREE.MeshLambertMaterial({color: 0xffffcc});
+        let sunMaterial = new THREE.MeshPhongMaterial({color: 0xf6ff3d, emissive: 0xf6ff3d, emissiveIntensity: 2.0});
         this.mesh = new THREE.Mesh(sunGeometry, sunMaterial);
 
 
-        this.mesh.castShadow = true;
+        //this.mesh.castShadow = true;
 
         this.mesh.position.x = 0;
         this.mesh.position.y = 0;
@@ -20,7 +20,7 @@ class Sun {
 
     }
 
-    update() {
+    update(elapsedTime) {
         //console.log("Update Sun");
         this.radius = controls.scale;
         this.mesh.scale.x = this.radius;

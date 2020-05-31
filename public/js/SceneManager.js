@@ -8,12 +8,13 @@ class SceneManager {
         this.renderer = this.initRenderer(canvas);
         this.camera = this.initCamera();
         this.sceneSubjects = this.createSceneSubjects(this.scene);
+        this.clock = new THREE.Clock();
     }
 
     initScene() {
         console.log("Init Scene");
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color("#120f36");
+        scene.background = new THREE.Color("#09071e");
         return scene;
     }
 
@@ -23,8 +24,8 @@ class SceneManager {
         renderer.setSize(this.width, this.height); // Define the size of the scene
         ///renderer.setClearColor(0x0e1628, 1.0); // Set a background color
         renderer.shadowMap.enabled = true;
-        var axes = new THREE.AxesHelper(20);
-        this.scene.add(axes);
+        //var axes = new THREE.AxesHelper(20);
+        //this.scene.add(axes);
 
         // Append renderer??
         canvas.appendChild(renderer.domElement);
@@ -53,14 +54,16 @@ class SceneManager {
         const sceneSubjects = [
             new BasicLight(scene),
             new Sun(scene),
+            new Planet(scene)
         ];
         return sceneSubjects;
     }
 
     update() {
         // console.log(this.sceneSubjects);
+        let elapsedTime = this.clock.getElapsedTime();
         for (let i = 0; i < this.sceneSubjects.length; i++) {
-            this.sceneSubjects[i].update();
+            this.sceneSubjects[i].update(elapsedTime);
         }
         this.renderer.render(this.scene, this.camera);
     }

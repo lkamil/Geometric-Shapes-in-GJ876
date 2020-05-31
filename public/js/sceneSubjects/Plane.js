@@ -14,7 +14,7 @@ class Plane {
         scene.add(plane);
     }
 
-    update() {
+    update(elapsedTime) {
         
     }
 }

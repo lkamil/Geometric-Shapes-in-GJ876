@@ -1,5 +1,5 @@
 class Controls {
     constructor() {
-        this.scale = 1;
+        this.scale = 2;
     }
 }

@@ -8,7 +8,6 @@ let sceneManager = new SceneManager(canvas);
 
 bindEventListeners();
 render();
-//addAxesHelper();
 
 function render() {
     sceneManager.update();
@@ -33,7 +32,7 @@ function resizeCanvas() {
 function initDatGui() {
     let datGui = new dat.GUI();
     let controls = new Controls();
-    datGui.add(controls, 'scale', 0.5, 3);
+    datGui.add(controls, 'scale', 1.5, 3);
 
     return controls;
 }
