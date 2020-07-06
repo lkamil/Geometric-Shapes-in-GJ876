@@ -20,17 +20,18 @@ class SceneManager {
     }
 
     initRenderer(canvas) {
-        //const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
         let renderer = new THREE.WebGLRenderer();
         renderer.setSize(this.width, this.height); // Define the size of the scene
-        ///renderer.setClearColor(0x0e1628, 1.0); // Set a background color
-        renderer.shadowMap.enabled = true;
-        var axes = new THREE.AxesHelper(20);
+
+        //renderer.shadowMap.enabled = true;
+
+        // Show Axes
+        var axes = new THREE.AxesHelper(19);
         this.scene.add(axes);
 
         // Append renderer??
         canvas.appendChild(renderer.domElement);
-        // document.getElementById("canvas").appendChild(renderer.domElement);
+
         return renderer;
     }
 
