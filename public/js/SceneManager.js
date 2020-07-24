@@ -41,9 +41,9 @@ class SceneManager {
         let near = 0.1;
         let far = 1000;
         const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-        camera.position.x = -30;
-        camera.position.y = 40;
-        camera.position.z = 30;
+        camera.position.x = -3;
+        camera.position.y = 4;
+        camera.position.z = 3;
         // Making the camera point to the center of the scene using lookAt()
         camera.lookAt(this.scene.position);
         console.log("Scene Position: " + this.scene.position.x + " " + this.scene.position.y + " " + this.scene.position.z);

@@ -1,0 +1,14 @@
+{
+    "gj876": {
+        "mass" : 0.334,
+        "radius": 0.376
+    },
+    "gj876b": {
+        "inclination": 22,
+        "mass" : 0.0022847,
+        "radius": 0.0005686944,
+        "largeMajorAxis": 0.211,
+        "eccentricity": 0.029,
+        "longitudeOfAscendingNode": 0
+    }
+}

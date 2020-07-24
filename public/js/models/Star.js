@@ -1,8 +1,8 @@
 class Star {
 
-    constructor(scene, _radius) {
+    constructor(scene, _radius, mass_) {
         this.radius = _radius;
-        this.mass = 0.37; // Unit: Solar Mass (1SM = 1.98847×1030 kg)
+        this.mass = mass_; // Unit: Solar Mass (1SM = 1.98847×1030 kg)
         this.location = new THREE.Vector3(0, 0, 0);
 
 
@@ -18,6 +18,10 @@ class Star {
 
         // Set the location of the star
         this.mesh.position.set = this.location;
+
+    }
+
+    applyForce() {
 
     }
 
