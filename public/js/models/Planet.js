@@ -1,8 +1,8 @@
 class Planet {
-    constructor(scene, data) {
+    constructor(scene, data, color) {
         this.a = data.a; // Large semi axis
         this.e = data.e; // Numeric eccentricity
-        this.radius = rEarthToAU(data.radius); // Radius of the planet in AU
+        this.radius = rEarthToAU(data.radius) * 5; // Radius of the planet in AU
         this.mass = mJupToSolarMass(data.mass); // Convert unit and set planet's mass
         this.orbitalPeroid = data.orbitalPeriod;
         //this.periapsis = data.periapsis; // Distance from Perihelion to Sun
@@ -14,7 +14,8 @@ class Planet {
         
         // Initialize Planet Graphics
         let planetGeometry = new THREE.SphereGeometry(this.radius, 20, 20);
-        let planetMaterial = new THREE.MeshLambertMaterial({color: new THREE.Color( 0xac3729 )});
+        console.log("Planet radius: " + this.radius);
+        let planetMaterial = new THREE.MeshLambertMaterial({color: color});
         this.mesh = new THREE.Mesh(planetGeometry, planetMaterial);
         this.mesh.receiveShadow = true;
 
@@ -34,7 +35,10 @@ class Planet {
         let v = this.trueAnomaly(ev);
         let r = this.distanceToSun(v);
 
-        return this.cartesianPosition(v, r, this.inclination);
+        let pos = this.cartesianPosition(v, r, this.inclination);
+
+        //pos.multiplyScalar(5);
+        return pos;
     }
 
     /**
@@ -103,16 +107,16 @@ class Planet {
      */
     cartesianPosition(v, r, i) {
         // Transform polar coordinates to cartesian coordinates
-        let x = r * Math.cos(i) * Math.cos(v);
+        let x = r * Math.cos(i) * Math.sin(v);
         let y = r * Math.sin(i);
-        let z = r * Math.cos(i) * Math.sin(v);
-        debugger
+        let z = r * Math.cos(i) * Math.cos(v);
+        //debugger
         return new THREE.Vector3(x, y, z);
     }
 
     /**
      * Returns the distance to the planet's sun
-     * @param {True Anomaly at a specific point in time} vv 
+     * @param {True Anomaly at a specific point in time} v
      */
     distanceToSun(v) {
         const numerator = this.a * (1 - this.e * this.e);
@@ -137,43 +141,14 @@ class Planet {
         return velocity;
     }
 
-    // *** Old code ***
-
-    applyForce(force) {
-        //debugger
-        // TODO
-        // Is force passed by reference??? if yes it needs to be copied
-        // force.copy.divide(this.mass); // Newtons second law F = m*a ->  F / m = a
-
-        // TODO: Make sure that masses never equal 0!!
-        // Divide force (vector) by mass (scalar)
-        let forceCopy = force.clone();
-        forceCopy.divideScalar(this.mass); // Newtons second law F = m*a ->  F / m = a
-        this.acceleration.add(forceCopy);
-    }
-
     update(elapsedTime) {
         //debugger
         // Calculate new planet position
         let pos = this.position(elapsedTime);
         //console.log(pos);
-        this.mesh.position.set = pos;
-
-
-        //this.mesh.position.x = Math.cos(elapsedTime) * 20;
-        //this.mesh.position.z = Math.sin(elapsedTime) * 20;
-
-        // Apply forces
-        // this.velocity.add(this.acceleration);
-        // this.location.add(this.velocity);
-        //this.mesh.position.set = this.location;
-        // this.mesh.position.x = this.location.x;
-        // this.mesh.position.y = this.location.y;
-        // this.mesh.position.z = this.location.z;
-        // TODO: Find a better way to update the location of the planet
-        //console.log("planet location: " + this.location.x + " " + this.location.y +  " " + this.location.z);
-        
-        // Clear accelaration 
-        //this.acceleration.multiplyScalar(0);
+        //this.mesh.position.set = pos;
+        this.mesh.position.x = pos.x;
+        this.mesh.position.y = pos.y;
+        this.mesh.position.z = pos.z;
     }
 }

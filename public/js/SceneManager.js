@@ -39,14 +39,13 @@ class SceneManager {
         let fov = 45;
         let aspect = this.width / this.height;
         let near = 0.001;
-        let far = 100;
+        let far = 1000;
         const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-        camera.position.x = -0.03;
-        camera.position.y = 0.04;
-        camera.position.z = 0.03;
+        camera.position.x = -0.3;
+        camera.position.y = 0.4;
+        camera.position.z = 0.3;
         // Making the camera point to the center of the scene using lookAt()
         camera.lookAt(this.scene.position);
-        console.log("Scene Position: " + this.scene.position.x + " " + this.scene.position.y + " " + this.scene.position.z);
 
         return camera;
     }
@@ -62,6 +61,7 @@ class SceneManager {
         const sceneSubjects = [
             new BasicLight(scene),
             new SolarSystem(scene, data),
+            new ScaleHelper(scene, -3, 4, 3)
         ];
         return sceneSubjects;
     }

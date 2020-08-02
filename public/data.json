@@ -17,6 +17,30 @@
             "timeOfPerihelionPassage": 2450602.093,
             "longitudeOfAscendingNode": 0,
             "argOfPeriapsis": 50.3
+        },
+        "gj876c":
+         {
+            "a": 0.12959,
+            "e": 0.25591,
+            "i": 0,
+            "mass" : 0.7142, 
+            "orbitalPeriod" : 30.0881,
+            "radius": 14,
+            "timeOfPerihelionPassage": 2450602.093,
+            "longitudeOfAscendingNode": 0,
+            "argOfPeriapsis": 48.76
+        },
+        "gj876d":
+         {
+            "a": 0.02080665,
+            "e": 0.207,
+            "i": 0,
+            "mass" : 0.0215, 
+            "orbitalPeriod" : 1.93778,
+            "radius": 2.51,
+            "timeOfPerihelionPassage": 2450602.093,
+            "longitudeOfAscendingNode": 0,
+            "argOfPeriapsis": 234
         }
     }
     

@@ -10,11 +10,15 @@ class SolarSystem {
         // let bRadius = 0.08;
         // let bLocation = new THREE.Vector3( 0.15, 0, 0.14);
         // let bColor = new THREE.Color( 0xac3729 );
-        this.planetB = new Planet(scene, data.planets.gj876b);
+        this.planetB = new Planet(scene, data.planets.gj876b, new THREE.Color( 0xac3729 ));
+        this.planetC = new Planet(scene, data.planets.gj876c, new THREE.Color( 0x0c3789 ));
+        this.planetD = new Planet(scene, data.planets.gj876d, new THREE.Color( 0x1fadd1 ));
 
         this.objects = new THREE.Object3D();
         this.objects.add(this.star.mesh);
         this.objects.add(this.planetB.mesh);
+        this.objects.add(this.planetC.mesh);
+        this.objects.add(this.planetD.mesh);
         scene.add(this.objects);
         //this.objects.scale.set(new THREE.Vector3(0.5,0.5,0.5));
         //this.objects = [this.star, this.planetB];
@@ -24,9 +28,11 @@ class SolarSystem {
         // Apply forces
         //this.planetB.applyForce(gravity);
         //this.planetB.applyForce(v_angular_momentum_plB);
-
-        this.star.update(elapsedTime);
-        this.planetB.update(elapsedTime);
+        let speed = 1.5;
+        this.star.update(elapsedTime * speed);
+        this.planetB.update(elapsedTime * speed);
+        this.planetC.update(elapsedTime * speed);
+        this.planetD.update(elapsedTime * speed);
         // console.log(this.planetB['location']);
     }
 
