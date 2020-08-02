@@ -1,15 +1,15 @@
 
 class SceneManager {
 
-    constructor(canvas) {
+    constructor(canvas, data) {
         this.width = window.innerWidth;
         this.height = window.innerHeight;
         this.scene = this.initScene();
         this.renderer = this.initRenderer(canvas);
         this.camera = this.initCamera();
         this.orbitControls = this.initOrbitControls();
-        this.sceneSubjects = this.createSceneSubjects(this.scene);
-        this.clock = new THREE.Clock();
+        this.sceneSubjects = this.createSceneSubjects(this.scene, data);
+        this.clock = new THREE.Clock(); // Keeps track of time   
     }
 
     initScene() {
@@ -38,12 +38,12 @@ class SceneManager {
     initCamera() {
         let fov = 45;
         let aspect = this.width / this.height;
-        let near = 0.1;
-        let far = 1000;
+        let near = 0.001;
+        let far = 100;
         const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-        camera.position.x = -3;
-        camera.position.y = 4;
-        camera.position.z = 3;
+        camera.position.x = -0.03;
+        camera.position.y = 0.04;
+        camera.position.z = 0.03;
         // Making the camera point to the center of the scene using lookAt()
         camera.lookAt(this.scene.position);
         console.log("Scene Position: " + this.scene.position.x + " " + this.scene.position.y + " " + this.scene.position.z);
@@ -57,11 +57,11 @@ class SceneManager {
         return orbitControls;
     }
 
-    createSceneSubjects(scene) {
+    createSceneSubjects(scene, data) {
         // Add new scene Subjects here
         const sceneSubjects = [
             new BasicLight(scene),
-            new SolarSystem(scene)
+            new SolarSystem(scene, data),
         ];
         return sceneSubjects;
     }

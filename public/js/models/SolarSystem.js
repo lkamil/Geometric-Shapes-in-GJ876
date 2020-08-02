@@ -1,37 +1,33 @@
 class SolarSystem {
-    constructor(scene) {
-        let starRadius = 0.1; // in solar Radius, 1 solarRadius = 6.957 * 10^5 km
-        let starMass = 0.32;
-        this.star = new Star(scene, starRadius, starMass);
+    constructor(scene, data) {
+        // this.data = data;
+        // let starRadius = 0.1; // in solar Radius, 1 solarRadius = 6.957 * 10^5 km
+        // let starMass = 0.32;
+        // this.star = new Star(scene, starRadius, starMass);
+        this.star = new Star(scene, data.gj876);
 
-        let bMass = 0.00228;
-        let bRadius = 0.08;
-        let bLocation = new THREE.Vector3( 0.15, 0, 0.14);
-        let bColor = new THREE.Color( 0xac3729 );
-        this.planetB = new Planet(scene, bMass, bRadius, bLocation, bColor);
+        // let bMass = 0.00228;
+        // let bRadius = 0.08;
+        // let bLocation = new THREE.Vector3( 0.15, 0, 0.14);
+        // let bColor = new THREE.Color( 0xac3729 );
+        this.planetB = new Planet(scene, data.planets.gj876b);
 
-        this.objects = [this.star, this.planetB];
-        this.nBodyProblem = new NBodyProblem(this.objects);
+        this.objects = new THREE.Object3D();
+        this.objects.add(this.star.mesh);
+        this.objects.add(this.planetB.mesh);
+        scene.add(this.objects);
+        //this.objects.scale.set(new THREE.Vector3(0.5,0.5,0.5));
+        //this.objects = [this.star, this.planetB];
     }
 
     update(elapsedTime) {
-        //debugger
-        // Calculate forces
-        //let v_angular_momentum_plB = calcAngularMomentum(this.planetB['location'], this.planetB['mass'], this.planetB['velocity']);
-        //let gravity = this.star.attract(this.planetB);
-        //console.log("update");
-        // Apply nBody forces
-        this.nBodyProblem.addAccelerations();
-
         // Apply forces
         //this.planetB.applyForce(gravity);
         //this.planetB.applyForce(v_angular_momentum_plB);
 
-        
-
         this.star.update(elapsedTime);
         this.planetB.update(elapsedTime);
-        console.log(this.planetB['location']);
+        // console.log(this.planetB['location']);
     }
 
     /**

@@ -1,13 +1,34 @@
 
 const constant = {
-    GC: 39.4784176, // Gravitational Constant 4 * PI^2
+    GC: 0.0002959122, // Gravitational Constant 4 * PI^2
     SC: 0.15, // Softening constant
-    T0: 0.0000, // Beginning of Time
+    T0: 2450602.093, // Beginning of Time
 };
 
-function moveAlongEllipse(t, ) {
-
+/**
+ * Converts a given mass in jupiter mass to solar mass
+ * @param {Mass in Jupiter Mass} mJup
+ */
+function mJupToSolarMass(mJup) {
+    return mJup * 0.0009547919;
 }
+
+function degToRad(deg) {
+    return deg * Math.PI / 180;
+}
+
+function radToDeg(rad) {
+    return rad * 180 / Math.PI;
+}
+
+function rEarthToAU(dist) {
+    return dist * 0.00004263496512710535386;
+}
+
+function rSunToAU(dist) {
+    return dist * 0.00465047;
+}
+
 /**
  * Calculates the gravitytional attraction between two objects with masses m1 and m2
  * @param {Mass of the first (bigger) object} m1 
@@ -45,8 +66,3 @@ function calcAngularMomentum(v_location, mass, v_velocity) {
     return v_angMomentum;
 }
 
-function meanAnomaly(period,t) {
-    const meanAnomaly = (2 * Math.PI / period) * (t - constant.T0);
-
-    return meanAnomaly
-}

@@ -1,9 +1,9 @@
 class Star {
 
-    constructor(scene, _radius, mass_) {
-        this.radius = _radius;
-        this.mass = mass_; // Unit: Solar Mass (1SM = 1.98847×1030 kg)
-        this.location = new THREE.Vector3(0, 0, 0);
+    constructor(scene, data) {
+        this.radius = rSunToAU(data.radius);
+        this.mass = data.mass; // Unit: Solar Mass (1SM = 1.98847×1030 kg)
+        this.location = new THREE.Vector3(0.1611, 0, 0.1232);
 
 
         let sunGeometry = new THREE.SphereGeometry(this.radius, 20, 20);
@@ -14,7 +14,7 @@ class Star {
         
         console.log("Sun position: " + this.mesh.position.x + " " +  this.mesh.position.y + " " + this.mesh.position.z);
 
-        scene.add(this.mesh);
+        //scene.add(this.mesh);
 
         // Set the location of the star
         this.mesh.position.set = this.location;
@@ -37,10 +37,10 @@ class Star {
     update(elapsedTime) {
         //console.log("Update Sun");
         // TODO: bigger radius means bigger mass?
-        this.radius = controls.scale;
-        this.mesh.scale.x = this.radius;
-        this.mesh.scale.y = this.radius;
-        this.mesh.scale.z = this.radius;
+        // this.radius = controls.scale;
+        // this.mesh.scale.x = this.radius;
+        // this.mesh.scale.y = this.radius;
+        // this.mesh.scale.z = this.radius;
     }
 
 }

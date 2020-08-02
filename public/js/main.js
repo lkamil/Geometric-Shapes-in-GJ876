@@ -2,9 +2,22 @@
 // attach listeners to dom elements (eg windowresize)
 // start render loop
 
+let data = loadData();
 let canvas = document.getElementById("canvas");
 let controls = initDatGui();
-let sceneManager = new SceneManager(canvas);
+let sceneManager = new SceneManager(canvas, data);
+
+function loadData() {
+    let request = new XMLHttpRequest();
+    request.open("GET", "data.json", false);
+    request.send(null);
+    let data = JSON.parse(request.responseText);
+
+    return data;
+}
+
+
+
 
 bindEventListeners();
 render();
