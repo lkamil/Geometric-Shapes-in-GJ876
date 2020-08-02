@@ -1,6 +1,6 @@
-# Gliese 876
+# Geometric Harmonies in Gliese 876
 
-A simulation of the planetary system Gliese 876 used to visualize geometrical harmonies between the celestial bodys in this system.
+A simulation of the planetary system Gliese 876 used to visualize geometrical harmonies between its celestial bodies.
 
 ## Requirements
 
@@ -8,5 +8,5 @@ Node.js Version 12 or higher.
 
 ## Install
 
-Download this repo and then simply run<br>
+Download this repo and simply run<br>
 `$ npm install`
