@@ -1,4 +1,4 @@
-# Geometric Harmonies in Gliese 876
+# Geometrical Order in Gliese 876
 
 A simulation of the planetary system Gliese 876 used to visualize geometrical harmonies between its celestial bodies.
 
