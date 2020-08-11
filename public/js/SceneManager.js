@@ -15,7 +15,17 @@ class SceneManager {
     initScene() {
         console.log("Init Scene");
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color("#09071e");
+
+        // Add background image
+        // scene.background = new THREE.Color("#09071e");
+        let geometry = new THREE.SphereGeometry( 10, 6, 4 );
+        geometry.scale( - 1, 1, 1 );
+        var material = new THREE.MeshBasicMaterial( {
+            map: new THREE.TextureLoader().load( '../assets/8k_stars.jpg' )
+        } );
+        let mesh = new THREE.Mesh( geometry, material );
+        scene.add( mesh );
+
         return scene;
     }
 
@@ -27,7 +37,7 @@ class SceneManager {
 
         // Show Axes
         var axes = new THREE.AxesHelper(19);
-        this.scene.add(axes);
+        //this.scene.add(axes);
 
         // Append renderer??
         canvas.appendChild(renderer.domElement);
@@ -41,9 +51,9 @@ class SceneManager {
         let near = 0.001;
         let far = 1000;
         const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-        camera.position.x = -0.3;
-        camera.position.y = 0.4;
-        camera.position.z = 0.3;
+        camera.position.x = 0.2;
+        camera.position.y = 0.2;
+        camera.position.z = 0.4;
         // Making the camera point to the center of the scene using lookAt()
         camera.lookAt(this.scene.position);
 
@@ -61,7 +71,7 @@ class SceneManager {
         const sceneSubjects = [
             new BasicLight(scene),
             new SolarSystem(scene, data),
-            new ScaleHelper(scene, -3, 4, 3)
+            //new ScaleHelper(scene, -3, 4, 3)
         ];
         return sceneSubjects;
     }

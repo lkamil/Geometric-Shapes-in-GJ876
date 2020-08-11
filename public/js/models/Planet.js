@@ -2,12 +2,16 @@ class Planet {
     constructor(scene, data, color) {
         this.a = data.a; // Large semi axis
         this.e = data.e; // Numeric eccentricity
-        this.radius = rEarthToAU(data.radius) * 5; // Radius of the planet in AU
+        this.radius = rEarthToAU(data.radius) * 7; // Radius of the planet in AU
         this.mass = mJupToSolarMass(data.mass); // Convert unit and set planet's mass
         this.orbitalPeroid = data.orbitalPeriod;
         //this.periapsis = data.periapsis; // Distance from Perihelion to Sun
-        this.inclination = 0; // TODO: use data.inclination
+        this.i = data.i;
         this.timeOfPerihelionPassage = 0; // TODO: USe Time of perihelon passage
+        this.w = data.argOfPeriapsis;
+        this.o = data.longitudeOfAscendingNode;
+
+        
 
         // this.position = this.initPosition();
         // this.velocity = this.initVelocity();
@@ -18,6 +22,8 @@ class Planet {
         let planetMaterial = new THREE.MeshLambertMaterial({color: color});
         this.mesh = new THREE.Mesh(planetGeometry, planetMaterial);
         this.mesh.receiveShadow = true;
+
+        this.trajectory = new Trajectory(scene, this.orbitalPeroid);
 
         //scene.add(this.mesh);
 
@@ -31,11 +37,12 @@ class Planet {
     position(t) {
         
         let mv = this.meanAnomaly(this.orbitalPeroid, t, this.timeOfPerihelionPassage);
+        //console.log(mv);
         let ev = this.eccentricAnomaly(mv, this.e);
         let v = this.trueAnomaly(ev);
         let r = this.distanceToSun(v);
 
-        let pos = this.cartesianPosition(v, r, this.inclination);
+        let pos = this.cartesianPosition(v, r);
 
         //pos.multiplyScalar(5);
         return pos;
@@ -46,7 +53,9 @@ class Planet {
      * @param {Eccentric anomaly (can be calculated with keplers equation)} ev 
      */
     trueAnomaly(ev) {
-        let v = 2 * Math.atan(Math.sqrt((1+this.e) / (1-this.e)) * Math.tan(ev / 2));
+        //let v = 2 * Math.atan(Math.sqrt((1+this.e) / (1-this.e)) * Math.tan(ev / 2));
+        let v = 2 * Math.atan2((Math.sqrt(1 + this.e) * Math.sin(ev / 2)),
+                               (Math.sqrt(1 - this.e) * Math.cos(ev / 2)));
 
         return v;
     }
@@ -95,6 +104,9 @@ class Planet {
     meanAnomaly(oP, t, tp) {
         let m = (2 * Math.PI / oP) * (t - tp);
 
+        // Normalize m to a value between 0 and 2PI
+        m  = m % 2 * Math.PI;
+
         return m;
     }
 
@@ -102,15 +114,50 @@ class Planet {
      * Gets polar coordinates as arguments and transforms them to cartesian coordinates
      * 
      * @param {True anomaly} v 
-     * @param {Distance to star} r 
-     * @param {Inclination} i 
+     * @param {Distance to star} r  
      */
-    cartesianPosition(v, r, i) {
+    cartesianPosition(v, r) {
         // Transform polar coordinates to cartesian coordinates
-        let x = r * Math.cos(i) * Math.sin(v);
-        let y = r * Math.sin(i);
-        let z = r * Math.cos(i) * Math.cos(v);
+        // let x = r * Math.sin(v);
+        // let y = 0;
+        // let z = r * Math.cos(v);
+
+        let x = r * Math.cos(v);
+        let y = 0;
+        let z = r * Math.sin(v);
+        
         //debugger
+        return new THREE.Vector3(x, y, z);
+    }
+
+    /**
+     * Gets polar coordinates as arguments and transforms them to cartesian coordinates
+     * 
+     * @param {True anomaly} v 
+     * @param {Distance to star} r 
+     */
+    cartesianPosition2(v, r) {
+        // Transform polar coordinates to cartesian coordinates
+        let ox = r * Math.cos(v);
+        let oy = 0;
+        let oz = r * Math.sin(v);
+        
+
+        let z = (oz * (Math.cos(this.w) * Math.sin(this.o)) + 
+                     (Math.sin(this.w) * Math.cos(this.i) * Math.cos(this.o))) + 
+                (ox * (Math.cos(this.w) * Math.cos(this.i) * Math.cos(this.o)) - 
+                     (Math.sin(this.w) * Math.sin(this.o)));
+
+        let y = (oz * Math.sin(this.w) * Math.sin(this.i)) +
+                (ox * Math.cos(this.w) * Math.sin(this.i));
+        
+        let x = (oz * (Math.cos(this.w) * Math.cos(this.o)) - 
+                      (Math.sin(this.w) * Math.cos(this.i) * Math.sin(this.o))) - 
+                (ox * (Math.sin(this.w) * Math.cos(this.o)) + 
+                      (Math.cos(this.w) * Math.cos(this.i) * Math.sin(this.o)));
+
+        //debugger
+        //console.log("x: " + x + " y: " + y + " z: " + z);
         return new THREE.Vector3(x, y, z);
     }
 
@@ -150,5 +197,8 @@ class Planet {
         this.mesh.position.x = pos.x;
         this.mesh.position.y = pos.y;
         this.mesh.position.z = pos.z;
+
+        // Update trajectory
+        this.trajectory.addPosition(pos.x, pos.y, pos.z);
     }
 }

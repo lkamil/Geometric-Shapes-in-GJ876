@@ -1,8 +1,8 @@
 class Star {
 
     constructor(scene, data) {
-        this.radius = rSunToAU(data.radius) * 5;
-        console.log("Star radius: " + this.radius);
+        this.radius = rSunToAU(data.radius);
+        console.log("Star radius: " + this.radius)*6;
         this.mass = data.mass; // Unit: Solar Mass (1SM = 1.98847×1030 kg)
         this.location = new THREE.Vector3(0.1611, 0, 0.1232);
 

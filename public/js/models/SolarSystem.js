@@ -28,7 +28,7 @@ class SolarSystem {
         // Apply forces
         //this.planetB.applyForce(gravity);
         //this.planetB.applyForce(v_angular_momentum_plB);
-        let speed = 1.5;
+        let speed = 1;
         this.star.update(elapsedTime * speed);
         this.planetB.update(elapsedTime * speed);
         this.planetC.update(elapsedTime * speed);
