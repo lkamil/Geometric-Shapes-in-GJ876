@@ -5,16 +5,10 @@ class Planet {
         this.radius = rEarthToAU(data.radius) * 7; // Radius of the planet in AU
         this.mass = mJupToSolarMass(data.mass); // Convert unit and set planet's mass
         this.orbitalPeroid = data.orbitalPeriod;
-        //this.periapsis = data.periapsis; // Distance from Perihelion to Sun
-        this.i = data.i;
-        this.timeOfPerihelionPassage = 0; // TODO: USe Time of perihelon passage
-        this.w = data.argOfPeriapsis;
+        this.i = degToRad(data.i);
+        this.timeOfPerihelionPassage = 0; // TODO: Use time of perihelon passage
+        this.w = 0; // TODO: Use argument of periapsis
         this.o = data.longitudeOfAscendingNode;
-
-        
-
-        // this.position = this.initPosition();
-        // this.velocity = this.initVelocity();
         
         // Initialize Planet Graphics
         let planetGeometry = new THREE.SphereGeometry(this.radius, 20, 20);
@@ -23,28 +17,21 @@ class Planet {
         this.mesh = new THREE.Mesh(planetGeometry, planetMaterial);
         this.mesh.receiveShadow = true;
 
-        this.trajectory = new Trajectory(scene, this.orbitalPeroid);
-
-        //scene.add(this.mesh);
-
-        //this.mesh.position.set = this.position;
+        this.trajectory = new Trajectory(scene, this.position(0) ,this.orbitalPeroid);
     }
 
     /**
      * Returns the position of the planet at a specific point in time
      * @param {Point in time} t 
      */
-    position(t) {
-        
+    position(t) {  
         let mv = this.meanAnomaly(this.orbitalPeroid, t, this.timeOfPerihelionPassage);
-        //console.log(mv);
         let ev = this.eccentricAnomaly(mv, this.e);
         let v = this.trueAnomaly(ev);
         let r = this.distanceToSun(v);
 
-        let pos = this.cartesianPosition(v, r);
+        let pos = this.cartesianPosition2(v, r);
 
-        //pos.multiplyScalar(5);
         return pos;
     }
 
@@ -117,16 +104,10 @@ class Planet {
      * @param {Distance to star} r  
      */
     cartesianPosition(v, r) {
-        // Transform polar coordinates to cartesian coordinates
-        // let x = r * Math.sin(v);
-        // let y = 0;
-        // let z = r * Math.cos(v);
-
-        let x = r * Math.cos(v);
+        let x = r * Math.sin(v);
         let y = 0;
-        let z = r * Math.sin(v);
-        
-        //debugger
+        let z = r * Math.cos(v);
+
         return new THREE.Vector3(x, y, z);
     }
 
@@ -138,12 +119,11 @@ class Planet {
      */
     cartesianPosition2(v, r) {
         // Transform polar coordinates to cartesian coordinates
-        let ox = r * Math.cos(v);
+        let ox = r * Math.sin(v);
         let oy = 0;
-        let oz = r * Math.sin(v);
+        let oz = r * Math.cos(v);
         
-
-        let z = (oz * (Math.cos(this.w) * Math.sin(this.o)) + 
+        let x = (oz * (Math.cos(this.w) * Math.sin(this.o)) + 
                      (Math.sin(this.w) * Math.cos(this.i) * Math.cos(this.o))) + 
                 (ox * (Math.cos(this.w) * Math.cos(this.i) * Math.cos(this.o)) - 
                      (Math.sin(this.w) * Math.sin(this.o)));
@@ -151,13 +131,11 @@ class Planet {
         let y = (oz * Math.sin(this.w) * Math.sin(this.i)) +
                 (ox * Math.cos(this.w) * Math.sin(this.i));
         
-        let x = (oz * (Math.cos(this.w) * Math.cos(this.o)) - 
+        let z = (oz * (Math.cos(this.w) * Math.cos(this.o)) - 
                       (Math.sin(this.w) * Math.cos(this.i) * Math.sin(this.o))) - 
                 (ox * (Math.sin(this.w) * Math.cos(this.o)) + 
                       (Math.cos(this.w) * Math.cos(this.i) * Math.sin(this.o)));
 
-        //debugger
-        //console.log("x: " + x + " y: " + y + " z: " + z);
         return new THREE.Vector3(x, y, z);
     }
 
@@ -189,11 +167,10 @@ class Planet {
     }
 
     update(elapsedTime) {
-        //debugger
         // Calculate new planet position
         let pos = this.position(elapsedTime);
-        //console.log(pos);
-        //this.mesh.position.set = pos;
+        
+        // Set new position
         this.mesh.position.x = pos.x;
         this.mesh.position.y = pos.y;
         this.mesh.position.z = pos.z;

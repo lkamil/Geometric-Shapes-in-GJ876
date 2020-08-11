@@ -23,8 +23,8 @@ bindEventListeners();
 render();
 
 function render() {
-    sceneManager.update();
     requestAnimationFrame(render);
+    sceneManager.update();
 }
 
 function bindEventListeners() {
