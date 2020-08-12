@@ -8,5 +8,5 @@ Node.js Version 12 or higher.
 
 ## Install
 
-Download this repo and simply run<br>
-`$ npm install`
+Download this repo and run `$ npm install` in the project directory.<br>
+Start the server with `$ node app.js`.
