@@ -21,7 +21,7 @@ class SceneManager {
         let geometry = new THREE.SphereGeometry( 10, 6, 4 );
         geometry.scale( - 1, 1, 1 );
         var material = new THREE.MeshBasicMaterial( {
-            map: new THREE.TextureLoader().load( '../assets/8k_stars.jpg' )
+            map: new THREE.TextureLoader().load( '../assets/images/8k_stars.jpg' )
         } );
         let mesh = new THREE.Mesh( geometry, material );
         scene.add( mesh );
