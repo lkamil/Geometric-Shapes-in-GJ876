@@ -1,5 +1,5 @@
 class Planet {
-    constructor(scene, data, color) {
+    constructor(scene, data, SGP, color) {
         this.a = data.a; // Large semi axis
         this.e = data.e; // Numeric eccentricity
         this.radius = rEarthToAU(data.radius) * 7; // Radius of the planet in AU
@@ -7,8 +7,14 @@ class Planet {
         this.orbitalPeroid = data.orbitalPeriod;
         this.i = degToRad(data.i);
         this.timeOfPerihelionPassage = 0; // TODO: Use time of perihelon passage
-        this.w = 0; // TODO: Use argument of periapsis
+        this.w = 0; // data.argOfPeriapsis; // TODO: Use argument of periapsis
         this.o = data.longitudeOfAscendingNode;
+        this.ma0 = data.meanAnomaly; // Mean anomaly at epoch
+        this.SGP = SGP;
+
+
+        // "Private" Properties used for more efficient calculation
+        this._aToPowerOf3 = Math.pow(this.a, 3);
         
         // Initialize Planet Graphics
         let planetGeometry = new THREE.SphereGeometry(this.radius, 20, 20);
@@ -89,11 +95,11 @@ class Planet {
      * @param {Time of perihelion passage (in JD)} tp
      */
     meanAnomaly(oP, t, tp) {
-        let m = (2 * Math.PI / oP) * (t - tp);
+        //let m = (2 * Math.PI / oP) * (t - tp);
+        let m = this.ma0 + (t-tp) * Math.sqrt(this.SGP / this._aToPowerOf3);
 
         // Normalize m to a value between 0 and 2PI
         m  = m % 2 * Math.PI;
-
         return m;
     }
 

@@ -12,6 +12,7 @@
             "e": 0.0324,
             "i": 59,
             "mass" : 2.2756, 
+            "meanAnomaly" : 325.7, 
             "orbitalPeriod" : 61.1166,
             "radius": 13.3,
             "timeOfPerihelionPassage": 2450602.093,
@@ -24,6 +25,7 @@
             "e": 0.25591,
             "i": 59,
             "mass" : 0.7142, 
+            "meanAnomaly" : 294.59,
             "orbitalPeriod" : 30.0881,
             "radius": 14,
             "timeOfPerihelionPassage": 2450602.093,
@@ -36,11 +38,25 @@
             "e": 0.207,
             "i": 59,
             "mass" : 0.0215, 
+            "meanAnomaly" : 355,
             "orbitalPeriod" : 1.93778,
             "radius": 2.51,
             "timeOfPerihelionPassage": 2450602.093,
             "longitudeOfAscendingNode": 0,
             "argOfPeriapsis": 234
+        },
+        "gj876e":
+         {
+            "a": 0.3343,
+            "e": 0.055,
+            "i": 59,
+            "mass" : 0.04594,
+            "meanAnomaly" : 335,
+            "orbitalPeriod" : 124.26,
+            "radius": 3.92,
+            "timeOfPerihelionPassage": 2450602.093,
+            "longitudeOfAscendingNode": 0,
+            "argOfPeriapsis": 239
         }
     }
     

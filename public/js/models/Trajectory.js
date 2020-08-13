@@ -1,6 +1,6 @@
 class Trajectory {
     constructor(scene, initialPosition, orbitalPeriod) {
-        this.maxPoints = Math.round(orbitalPeriod * 10);
+        this.maxPoints = Math.round(orbitalPeriod * 15);
 
         let geometry = new THREE.BufferGeometry();
 

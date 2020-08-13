@@ -37,7 +37,7 @@ class SceneManager {
 
         // Show Axes
         var axes = new THREE.AxesHelper(19);
-        //this.scene.add(axes);
+        // this.scene.add(axes);
 
         // Append renderer??
         canvas.appendChild(renderer.domElement);
@@ -48,11 +48,11 @@ class SceneManager {
     initCamera() {
         let fov = 45;
         let aspect = this.width / this.height;
-        let near = 0.001;
+        let near = 0.0001;
         let far = 1000;
         const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-        camera.position.x = 0.2;
-        camera.position.y = 0.2;
+        camera.position.x = -0.7;
+        camera.position.y = 0.3;
         camera.position.z = 0.4;
         // Making the camera point to the center of the scene using lookAt()
         camera.lookAt(this.scene.position);
