@@ -7,7 +7,7 @@ class Planet {
         this.orbitalPeroid = data.orbitalPeriod;
         this.i = degToRad(data.i);
         this.timeOfPerihelionPassage = 0; // TODO: Use time of perihelon passage
-        this.w = 0; // data.argOfPeriapsis; // TODO: Use argument of periapsis
+        this.w = data.argOfPeriapsis;
         this.o = data.longitudeOfAscendingNode;
         this.ma0 = data.meanAnomaly; // Mean anomaly at epoch
         this.SGP = SGP;
@@ -129,19 +129,15 @@ class Planet {
         let oy = 0;
         let oz = r * Math.cos(v);
         
-        let x = (oz * (Math.cos(this.w) * Math.sin(this.o)) + 
-                     (Math.sin(this.w) * Math.cos(this.i) * Math.cos(this.o))) + 
-                (ox * (Math.cos(this.w) * Math.cos(this.i) * Math.cos(this.o)) - 
-                     (Math.sin(this.w) * Math.sin(this.o)));
+        let x = (oz * (Math.cos(this.w) * Math.sin(this.o) + Math.sin(this.w) * Math.cos(this.i) * Math.cos(this.o))) + 
+                (ox * (Math.cos(this.w) * Math.cos(this.i) * Math.cos(this.o) - Math.sin(this.w) * Math.sin(this.o)));
 
         let y = (oz * Math.sin(this.w) * Math.sin(this.i)) +
                 (ox * Math.cos(this.w) * Math.sin(this.i));
         
-        let z = (oz * (Math.cos(this.w) * Math.cos(this.o)) - 
-                      (Math.sin(this.w) * Math.cos(this.i) * Math.sin(this.o))) - 
-                (ox * (Math.sin(this.w) * Math.cos(this.o)) + 
-                      (Math.cos(this.w) * Math.cos(this.i) * Math.sin(this.o)));
-
+        let z = (oz * (Math.cos(this.w) * Math.cos(this.o) - Math.sin(this.w) * Math.cos(this.i) * Math.sin(this.o))) - 
+                (ox * (Math.sin(this.w) * Math.cos(this.o) + Math.cos(this.w) * Math.cos(this.i) * Math.sin(this.o)));
+        //debugger
         return new THREE.Vector3(x, y, z);
     }
 
