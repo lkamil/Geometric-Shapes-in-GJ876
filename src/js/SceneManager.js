@@ -1,4 +1,3 @@
-
 class SceneManager {
 
     constructor(canvas, data) {
@@ -8,8 +7,8 @@ class SceneManager {
         this.renderer = this.initRenderer(canvas);
         this.camera = this.initCamera();
         this.orbitControls = this.initOrbitControls();
-        this.sceneSubjects = this.createSceneSubjects(this.scene, data);
-        this.clock = new THREE.Clock(); // Keeps track of time   
+        this.sceneSubjects = this.createSceneSubjects(this.scene, data); 
+        this.timer = new Timer(); // Keeps track of time
     }
 
     initScene() {
@@ -51,9 +50,9 @@ class SceneManager {
         let near = 0.0001;
         let far = 1000;
         const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-        camera.position.x = -0.7;
-        camera.position.y = 0.3;
-        camera.position.z = 0.4;
+        camera.position.x = -0.8;
+        camera.position.y = -0.3;
+        camera.position.z = 0.5;
         // Making the camera point to the center of the scene using lookAt()
         camera.lookAt(this.scene.position);
 
@@ -77,11 +76,10 @@ class SceneManager {
     }
 
     update() {
-        // console.log(this.sceneSubjects);
-
         this.orbitControls.update();
+        this.timer.update();
 
-        let elapsedTime = this.clock.getElapsedTime();
+        let elapsedTime = this.timer.getElapsed();
         for (let i = 0; i < this.sceneSubjects.length; i++) {
             this.sceneSubjects[i].update(elapsedTime);
         }

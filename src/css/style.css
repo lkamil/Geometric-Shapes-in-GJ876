@@ -7,12 +7,21 @@ html, body {
     font-size: 14px;
 }
 
-button {
-    padding: 5px 10px 5px 10px;
-    background-color: aquamarine;
+.buttons {
     position: absolute;
     bottom: 20px;
     left: 30px;
+}
+
+button {
+    padding: 5px 10px 5px 10px;
+    background-color: aquamarine;
+    margin-right: 10px;
+    /* position: relative; */
     /* border-radius: 8px; */
+}
+
+#pausePlayButton {
+    width: 120px;
 }
 

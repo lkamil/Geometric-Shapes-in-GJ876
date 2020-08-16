@@ -1,11 +1,15 @@
 // create scenemanager
 // attach listeners to dom elements (eg windowresize)
 // start render loop
+// import {Timer} from '.libs/Timer';
 
 let data = loadData();
 let canvas = document.getElementById("canvas");
 let controls = initDatGui();
 let sceneManager = new SceneManager(canvas, data);
+
+
+let animationRequest;
 
 function loadData() {
     let request = new XMLHttpRequest();
@@ -17,19 +21,23 @@ function loadData() {
 }
 
 
-
-
 bindEventListeners();
 render();
 
 function render() {
-    requestAnimationFrame(render);
+    animationRequest = requestAnimationFrame(render);
     sceneManager.update();
 }
 
 function bindEventListeners() {
     window.onresize = resizeCanvas;
-    resizeCanvas();
+
+    let pausePlayButton = document.getElementById("pausePlayButton");
+    pausePlayButton.addEventListener("click", pausePlay, false);
+
+    let moveCameraButton = document.getElementById("moveCameraToTopView");
+    moveCameraButton.addEventListener("click", moveCameraToTopView, false);
+    // resizeCanvas();
 }
 
 function resizeCanvas() {
@@ -48,4 +56,25 @@ function initDatGui() {
     datGui.add(controls, 'scale', 1.5, 3);
 
     return controls;
+}
+
+// *** Event Handlers ***
+
+function pausePlay(e) {
+    let text = this.textContent;
+    if (text == "Pause Animation") {
+        cancelAnimationFrame(animationRequest);
+        this.innerHTML = "Play Animation";
+        
+    } else {
+        animationRequest = requestAnimationFrame(render);
+        this.innerHTML = "Pause Animation";
+
+        sceneManager.timer.reset();
+    }
+    
+}
+
+function moveCameraToTopView(e) {
+    // Todo: Calculate correct position for top view
 }
