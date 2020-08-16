@@ -37,7 +37,10 @@ function bindEventListeners() {
 
     let moveCameraButton = document.getElementById("moveCameraToTopView");
     moveCameraButton.addEventListener("click", moveCameraToTopView, false);
-    // resizeCanvas();
+    
+    // ??? Not attaching the event listener works better than attaching it, but deleting the handler
+    // changes the output ???
+    // document.addEventListener("visibilitychange", handleVisibilityChange, false);
 }
 
 function resizeCanvas() {
@@ -60,17 +63,26 @@ function initDatGui() {
 
 // *** Event Handlers ***
 
+function handleVisibilityChange(e) {
+    if (document.hidden) {
+        // Pause animation
+        cancelAnimationFrame(animationRequest);
+    } else {
+        // Resume animation
+        sceneManager.timer.reset();
+        animationRequest = requestAnimationFrame(render);
+    }
+}
+
 function pausePlay(e) {
     let text = this.textContent;
     if (text == "Pause Animation") {
         cancelAnimationFrame(animationRequest);
         this.innerHTML = "Play Animation";
-        
     } else {
-        animationRequest = requestAnimationFrame(render);
-        this.innerHTML = "Pause Animation";
-
         sceneManager.timer.reset();
+        animationRequest = requestAnimationFrame(render);
+        this.innerHTML = "Pause Animation";   
     }
     
 }
