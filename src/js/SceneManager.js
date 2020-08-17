@@ -9,6 +9,7 @@ class SceneManager {
         this.orbitControls = this.initOrbitControls();
         this.sceneSubjects = this.createSceneSubjects(this.scene, data); 
         this.timer = new Timer(); // Keeps track of time
+        this.travelController = new TravelController();
     }
 
     initScene() {
@@ -60,7 +61,7 @@ class SceneManager {
     }
 
     initOrbitControls() {
-        let orbitControls = new THREE.OrbitControls( this.camera, this.renderer.domElement);
+        let orbitControls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
 
         return orbitControls;
     }
@@ -77,6 +78,14 @@ class SceneManager {
 
     update() {
         this.orbitControls.update();
+
+        let newCameraPosition = this.travelController.update();
+        if (newCameraPosition) {
+            this.camera.position.x = newCameraPosition.x;
+            this.camera.position.y = newCameraPosition.y;
+            this.camera.position.z = newCameraPosition.z;
+        }
+        
         this.timer.update();
 
         let elapsedTime = this.timer.getElapsed();

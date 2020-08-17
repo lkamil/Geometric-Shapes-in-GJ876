@@ -88,5 +88,5 @@ function pausePlay(e) {
 }
 
 function moveCameraToTopView(e) {
-    // Todo: Calculate correct position for top view
+    sceneManager.travelController.setTravelPath(sceneManager.camera, 59, 1);
 }
