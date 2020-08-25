@@ -179,6 +179,5 @@ class Planet {
 
         // Update trajectory
         this.trajectory.update(pos.x, pos.y, pos.z);
-        this.trajectory.addPosition(pos.x, pos.y, pos.z);
     }
 }
