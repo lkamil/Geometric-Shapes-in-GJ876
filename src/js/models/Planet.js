@@ -178,6 +178,7 @@ class Planet {
         this.mesh.position.z = pos.z;
 
         // Update trajectory
+        this.trajectory.update(pos.x, pos.y, pos.z);
         this.trajectory.addPosition(pos.x, pos.y, pos.z);
     }
 }

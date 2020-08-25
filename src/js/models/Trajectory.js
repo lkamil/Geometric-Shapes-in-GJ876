@@ -1,6 +1,6 @@
 class Trajectory {
     constructor(scene, initialPosition, orbitalPeriod) {
-        this.maxPoints = Math.round(orbitalPeriod * 16);
+        this.maxPoints = Math.round(orbitalPeriod * 18);
 
         let geometry = new THREE.BufferGeometry();
 
@@ -12,15 +12,34 @@ class Trajectory {
             this.positions[i+2] = initialPosition.z;
         }
 
+        let colors = this.gradientArray();
+
         // Set geometry attributes
-        geometry.setAttribute( 'position', new THREE.BufferAttribute( this.positions, 3 ) );    
-        
+        geometry.setAttribute( 'position', new THREE.BufferAttribute(this.positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+          
         // Material
-        let material = new THREE.LineBasicMaterial( { color: 0xffffff } );
+        const material = new THREE.LineBasicMaterial({ 
+            vertexColors: true  // Geometry provides color info
+        });
 
         this.line = new THREE.Line(geometry, material);
-
         scene.add(this.line);
+    }
+
+    gradientArray() {
+        let step = 1 / this.maxPoints;
+        let dec = step;
+        const colors = new Float32Array(this.maxPoints * 3);
+        for (let i = 0; i < colors.length - 2; i+=3) {
+            colors[i] = 1 - dec;
+            colors[i+1] = 1 - dec;
+            colors[i+2] = 1 - dec;
+
+            dec += step;
+        }
+
+        return colors;
     }
 
     addPosition(x, y, z) {
@@ -37,15 +56,7 @@ class Trajectory {
         this.line.geometry.attributes.position.needsUpdate = true;
     }
 
-    // Draw trajectory
-    update() {
-        // let curve = new THREE.SplineCurve(this.points);
-        // let geometry = new THREE.BufferGeometry().setFromPoints( curve.getPoints(this.maxPoints));
-
-        // let trajectory = new THREE.Line( geometry, material );
-        
-
+    update(x, y, z) {
+        this.addPosition(x, y, z);
     }
-
-
 }
