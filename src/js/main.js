@@ -77,17 +77,13 @@ function handleVisibilityChange(e) {
 function pausePlay(e) {
     let text = this.textContent;
     if (text == "Pause Animation") {
-        // cancelAnimationFrame(animationRequest);
         this.innerHTML = "Play Animation";
-        // this.sceneManager.timer.enableFixedDelta();
-        // let delta = this.sceneManager.timer.getDelta();
-        // this.sceneManager.timer.setFixedDelta = delta;
+        sceneManager.animationPaused = true;
     } else {
         sceneManager.timer.reset();
-        // animationRequest = requestAnimationFrame(render);
-        this.innerHTML = "Pause Animation";   
-    }
-    
+        this.innerHTML = "Pause Animation";
+        sceneManager.animationPaused = false;  
+    } 
 }
 
 function moveCameraToTopView(e) {

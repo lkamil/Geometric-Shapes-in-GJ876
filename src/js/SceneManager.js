@@ -10,6 +10,8 @@ class SceneManager {
         this.sceneSubjects = this.createSceneSubjects(this.scene, data); 
         this.timer = new Timer(); // Keeps track of time
         this.travelController = new TravelController();
+
+        this.animationPaused = false;
     }
 
     initScene() {
@@ -85,13 +87,16 @@ class SceneManager {
             this.camera.position.y = newCameraPosition.y;
             this.camera.position.z = newCameraPosition.z;
         }
-        
-        this.timer.update();
 
-        let elapsedTime = this.timer.getElapsed();
-        for (let i = 0; i < this.sceneSubjects.length; i++) {
-            this.sceneSubjects[i].update(elapsedTime);
+        if (!this.animationPaused) {
+            this.timer.update();
+
+            let elapsedTime = this.timer.getElapsed();
+            for (let i = 0; i < this.sceneSubjects.length; i++) {
+                this.sceneSubjects[i].update(elapsedTime);
+            }
         }
+        
         this.renderer.render(this.scene, this.camera);
     }
 
