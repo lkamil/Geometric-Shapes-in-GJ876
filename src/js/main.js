@@ -77,16 +77,24 @@ function handleVisibilityChange(e) {
 function pausePlay(e) {
     let text = this.textContent;
     if (text == "Pause Animation") {
-        cancelAnimationFrame(animationRequest);
+        // cancelAnimationFrame(animationRequest);
         this.innerHTML = "Play Animation";
+        // this.sceneManager.timer.enableFixedDelta();
+        // let delta = this.sceneManager.timer.getDelta();
+        // this.sceneManager.timer.setFixedDelta = delta;
     } else {
         sceneManager.timer.reset();
-        animationRequest = requestAnimationFrame(render);
+        // animationRequest = requestAnimationFrame(render);
         this.innerHTML = "Pause Animation";   
     }
     
 }
 
 function moveCameraToTopView(e) {
-    sceneManager.travelController.setTravelPath(sceneManager.camera, 59, 1);
+    let inclinations = [data.planets.gj876b.i, data.planets.gj876c.i, data.planets.gj876d.i, data.planets.gj876e.i];
+
+    let i = (inclinations.reduce((acc, value) => acc + value)) / inclinations.length; // Mean inclination
+    let distance = 1;
+
+    sceneManager.travelController.setTravelPath(sceneManager.camera, i, distance);
 }

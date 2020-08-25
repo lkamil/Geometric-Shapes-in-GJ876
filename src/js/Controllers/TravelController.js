@@ -9,10 +9,11 @@ class TravelController {
     }
 
     /**
-     * 
-     * @param {Inclination of the coplanar planetary system} inclination 
+     * @param {The camera that will be moved} camera
+     * @param {Mean inclination of the planetary system} inclination 
+     * @param {Distance of the camera} distance
      */
-    setTravelPath(camera, i, height) {
+    setTravelPath(camera, i, distance) {
         // Orbital plane values
         let a = new THREE.Vector3(1, Math.sin(degToRad(i)) / Math.sin(degToRad(180-90-i)), 0);
         let b = new THREE.Vector3(0, 0, 1);
@@ -20,7 +21,7 @@ class TravelController {
         // Top view position (perpendicular to orbital plane)
         let topView = b.clone().cross(a);
         topView.normalize();
-        topView.multiplyScalar(height);
+        topView.multiplyScalar(distance);
 
         const curve = new THREE.LineCurve3(camera.position, topView);
 
