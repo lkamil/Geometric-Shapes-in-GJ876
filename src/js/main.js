@@ -20,8 +20,8 @@ function loadData() {
     return data;
 }
 
-
 bindEventListeners();
+resizeCanvas();
 render();
 
 function render() {
@@ -32,7 +32,7 @@ function render() {
 function bindEventListeners() {
     window.onresize = resizeCanvas;
 
-    let pausePlayButton = document.getElementById("pausePlayButton");
+    let pausePlayButton = document.querySelector("#pausePlayButton");
     pausePlayButton.addEventListener("click", pausePlay, false);
 
     let moveCameraButton = document.getElementById("moveCameraToTopView");
@@ -44,8 +44,9 @@ function bindEventListeners() {
 }
 
 function resizeCanvas() {
-    canvas.style.width = '100%';
+    canvas.style.width = '100% - 260px';
     canvas.style.height = '100%';
+    // canvas.style.float = 'right';
 
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
@@ -75,14 +76,39 @@ function handleVisibilityChange(e) {
 }
 
 function pausePlay(e) {
-    let text = this.textContent;
+    let text = this.querySelector("#pausePlay").textContent;
     if (text == "Pause Animation") {
-        this.innerHTML = "Play Animation";
         sceneManager.animationPaused = true;
+
+        this.querySelector("#pausePlay").innerHTML = "Play Animation";
+
+        // Change icon
+        let pauseSVG = this.querySelector(".visible");
+        let playSVG = this.querySelector(".hidden");
+
+        pauseSVG.classList.remove("visible");
+        pauseSVG.classList.add("hidden");
+        pauseSVG.setAttribute("width", "0");
+
+        playSVG.classList.remove("hidden");
+        playSVG.classList.add("visible");
+        playSVG.setAttribute("width", "11");
     } else {
         sceneManager.timer.reset();
-        this.innerHTML = "Pause Animation";
-        sceneManager.animationPaused = false;  
+        this.querySelector("#pausePlay").innerHTML = "Pause Animation";
+        sceneManager.animationPaused = false;
+
+        // Change icon
+        let pauseSVG = this.querySelector(".hidden");
+        let playSVG = this.querySelector(".visible");
+
+        pauseSVG.classList.add("visible");
+        pauseSVG.classList.remove("hidden");
+        pauseSVG.setAttribute("width", "10");
+        
+        playSVG.classList.add("hidden");
+        playSVG.classList.remove("visible");
+        playSVG.setAttribute("width", "0");
     } 
 }
 

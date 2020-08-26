@@ -103,7 +103,7 @@ class SceneManager {
     onWindowResize () {
         console.log("Window resized");
 
-        this.width = window.innerWidth;
+        this.width = window.innerWidth - 260;
         this.heigt = window.innerHeight;
 
         this.camera.aspect = this.width / this.height;
