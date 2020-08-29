@@ -63,6 +63,66 @@ button:hover {
     cursor: pointer;
 }
 
+input[type="checkbox"] {
+    display:none;
+}
+
+input[type="checkbox"] + label::before {
+    width: 12px;
+    height: 12px;
+    /* background-color: #fff; */
+    display: block;
+    content: "";
+    float: left;
+    margin-top: 3px;
+    margin-right: 5px;
+    border: 1px solid #CAD2DC;
+    border-radius: 3px;
+}
+
+input[type="checkbox"]:hover + label::before, 
+input[type="radio"]:hover + label::before {
+    box-shadow: 0px 0px 5px rgba(255,255,255,0.5);
+}
+
+label:hover {
+    text-shadow: 0px 0px 5px rgba(255,255,255,0.5);
+}
+
+input[type="checkbox"]:checked + label,
+input[type="radio"]:checked + label {
+    text-shadow: 0px 0px 5px rgba(255,255,255,0.5);
+}
+
+input[type="checkbox"]:checked + label::before,
+input[type="radio"]:checked + label::before {
+    box-shadow: 0px 0px 5px rgba(255,255,255,0.5);
+    background-image: url("../assets/icons/check.svg");
+    background-position: center; 
+    background-repeat: no-repeat;
+}
+
+input[type="radio"] {
+    display:none;
+}
+
+input[type="radio"] + label::before {
+    width: 12px;
+    height: 12px;
+    /* background-color: #fff; */
+    display: block;
+    content: "";
+    float: left;
+    margin-top: 3px;
+    margin-right: 5px;
+    border: 1px solid #CAD2DC;
+    border-radius: 10px;
+}
+
+.checkboxes {
+    margin: 10px 0 10px 0;
+}
+
 .button-text{
     display: inline;
 }
@@ -78,14 +138,19 @@ button:hover {
     padding: 30px 15px 0px 30px;
 }
 
-.draw-links {
-    margin-top: 2em;
-    font-size: 18px;
+.line {
+    width: 2px;
+    /* height: 110px; */
+    align-self: stretch;
+    background-color: #7AB6C0;
+    border-radius: 5px;
+    margin-right: 20px;
 }
 
 .draw-link {
     display: block;
     padding: 3px 0 3px 0;
+    font-size:  18px;
 }
 
 .global-buttons {
@@ -115,4 +180,30 @@ button:hover {
 .visible {
     /* display: inline; */
     visibility: visible;
+}
+
+.menu-wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.draw-button {
+    background-color: transparent;
+    color: #D0F8DD;
+    padding: 8px 16px;
+    font-size: 14px;
+    text-shadow: 0px 0px 5px rgba(180, 239, 204, 0.5);
+    border: 1px solid #D0F8DD;
+    border-radius: 12px;
+    box-shadow: 0px 0px 5px rgba(180, 239, 204, 0.4), inset 0px 0px 5px rgba(180, 239, 204, 0.4);
+    font-family: inherit;
+    letter-spacing: 0.23px;
+}
+
+.draw-button:hover {
+    cursor: pointer;
+    background-color: #D0F8DD;
+    color: #1d1d1d;
 }
