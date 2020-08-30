@@ -54,7 +54,6 @@ button {
     border: 0;
     background-color: transparent;
     color: #7AB6C0;
-    margin-bottom: 12px;
 }
 
 button:hover {
@@ -206,4 +205,32 @@ input[type="radio"] + label::before {
     cursor: pointer;
     background-color: #D0F8DD;
     color: #1d1d1d;
+}
+
+.menu-content {
+    /* display: none; */
+    margin-top: 16px;
+    margin-bottom: 12px;
+    opacity: 0;
+    max-height: 0;
+    position: absolute;
+    overflow: hidden;
+}
+
+/* .menu-content.clicked {
+    display: block;
+    opacity: 100%;
+} */
+
+/* Classes for animations */
+
+.show-menu-content {
+    -webkit-transition: all 0.8s ease-out;
+    -moz-transition: all 0.8s ease-out;
+    -ms-transition: all 0.8s ease-out;
+    -o-transition: all 0.8s ease-out;
+    transition: all 0.8s ease-out;
+    opacity: 100%;
+    max-height: 500px;
+    position: static;
 }

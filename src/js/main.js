@@ -41,6 +41,13 @@ function bindEventListeners() {
     // ??? Not attaching the event listener works better than attaching it, but deleting the handler
     // changes the output ???
     // document.addEventListener("visibilitychange", handleVisibilityChange, false);
+
+    let openlinkLinesMenuButton = document.getElementById("openDrawLinklinesMenu");
+    openlinkLinesMenuButton.addEventListener("click", openMenuAnimation, false);
+
+    document.querySelectorAll('#linkline-checkboxes input').forEach(checkbox => {
+        checkbox.addEventListener('change', limitSelectedCheckboxes, false)
+    });
 }
 
 function resizeCanvas() {
@@ -119,4 +126,17 @@ function moveCameraToTopView(e) {
     let distance = 1;
 
     sceneManager.travelController.setTravelPath(sceneManager.camera, i, distance);
+}
+
+function openMenuAnimation(e) {
+    this.nextElementSibling.classList.add('show-menu-content');
+    console.log("Linklines button clicked");
+}
+
+function limitSelectedCheckboxes(e) {
+    const limit = 2;
+    const linklineCheckboxes = document.querySelectorAll('#linkline-checkboxes input:checked');
+    if (linklineCheckboxes.length > limit) {
+        this.checked = false;
+    }
 }
