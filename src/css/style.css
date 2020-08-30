@@ -224,7 +224,7 @@ input[type="radio"] + label::before {
 
 /* Classes for animations */
 
-.show-menu-content {
+.show-menu-content {  
     -webkit-transition: all 0.8s ease-out;
     -moz-transition: all 0.8s ease-out;
     -ms-transition: all 0.8s ease-out;
@@ -233,4 +233,9 @@ input[type="radio"] + label::before {
     opacity: 100%;
     max-height: 500px;
     position: static;
+}
+
+.active {
+    color: #A4DBE4;
+    text-shadow: 0px 0px 5px rgba(229, 251, 255, 0.5);
 }

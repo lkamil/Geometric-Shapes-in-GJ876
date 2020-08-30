@@ -32,22 +32,25 @@ function render() {
 function bindEventListeners() {
     window.onresize = resizeCanvas;
 
-    let pausePlayButton = document.querySelector("#pausePlayButton");
+    const pausePlayButton = document.querySelector("#pausePlayButton");
     pausePlayButton.addEventListener("click", pausePlay, false);
 
-    let moveCameraButton = document.getElementById("moveCameraToTopView");
+    const moveCameraButton = document.getElementById("moveCameraToTopView");
     moveCameraButton.addEventListener("click", moveCameraToTopView, false);
     
     // ??? Not attaching the event listener works better than attaching it, but deleting the handler
     // changes the output ???
     // document.addEventListener("visibilitychange", handleVisibilityChange, false);
 
-    let openlinkLinesMenuButton = document.getElementById("openDrawLinklinesMenu");
-    openlinkLinesMenuButton.addEventListener("click", openMenuAnimation, false);
+    const toggleLinklinesMenuButton = document.getElementById("openDrawLinklinesMenu");
+    toggleLinklinesMenuButton.addEventListener("click", toggleMenuAnimation, false);
 
     document.querySelectorAll('#linkline-checkboxes input').forEach(checkbox => {
         checkbox.addEventListener('change', limitSelectedCheckboxes, false)
     });
+
+    const toggleLoopFigureMenuButton = document.getElementById("openDrawLoopFigureMenu");
+    toggleLoopFigureMenuButton.addEventListener("click", toggleMenuAnimation, false);
 }
 
 function resizeCanvas() {
@@ -128,9 +131,16 @@ function moveCameraToTopView(e) {
     sceneManager.travelController.setTravelPath(sceneManager.camera, i, distance);
 }
 
-function openMenuAnimation(e) {
-    this.nextElementSibling.classList.add('show-menu-content');
-    console.log("Linklines button clicked");
+function toggleMenuAnimation(e) {
+    const menuContentNode = this.nextElementSibling;
+    if (menuContentNode.classList.contains('show-menu-content')) {
+        menuContentNode.classList.remove('show-menu-content');
+        this.classList.remove('active');    
+    } else {
+        menuContentNode.classList.add('show-menu-content');
+        this.classList.add('active');
+    }
+    
 }
 
 function limitSelectedCheckboxes(e) {
