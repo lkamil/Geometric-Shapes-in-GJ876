@@ -137,10 +137,13 @@ function toggleMenuAnimation(e) {
         menuContentNode.classList.remove('show-menu-content');
         this.classList.remove('active');    
     } else {
+        if (document.querySelectorAll('.show-menu-content').length != 0) {
+            document.querySelectorAll('.show-menu-content')[0].classList.remove('show-menu-content');
+            document.querySelectorAll('.active')[0].classList.remove('active');
+        }
         menuContentNode.classList.add('show-menu-content');
         this.classList.add('active');
-    }
-    
+    }   
 }
 
 function limitSelectedCheckboxes(e) {
