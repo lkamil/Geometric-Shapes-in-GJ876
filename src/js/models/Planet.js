@@ -180,4 +180,8 @@ class Planet {
         // Update trajectory
         this.trajectory.update(pos.x, pos.y, pos.z);
     }
+
+    clear() {
+        this.trajectory.clear();
+    }
 }

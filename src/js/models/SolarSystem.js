@@ -29,4 +29,11 @@ class SolarSystem {
         this.planetD.update(elapsedTime * speed);
         this.planetE.update(elapsedTime * speed);
     }
+
+    clear() {
+        this.planetB.clear();
+        this.planetC.clear();
+        this.planetD.clear();
+        this.planetE.clear();
+    }
 }

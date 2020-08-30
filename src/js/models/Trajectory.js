@@ -1,6 +1,7 @@
 class Trajectory {
     constructor(scene, initialPosition, orbitalPeriod) {
         this.maxPoints = Math.round(orbitalPeriod * 18);
+        this.initialPosition = initialPosition;
 
         let geometry = new THREE.BufferGeometry();
 
@@ -58,5 +59,16 @@ class Trajectory {
 
     update(x, y, z) {
         this.addPosition(x, y, z);
+    }
+
+    /**
+     * Resets trajectories
+     */
+    clear() {
+        for (let i = 0; i < this.positions.length - 3; i+=3) {
+            this.positions[i] = this.initialPosition.x;
+            this.positions[i+1] = this.initialPosition.y;
+            this.positions[i+2] = this.initialPosition.z;
+        }
     }
 }

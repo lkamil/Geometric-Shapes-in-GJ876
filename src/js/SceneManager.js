@@ -100,9 +100,18 @@ class SceneManager {
         this.renderer.render(this.scene, this.camera);
     }
 
-    onWindowResize () {
-        console.log("Window resized");
+    resetScene() {
+        this.timer.hardReset();
 
+        // Reset trajectories
+        for (let i = 0; i < this.sceneSubjects.length; i++) {
+            if (this.sceneSubjects[i] instanceof SolarSystem) {
+                this.sceneSubjects[i].clear();
+            }
+        }
+    }
+
+    onWindowResize () {
         this.width = window.innerWidth - 260;
         this.heigt = window.innerHeight;
 
@@ -112,4 +121,3 @@ class SceneManager {
         this.renderer.setSize(this.width, this.height);
     };
 }
-

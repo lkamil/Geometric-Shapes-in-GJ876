@@ -130,6 +130,18 @@ Object.assign( Timer.prototype, {
 
 	},
 
+	/**
+	 * Additional method added by me (lkamil - https://github.com/lkamil)
+	 * Sets elapsed time to zero.
+ 	*/
+	hardReset: function () {
+
+		this._elapsed = 0;
+
+		return this;
+
+	},
+
 	// private
 
 	_now: function () {

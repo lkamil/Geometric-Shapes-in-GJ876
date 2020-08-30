@@ -37,6 +37,9 @@ function bindEventListeners() {
 
     const moveCameraButton = document.getElementById("moveCameraToTopView");
     moveCameraButton.addEventListener("click", moveCameraToTopView, false);
+
+    const resetButton = document.getElementById("resetAnimation");
+    resetButton.addEventListener("click", reset, false);
     
     // ??? Not attaching the event listener works better than attaching it, but deleting the handler
     // changes the output ???
@@ -98,11 +101,9 @@ function pausePlay(e) {
 
         pauseSVG.classList.remove("visible");
         pauseSVG.classList.add("hidden");
-        pauseSVG.setAttribute("width", "0");
 
         playSVG.classList.remove("hidden");
         playSVG.classList.add("visible");
-        playSVG.setAttribute("width", "11");
     } else {
         sceneManager.timer.reset();
         this.querySelector("#pausePlay").innerHTML = "Pause Animation";
@@ -114,11 +115,9 @@ function pausePlay(e) {
 
         pauseSVG.classList.add("visible");
         pauseSVG.classList.remove("hidden");
-        pauseSVG.setAttribute("width", "10");
         
         playSVG.classList.add("hidden");
         playSVG.classList.remove("visible");
-        playSVG.setAttribute("width", "0");
     } 
 }
 
@@ -129,6 +128,10 @@ function moveCameraToTopView(e) {
     let distance = 1;
 
     sceneManager.travelController.setTravelPath(sceneManager.camera, i, distance);
+}
+
+function reset() {
+    sceneManager.resetScene();
 }
 
 function toggleMenuAnimation(e) {
@@ -143,7 +146,7 @@ function toggleMenuAnimation(e) {
         }
         menuContentNode.classList.add('show-menu-content');
         this.classList.add('active');
-    }   
+    }
 }
 
 function limitSelectedCheckboxes(e) {
