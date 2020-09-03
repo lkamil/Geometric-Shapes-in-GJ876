@@ -5,7 +5,6 @@
 
 let data = loadData();
 let canvas = document.getElementById("canvas");
-let controls = initDatGui();
 let sceneManager = new SceneManager(canvas, data);
 
 
@@ -65,14 +64,6 @@ function resizeCanvas() {
     canvas.height = canvas.offsetHeight;
 
     sceneManager.onWindowResize();
-}
-
-function initDatGui() {
-    let datGui = new dat.GUI();
-    let controls = new Controls();
-    datGui.add(controls, 'scale', 1.5, 3);
-
-    return controls;
 }
 
 // *** Event Handlers ***

@@ -15,7 +15,7 @@ class BasicLight {
     }
 
     update(elapsedTime) {
-        let intensity = controls.scale;
+        let intensity = 2;
         this.sunLight.intensity = intensity;
 
     }
