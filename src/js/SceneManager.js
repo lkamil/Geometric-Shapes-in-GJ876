@@ -8,7 +8,7 @@ class SceneManager {
         this.camera = this.initCamera();
         this.orbitControls = this.initOrbitControls();
         this.sceneSubjects = this.createSceneSubjects(this.scene, data); 
-        this.timer = new Timer(); // Keeps track of time
+        this.timeController = new TimeController(); // Keeps track of time
         this.travelController = new TravelController();
 
         this.animationPaused = false;
@@ -89,11 +89,11 @@ class SceneManager {
         }
 
         if (!this.animationPaused) {
-            this.timer.update();
+            this.timeController.timer.update();
 
-            let elapsedTime = this.timer.getElapsed();
+            let dt = this.timeController.dt();
             for (let i = 0; i < this.sceneSubjects.length; i++) {
-                this.sceneSubjects[i].update(elapsedTime);
+                this.sceneSubjects[i].update(dt);
             }
         }
         
@@ -101,14 +101,19 @@ class SceneManager {
     }
 
     resetScene() {
-        this.timer.hardReset();
+        this.timeController.timer.hardReset();
 
         // Reset trajectories
         for (let i = 0; i < this.sceneSubjects.length; i++) {
             if (this.sceneSubjects[i] instanceof SolarSystem) {
-                this.sceneSubjects[i].clear();
+                const solarSystem = this.sceneSubjects[i];
+                solarSystem.clear();
             }
         }
+    }
+
+    setAnimationSpeed(speed) {
+        this.timeController.setSpeedFactor(speed);
     }
 
     onWindowResize () {

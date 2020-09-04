@@ -53,6 +53,11 @@ function bindEventListeners() {
 
     const toggleLoopFigureMenuButton = document.getElementById("openDrawLoopFigureMenu");
     toggleLoopFigureMenuButton.addEventListener("click", toggleMenuAnimation, false);
+
+    const animationSpeedSlider = document.getElementById("animationSpeedSlider");
+    animationSpeedSlider.oninput = function() {
+        sceneManager.setAnimationSpeed(this.value);
+    }
 }
 
 function resizeCanvas() {
@@ -74,7 +79,7 @@ function handleVisibilityChange(e) {
         cancelAnimationFrame(animationRequest);
     } else {
         // Resume animation
-        sceneManager.timer.reset();
+        sceneManager.timeController.timer.reset();
         animationRequest = requestAnimationFrame(render);
     }
 }
@@ -146,4 +151,9 @@ function limitSelectedCheckboxes(e) {
     if (linklineCheckboxes.length > limit) {
         this.checked = false;
     }
+}
+
+function setAnimationSpeed(speed) {
+    console.log("In speed event handler");
+    sceneManager.setAnimationSpeed(speed);
 }
