@@ -51,6 +51,9 @@ function bindEventListeners() {
         checkbox.addEventListener('change', limitSelectedCheckboxes, false)
     });
 
+    const hideShowButton = document.querySelector("#hideShowButton");
+    hideShowButton.addEventListener("click", hideShow, false);
+
     const toggleLoopFigureMenuButton = document.getElementById("openDrawLoopFigureMenu");
     toggleLoopFigureMenuButton.addEventListener("click", toggleMenuAnimation, false);
 
@@ -101,7 +104,7 @@ function pausePlay(e) {
         playSVG.classList.remove("hidden");
         playSVG.classList.add("visible");
     } else {
-        sceneManager.timer.reset();
+        sceneManager.timeController.timer.reset();
         this.querySelector("#pausePlay").innerHTML = "Pause Animation";
         sceneManager.animationPaused = false;
 
@@ -114,6 +117,39 @@ function pausePlay(e) {
         
         playSVG.classList.add("hidden");
         playSVG.classList.remove("visible");
+    } 
+}
+
+function hideShow(e) {
+    let text = this.querySelector("#hideShow").textContent;
+    if (text == "Hide Trajectories") {
+        sceneManager.hideTrajectories();
+
+        this.querySelector("#hideShow").innerHTML = "Show Trajectories";
+
+        // Change icon
+        let hideSVG = this.querySelector(".visible");
+        let showSVG = this.querySelector(".hidden");
+
+        hideSVG.classList.remove("visible");
+        hideSVG.classList.add("hidden");
+
+        showSVG.classList.remove("hidden");
+        showSVG.classList.add("visible");
+    } else {
+        sceneManager.showTrajectories();
+
+        this.querySelector("#hideShow").innerHTML = "Hide Trajectories";
+
+        // Change icon
+        let hideSVG = this.querySelector(".hidden");
+        let showSVG = this.querySelector(".visible");
+
+        hideSVG.classList.add("visible");
+        hideSVG.classList.remove("hidden");
+        
+        showSVG.classList.add("hidden");
+        showSVG.classList.remove("visible");
     } 
 }
 

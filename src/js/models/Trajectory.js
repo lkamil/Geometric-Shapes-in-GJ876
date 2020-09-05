@@ -64,7 +64,7 @@ class Trajectory {
     /**
      * Resets trajectories
      */
-    clear() {
+    reset() {
         for (let i = 0; i < this.positions.length - 3; i+=3) {
             this.positions[i] = this.initialPosition.x;
             this.positions[i+1] = this.initialPosition.y;

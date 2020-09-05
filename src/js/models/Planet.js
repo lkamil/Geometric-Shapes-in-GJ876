@@ -168,9 +168,9 @@ class Planet {
         return velocity;
     }
 
-    update(elapsedTime) {
+    update(dt) {
         // Calculate new planet position
-        let pos = this.position(elapsedTime);
+        let pos = this.position(dt);
         
         // Set new position
         this.mesh.position.x = pos.x;
@@ -181,7 +181,7 @@ class Planet {
         this.trajectory.update(pos.x, pos.y, pos.z);
     }
 
-    clear() {
-        this.trajectory.clear();
+    resetTrajectories() {
+        this.trajectory.reset();
     }
 }

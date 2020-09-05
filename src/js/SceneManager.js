@@ -20,7 +20,7 @@ class SceneManager {
 
         // Add background image
         // scene.background = new THREE.Color("#09071e");
-        let geometry = new THREE.SphereGeometry( 10, 6, 4 );
+        let geometry = new THREE.SphereGeometry( 1.5, 8, 8);
         geometry.scale( - 1, 1, 1 );
         var material = new THREE.MeshBasicMaterial( {
             map: new THREE.TextureLoader().load( '../assets/images/8k_stars.jpg' )
@@ -104,10 +104,36 @@ class SceneManager {
         this.timeController.timer.hardReset();
 
         // Reset trajectories
+        this.resetTrajectories();
+    }
+
+    resetTrajectories() {
         for (let i = 0; i < this.sceneSubjects.length; i++) {
             if (this.sceneSubjects[i] instanceof SolarSystem) {
                 const solarSystem = this.sceneSubjects[i];
-                solarSystem.clear();
+                solarSystem.reset();
+            }
+        }
+    }
+
+    hideTrajectories() {
+        for (let i = 0; i < this.sceneSubjects.length; i++) {
+            if (this.sceneSubjects[i] instanceof SolarSystem) {
+                const solarSystem = this.sceneSubjects[i];
+                for (let i = 0; i < solarSystem.numberOfPlanets; i++) {
+                    solarSystem.planets[i].trajectory.line.visible = false;
+                }
+            }
+        }
+    }
+
+    showTrajectories() {
+        for (let i = 0; i < this.sceneSubjects.length; i++) {
+            if (this.sceneSubjects[i] instanceof SolarSystem) {
+                const solarSystem = this.sceneSubjects[i];
+                for (let i = 0; i < solarSystem.numberOfPlanets; i++) {
+                    solarSystem.planets[i].trajectory.line.visible = true;
+                }
             }
         }
     }
