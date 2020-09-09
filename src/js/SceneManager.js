@@ -10,12 +10,12 @@ class SceneManager {
         this.sceneSubjects = this.createSceneSubjects(this.scene, data); 
         this.timeController = new TimeController(); // Keeps track of time
         this.travelController = new TravelController();
+        this.linkLinesController = new LinkLinesController(this.scene);
 
         this.animationPaused = false;
     }
 
     initScene() {
-        console.log("Init Scene");
         const scene = new THREE.Scene();
 
         // Add background image
@@ -96,6 +96,11 @@ class SceneManager {
                 this.sceneSubjects[i].update(dt);
             }
         }
+
+        if (this.linkLinesController.active) {
+            let planetLocations = this.getLocationsOfPlanets(this.linkLinesController.involvedPlanets);
+            this.linkLinesController.update(planetLocations[0], planetLocations[1]);
+        }
         
         this.renderer.render(this.scene, this.camera);
     }
@@ -105,6 +110,7 @@ class SceneManager {
 
         // Reset trajectories
         this.resetTrajectories();
+        this.linkLinesController.clear();
     }
 
     resetTrajectories() {
@@ -140,6 +146,51 @@ class SceneManager {
 
     setAnimationSpeed(speed) {
         this.timeController.setSpeedFactor(speed);
+    }
+
+    /**
+     * Gets an array of characters and returns the corresponding planets
+     * @param {Names of checked planets} checkedPlanets
+     */
+    parsePlanets(checkedPlanets) {
+        let parsedPlanets = [];
+
+        for (let i = 0; i < this.sceneSubjects.length; i++) {
+            // Get planets of the solar system
+            if (this.sceneSubjects[i] instanceof SolarSystem) {
+                const solarSystem = this.sceneSubjects[i];
+                const planets = solarSystem.planets;
+                
+                // Check if planet is in checked list
+                for(let j = 0; j < solarSystem.numberOfPlanets; j++) {
+                    if (checkedPlanets.includes(planets[j].name)) {
+                        parsedPlanets.push(planets[j]);
+                    }
+                }
+            }
+        }
+        
+    }
+
+    getLocationsOfPlanets(planetNames) {
+        let planetLocations = [];
+
+        for (let i = 0; i < this.sceneSubjects.length; i++) {
+            // Access planets of the solar system
+            if (this.sceneSubjects[i] instanceof SolarSystem) {
+                const solarSystem = this.sceneSubjects[i];
+                const planets = solarSystem.planets;
+                
+                // Parse planets and get their locations
+                for(let j = 0; j < solarSystem.numberOfPlanets; j++) {
+                    if (planetNames.indexOf(planets[j].name) >= 0) {
+                        planetLocations.push(planets[j].mesh.position);
+                    }
+                }
+            }
+        }
+
+        return planetLocations;
     }
 
     onWindowResize () {

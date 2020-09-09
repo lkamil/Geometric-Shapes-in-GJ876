@@ -44,10 +44,10 @@ function bindEventListeners() {
     // changes the output ???
     // document.addEventListener("visibilitychange", handleVisibilityChange, false);
 
-    const toggleLinklinesMenuButton = document.getElementById("openDrawLinklinesMenu");
-    toggleLinklinesMenuButton.addEventListener("click", toggleMenuAnimation, false);
+    const toggleLinkLinesMenuButton = document.getElementById("openDrawLinkLinesMenu");
+    toggleLinkLinesMenuButton.addEventListener("click", toggleMenuAnimation, false);
 
-    document.querySelectorAll('#linkline-checkboxes input').forEach(checkbox => {
+    document.querySelectorAll('#linkLine-checkboxes input').forEach(checkbox => {
         checkbox.addEventListener('change', limitSelectedCheckboxes, false)
     });
 
@@ -61,6 +61,11 @@ function bindEventListeners() {
     animationSpeedSlider.oninput = function() {
         sceneManager.setAnimationSpeed(this.value);
     }
+
+    // Draw Buttons
+    const drawLinkLinesButton = document.getElementById("drawLinkLinesButton");
+    drawLinkLinesButton.addEventListener('click', drawLinkLines, false);
+
 }
 
 function resizeCanvas() {
@@ -183,13 +188,45 @@ function toggleMenuAnimation(e) {
 
 function limitSelectedCheckboxes(e) {
     const limit = 2;
-    const linklineCheckboxes = document.querySelectorAll('#linkline-checkboxes input:checked');
-    if (linklineCheckboxes.length > limit) {
+    const linkLineCheckboxes = document.querySelectorAll('#linkLine-checkboxes input:checked');
+    if (linkLineCheckboxes.length > limit) {
         this.checked = false;
     }
 }
 
 function setAnimationSpeed(speed) {
-    console.log("In speed event handler");
     sceneManager.setAnimationSpeed(speed);
+}
+
+function drawLinkLines(e) {
+    moveCameraToTopView();
+    sceneManager.resetScene();
+    sceneManager.hideTrajectories();
+    // TODO: change hide/show button icon
+
+    const checkboxes = document.querySelectorAll('#linkLine-checkboxes input');
+    let checkedPlanets = [];
+    for (let i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+            // Get associated planet of checked box
+            switch (checkboxes[i].id) {
+                case "ll-b":
+                    checkedPlanets.push("gj876b");
+                    break;
+                case "ll-c":
+                    checkedPlanets.push("gj876c");
+                    break;
+                case "ll-d":
+                    checkedPlanets.push("gj876d");
+                    break;
+                case "ll-e":
+                    checkedPlanets.push("gj876e");
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    sceneManager.linkLinesController.prepareDrawing(checkedPlanets);    
 }

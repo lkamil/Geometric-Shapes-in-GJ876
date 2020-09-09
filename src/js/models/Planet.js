@@ -1,5 +1,6 @@
 class Planet {
     constructor(scene, data, SGP, color) {
+        this.name = data.label;
         this.a = data.a; // Large semi axis
         this.e = data.e; // Numeric eccentricity
         this.radius = rEarthToAU(data.radius) * 7; // Radius of the planet in AU
@@ -18,12 +19,14 @@ class Planet {
         
         // Initialize Planet Graphics
         let planetGeometry = new THREE.SphereGeometry(this.radius, 20, 20);
-        console.log("Planet radius: " + this.radius);
+
         let planetMaterial = new THREE.MeshLambertMaterial({color: color});
         this.mesh = new THREE.Mesh(planetGeometry, planetMaterial);
         this.mesh.receiveShadow = true;
 
         this.trajectory = new Trajectory(scene, this.position(0) ,this.orbitalPeroid);
+
+        this.location;
     }
 
     /**

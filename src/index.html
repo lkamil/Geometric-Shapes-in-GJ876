@@ -18,22 +18,22 @@
                 <div class="menu-wrap">
                     <div class="line"></div>
                     <div>
-                        <button type="button" class="draw-link" id="openDrawLinklinesMenu">
+                        <button type="button" class="draw-link" id="openDrawLinkLinesMenu">
                             Draw link lines
                         </button>
                         <div class="menu-content">
                             Choose 2 planets:<br>
-                            <div class="checkboxes" id="linkline-checkboxes">
-                                <input type="checkbox" id="ll-b" name="Gj876 b" value="b">
-                                <label for="ll-b">Gj876b</label><br>
-                                <input type="checkbox" id="ll-c" name="Gj876 c" value="c">
-                                <label for="ll-c">Gj876c</label><br>
+                            <div class="checkboxes" id="linkLine-checkboxes">
                                 <input type="checkbox" id="ll-d" name="Gj876 d" value="d">
                                 <label for="ll-d">Gj876d</label><br>
+                                <input type="checkbox" id="ll-c" name="Gj876 c" value="c">
+                                <label for="ll-c">Gj876c</label><br>
+                                <input type="checkbox" id="ll-b" name="Gj876 b" value="b">
+                                <label for="ll-b">Gj876b</label><br>
                                 <input type="checkbox" id="ll-e" name="Gj876 e" value="e">
                                 <label for="ll-e">Gj876e</label><br>
                             </div>
-                            <input type="button" class="draw-button" value="Start Drawing">
+                            <input type="button" id="drawLinkLinesButton" class="draw-button" value="Start Drawing">
                         </div>
                     </div>
                 </div>
@@ -47,23 +47,23 @@
                         <div class="menu-content">
                             Choose inner planet:<br>
                             <div class="checkboxes" id="loopFigure-checkboxes">
-                                <input type="radio" id="lfi-b" name="innerPlanet" value="b">
-                                <label for="lfi-b">Gj876b</label><br>
-                                <input type="radio" id="lfi-c" name="innerPlanet" value="c">
-                                <label for="lfi-c">Gj876c</label><br>
                                 <input type="radio" id="lfi-d" name="innerPlanet" value="d">
                                 <label for="lfi-d">Gj876d</label><br>
+                                <input type="radio" id="lfi-c" name="innerPlanet" value="c">
+                                <label for="lfi-c">Gj876c</label><br>
+                                <input type="radio" id="lfi-b" name="innerPlanet" value="b">
+                                <label for="lfi-b">Gj876b</label><br>
                                 <input type="radio" id="lfi-e" name="innerPlanet" value="e">
                                 <label for="lfi-e">Gj876e</label><br>
                             </div>
                             Choose outer planet:<br>
                             <div class="checkboxes">
-                                <input type="radio" id="lfo-b" name="outerPlanet" value="b">
-                                <label for="lfo-b">Gj876b</label><br>
-                                <input type="radio" id="lfo-c" name="outerPlanet" value="c">
-                                <label for="lfo-c">Gj876c</label><br>
                                 <input type="radio" id="lfo-d" name="outerPlanet" value="d">
                                 <label for="lfo-d">Gj876d</label><br>
+                                <input type="radio" id="lfo-c" name="outerPlanet" value="c">
+                                <label for="lfo-c">Gj876c</label><br>
+                                <input type="radio" id="lfo-b" name="outerPlanet" value="b">
+                                <label for="lfo-b">Gj876b</label><br>
                                 <input type="radio" id="lfo-e" name="outerPlanet" value="e">
                                 <label for="lfo-e">Gj876e</label><br>
                             </div>
@@ -143,6 +143,7 @@
         <!-- Controllers -->
         <script src="js/Controllers/TravelController.js"></script>
         <script src="js/Controllers/TimeController.js"></script>
+        <script src="js/Controllers/LinkLinesController.js"></script>
         
         <script src="js/SceneManager.js"></script>
         <!-- <script src="js/models/CameraManager.js"></script> -->
