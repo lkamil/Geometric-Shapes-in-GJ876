@@ -52,7 +52,7 @@ function bindEventListeners() {
     });
 
     const hideShowButton = document.querySelector("#hideShowButton");
-    hideShowButton.addEventListener("click", hideShow, false);
+    hideShowButton.addEventListener("click", hideShowTrajectories, false);
 
     const toggleLoopFigureMenuButton = document.getElementById("openDrawLoopFigureMenu");
     toggleLoopFigureMenuButton.addEventListener("click", toggleMenuAnimation, false);
@@ -125,37 +125,40 @@ function pausePlay(e) {
     } 
 }
 
-function hideShow(e) {
+function hideShowTrajectories(e) {
     let text = this.querySelector("#hideShow").textContent;
+
+    // Get Icons
+    let eyesSlashSVG = document.querySelector("#eyes-slash-icon");
+    let eyesSVG = document.querySelector("#eyes-icon");
+
     if (text == "Hide Trajectories") {
         sceneManager.hideTrajectories();
 
         this.querySelector("#hideShow").innerHTML = "Show Trajectories";
 
-        // Change icon
-        let hideSVG = this.querySelector(".visible");
-        let showSVG = this.querySelector(".hidden");
-
-        hideSVG.classList.remove("visible");
-        hideSVG.classList.add("hidden");
-
-        showSVG.classList.remove("hidden");
-        showSVG.classList.add("visible");
+        // Switch icon visbility 
+        show(eyesSVG);
+        hide(eyesSlashSVG);
     } else {
         sceneManager.showTrajectories();
 
         this.querySelector("#hideShow").innerHTML = "Hide Trajectories";
 
-        // Change icon
-        let hideSVG = this.querySelector(".hidden");
-        let showSVG = this.querySelector(".visible");
-
-        hideSVG.classList.add("visible");
-        hideSVG.classList.remove("hidden");
-        
-        showSVG.classList.add("hidden");
-        showSVG.classList.remove("visible");
+        // Switch icon visbility 
+        hide(eyesSVG);
+        show(eyesSlashSVG);
     } 
+}
+
+function show(icon) {
+    icon.classList.remove("hidden");
+    icon.classList.add("visible");
+}
+
+function hide(icon) {
+    icon.classList.remove("visible");
+    icon.classList.add("hidden");
 }
 
 function moveCameraToTopView(e) {
