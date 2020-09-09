@@ -94,41 +94,32 @@ function handleVisibilityChange(e) {
 
 function pausePlay(e) {
     let text = this.querySelector("#pausePlay").textContent;
+
+    let pauseSVG = document.querySelector("#pause-icon");
+    let playSVG = document.querySelector("#play-icon");
+
     if (text == "Pause Animation") {
         sceneManager.animationPaused = true;
 
         this.querySelector("#pausePlay").innerHTML = "Play Animation";
 
-        // Change icon
-        let pauseSVG = this.querySelector(".visible");
-        let playSVG = this.querySelector(".hidden");
-
-        pauseSVG.classList.remove("visible");
-        pauseSVG.classList.add("hidden");
-
-        playSVG.classList.remove("hidden");
-        playSVG.classList.add("visible");
+        // Switch visibility
+        show(playSVG);
+        hide(pauseSVG);
     } else {
         sceneManager.timeController.timer.reset();
         this.querySelector("#pausePlay").innerHTML = "Pause Animation";
         sceneManager.animationPaused = false;
 
-        // Change icon
-        let pauseSVG = this.querySelector(".hidden");
-        let playSVG = this.querySelector(".visible");
-
-        pauseSVG.classList.add("visible");
-        pauseSVG.classList.remove("hidden");
-        
-        playSVG.classList.add("hidden");
-        playSVG.classList.remove("visible");
+        // Switch visibility
+        show(pauseSVG);
+        hide(playSVG);
     } 
 }
 
 function hideShowTrajectories(e) {
     let text = this.querySelector("#hideShow").textContent;
 
-    // Get Icons
     let eyesSlashSVG = document.querySelector("#eyes-slash-icon");
     let eyesSVG = document.querySelector("#eyes-icon");
 
@@ -137,7 +128,7 @@ function hideShowTrajectories(e) {
 
         this.querySelector("#hideShow").innerHTML = "Show Trajectories";
 
-        // Switch icon visbility 
+        // Switch visbility 
         show(eyesSVG);
         hide(eyesSlashSVG);
     } else {
@@ -145,7 +136,7 @@ function hideShowTrajectories(e) {
 
         this.querySelector("#hideShow").innerHTML = "Hide Trajectories";
 
-        // Switch icon visbility 
+        // Switch visbility 
         hide(eyesSVG);
         show(eyesSlashSVG);
     } 
