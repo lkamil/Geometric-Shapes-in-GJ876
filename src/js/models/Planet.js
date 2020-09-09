@@ -3,7 +3,7 @@ class Planet {
         this.name = data.label;
         this.a = data.a; // Large semi axis
         this.e = data.e; // Numeric eccentricity
-        this.radius = rEarthToAU(data.radius) * 7; // Radius of the planet in AU
+        this.radius = rEarthToAU(data.radius) * 6; // Radius of the planet in AU
         this.mass = mJupToSolarMass(data.mass); // Convert unit and set planet's mass
         this.orbitalPeroid = data.orbitalPeriod;
         this.i = degToRad(data.i);

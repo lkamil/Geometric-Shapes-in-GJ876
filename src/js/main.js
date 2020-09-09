@@ -197,6 +197,7 @@ function drawLinkLines(e) {
     sceneManager.resetScene();
     sceneManager.hideTrajectories();
 
+    document.querySelector("#hideShow").innerHTML = "Show Trajectories";
     const eyesSlashSVG = document.querySelector("#eyes-slash-icon");
     hide(eyesSlashSVG);
     const eyesSVG = document.querySelector("#eyes-icon");

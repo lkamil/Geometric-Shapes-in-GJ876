@@ -69,11 +69,10 @@ class SceneManager {
     }
 
     createSceneSubjects(scene, data) {
-        // Add new scene Subjects here
+        // Add new scene subjects
         const sceneSubjects = [
-            new BasicLight(scene),
+            new AmbientLight(scene),
             new SolarSystem(scene, data),
-            //new ScaleHelper(scene, -3, 4, 3)
         ];
         return sceneSubjects;
     }
