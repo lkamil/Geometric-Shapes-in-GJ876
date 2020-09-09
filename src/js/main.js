@@ -196,7 +196,11 @@ function drawLinkLines(e) {
     moveCameraToTopView();
     sceneManager.resetScene();
     sceneManager.hideTrajectories();
-    // TODO: change hide/show button icon
+
+    const eyesSlashSVG = document.querySelector("#eyes-slash-icon");
+    hide(eyesSlashSVG);
+    const eyesSVG = document.querySelector("#eyes-icon");
+    show(eyesSVG);
 
     const checkboxes = document.querySelectorAll('#linkLine-checkboxes input');
     let checkedPlanets = [];
