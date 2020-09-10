@@ -1,6 +1,6 @@
 class LinkLinesController {
     constructor(scene) {
-        this.interval = 4;
+        this.interval = 3;
         this.counter = 0;
         this.lines = new THREE.Object3D();
         this.involvedPlanets = []; // Holds the names of the two planets

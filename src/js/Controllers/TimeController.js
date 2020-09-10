@@ -6,6 +6,7 @@ class TimeController {
     }
 
     setSpeedFactor(newFactor) {
+        console.log("time factor: " + newFactor);
         this.timer.setFixedDelta(this.baseFixedDelta * newFactor);
     }
 

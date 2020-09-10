@@ -20,7 +20,8 @@ function loadData() {
 }
 
 bindEventListeners();
-resizeCanvas();
+checkInitialStates();
+
 render();
 
 function render() {
@@ -28,7 +29,13 @@ function render() {
     sceneManager.update();
 }
 
-function bindEventListeners() {
+function checkInitialStates() {
+    resizeCanvas();
+    validateInputLinkLines();
+    sceneManager.setAnimationSpeed(document.getElementById("animationSpeedSlider").value);
+}
+
+function bindEventListeners() { 
     window.onresize = resizeCanvas;
 
     const pausePlayButton = document.querySelector("#pausePlayButton");
