@@ -47,8 +47,10 @@ function bindEventListeners() {
     const toggleLinkLinesMenuButton = document.getElementById("openDrawLinkLinesMenu");
     toggleLinkLinesMenuButton.addEventListener("click", toggleMenuAnimation, false);
 
-    document.querySelectorAll('#linkLine-checkboxes input').forEach(checkbox => {
-        checkbox.addEventListener('change', limitSelectedCheckboxes, false)
+    const linkLinesCheckboxes = document.querySelectorAll('#linkLine-checkboxes input');
+    linkLinesCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', limitSelectedCheckboxes, false);
+        checkbox.addEventListener('change', validateInputLinkLines, false);
     });
 
     const hideShowButton = document.querySelector("#hideShowButton");
@@ -65,7 +67,6 @@ function bindEventListeners() {
     // Draw Buttons
     const drawLinkLinesButton = document.getElementById("drawLinkLinesButton");
     drawLinkLinesButton.addEventListener('click', drawLinkLines, false);
-
 }
 
 function resizeCanvas() {
@@ -192,40 +193,52 @@ function setAnimationSpeed(speed) {
     sceneManager.setAnimationSpeed(speed);
 }
 
+function validateInputLinkLines() {
+    const checkedBoxes = document.querySelectorAll('#linkLine-checkboxes input:checked');
+    const drawButton = document.querySelector("#drawLinkLinesButton");
+    if (checkedBoxes.length == 2) {
+        drawButton.classList.remove("grayed-out");
+    } else if (!drawButton.classList.contains("grayed-out")) {
+        drawButton.classList.add("grayed-out");
+    }
+}
+
 function drawLinkLines(e) {
-    moveCameraToTopView();
-    sceneManager.resetScene();
-    sceneManager.hideTrajectories();
+    const checkedBoxes = document.querySelectorAll('#linkLine-checkboxes input:checked');
+    if (checkedBoxes.length == 2) {
+        moveCameraToTopView();
+        sceneManager.resetScene();
+        sceneManager.hideTrajectories();
 
-    document.querySelector("#hideShow").innerHTML = "Show Trajectories";
-    const eyesSlashSVG = document.querySelector("#eyes-slash-icon");
-    hide(eyesSlashSVG);
-    const eyesSVG = document.querySelector("#eyes-icon");
-    show(eyesSVG);
+        document.querySelector("#hideShow").innerHTML = "Show Trajectories";
+        const eyesSlashSVG = document.querySelector("#eyes-slash-icon");
+        hide(eyesSlashSVG);
+        const eyesSVG = document.querySelector("#eyes-icon");
+        show(eyesSVG);
 
-    const checkboxes = document.querySelectorAll('#linkLine-checkboxes input');
-    let checkedPlanets = [];
-    for (let i = 0; i < checkboxes.length; i++) {
-        if (checkboxes[i].checked) {
-            // Get associated planet of checked box
-            switch (checkboxes[i].id) {
-                case "ll-b":
-                    checkedPlanets.push("gj876b");
-                    break;
-                case "ll-c":
-                    checkedPlanets.push("gj876c");
-                    break;
-                case "ll-d":
-                    checkedPlanets.push("gj876d");
-                    break;
-                case "ll-e":
-                    checkedPlanets.push("gj876e");
-                    break;
-                default:
-                    break;
+        const checkboxes = document.querySelectorAll('#linkLine-checkboxes input');
+        let checkedPlanets = [];
+        for (let i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                // Get associated planet of checked box
+                switch (checkboxes[i].id) {
+                    case "ll-b":
+                        checkedPlanets.push("gj876b");
+                        break;
+                    case "ll-c":
+                        checkedPlanets.push("gj876c");
+                        break;
+                    case "ll-d":
+                        checkedPlanets.push("gj876d");
+                        break;
+                    case "ll-e":
+                        checkedPlanets.push("gj876e");
+                        break;
+                    default:
+                        break;
+                }
             }
         }
+        sceneManager.linkLinesController.prepareDrawing(checkedPlanets);    
     }
-
-    sceneManager.linkLinesController.prepareDrawing(checkedPlanets);    
 }
