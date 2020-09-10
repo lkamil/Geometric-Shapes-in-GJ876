@@ -94,11 +94,11 @@ class SceneManager {
             for (let i = 0; i < this.sceneSubjects.length; i++) {
                 this.sceneSubjects[i].update(dt);
             }
-        }
 
-        if (this.linkLinesController.active) {
-            let planetLocations = this.getLocationsOfPlanets(this.linkLinesController.involvedPlanets);
-            this.linkLinesController.update(planetLocations[0], planetLocations[1]);
+            if (this.linkLinesController.active) {
+                let planetLocations = this.getLocationsOfPlanets(this.linkLinesController.involvedPlanets);
+                this.linkLinesController.update(planetLocations[0], planetLocations[1]);
+            }
         }
         
         this.renderer.render(this.scene, this.camera);
