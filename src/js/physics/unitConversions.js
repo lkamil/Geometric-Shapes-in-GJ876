@@ -4,7 +4,9 @@
  * @param {Mass in Jupiter Mass} m
  */
 function mJupToSolarMass(m) {
-    return m * 0.0009547919;
+    return m * 0.00095479; 
+    // Conversion factor taken from:
+    // DOI: 10.1007/s10569-011-9352-4
 }
 
 /**
