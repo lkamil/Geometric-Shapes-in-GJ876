@@ -60,6 +60,11 @@ function bindEventListeners() {
         checkbox.addEventListener('change', validateInputLinkLines, false);
     });
 
+    const loopFigureRadioButtons = document.querySelectorAll('.checkboxes.loopFigure input');
+    loopFigureRadioButtons.forEach(checkbox => {
+        checkbox.addEventListener('change', validateLoopFigureInput, false);
+    });
+
     const hideShowButton = document.querySelector("#hideShowButton");
     hideShowButton.addEventListener("click", hideShowTrajectories, false);
 
@@ -74,6 +79,9 @@ function bindEventListeners() {
     // Draw Buttons
     const drawLinkLinesButton = document.getElementById("drawLinkLinesButton");
     drawLinkLinesButton.addEventListener('click', drawLinkLines, false);
+
+    const plotLoopFigureButton = document.getElementById("plotLoopFigureButton");
+    plotLoopFigureButton.addEventListener('click', plotLoopFigure, false);
 }
 
 function resizeCanvas() {
@@ -248,4 +256,34 @@ function drawLinkLines(e) {
         }
         sceneManager.linkLinesController.prepareDrawing(checkedPlanets);    
     }
+}
+
+function validateLoopFigureInput() {
+    const drawButton = document.getElementById("plotLoopFigureButton");
+    const innerPlanet = document.querySelectorAll('#loopFigure-checkboxes-inner > input:checked');
+    const outerPlanet = document.querySelectorAll('#loopFigure-checkboxes-outer > input:checked');
+
+    const innerPlanetSelected = (innerPlanet.length > 0) ? true : false;
+    const outerPlanetSelected = (outerPlanet.length > 0) ? true : false;
+
+    if (innerPlanetSelected && outerPlanetSelected) {
+        // Check if two different planets are selected
+        if (innerPlanet[0].value != outerPlanet[0].value) {
+            drawButton.classList.remove("grayed-out");
+        } else if(!drawButton.classList.contains("grayed-out")) {
+            drawButton.classList.add("grayed-out");
+        }
+    }
+}
+
+function plotLoopFigure() {
+    const innerPlanet = document.querySelector('#loopFigure-checkboxes-inner > input:checked');
+    const outerPlanet = document.querySelector('#loopFigure-checkboxes-outer > input:checked');
+    console.log(innerPlanet.value);
+        console.log(outerPlanet.value);
+    if (innerPlanet.value != outerPlanet.value) {
+        console.log(innerPlanet.value);
+        console.log(outerPlanet.value);
+    }
+    
 }
