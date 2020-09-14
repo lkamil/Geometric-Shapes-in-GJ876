@@ -5,7 +5,7 @@ class SceneManager {
         this.height = window.innerHeight;
         this.scene = this.initScene();
         this.renderer = this.initRenderer(canvas);
-        this.camera = this.initCamera();
+        this.cameraManager = new CameraManager(this.scene);
         this.orbitControls = this.initOrbitControls();
         this.sceneSubjects = this.createSceneSubjects(this.scene, data); 
         this.timeController = new TimeController(); // Keeps track of time
@@ -47,23 +47,8 @@ class SceneManager {
         return renderer;
     }
 
-    initCamera() {
-        let fov = 45;
-        let aspect = this.width / this.height;
-        let near = 0.0001;
-        let far = 1000;
-        const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-        camera.position.x = -0.8;
-        camera.position.y = -0.3;
-        camera.position.z = 0.5;
-        // Making the camera point to the center of the scene using lookAt()
-        camera.lookAt(this.scene.position);
-
-        return camera;
-    }
-
     initOrbitControls() {
-        let orbitControls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+        let orbitControls = new THREE.OrbitControls(this.cameraManager.camera, this.renderer.domElement);
 
         return orbitControls;
     }
@@ -82,9 +67,7 @@ class SceneManager {
 
         let newCameraPosition = this.travelController.update();
         if (newCameraPosition) {
-            this.camera.position.x = newCameraPosition.x;
-            this.camera.position.y = newCameraPosition.y;
-            this.camera.position.z = newCameraPosition.z;
+            this.cameraManager.setPosition(newCameraPosition);
         }
 
         if (!this.animationPaused) {
@@ -101,7 +84,7 @@ class SceneManager {
             }
         }
         
-        this.renderer.render(this.scene, this.camera);
+        this.renderer.render(this.scene, this.cameraManager.camera);
     }
 
     resetScene() {
@@ -196,8 +179,8 @@ class SceneManager {
         this.width = window.innerWidth - 260;
         this.heigt = window.innerHeight;
 
-        this.camera.aspect = this.width / this.height;
-        this.camera.updateProjectionMatrix();
+        this.cameraManager.camera.aspect = this.width / this.height;
+        this.cameraManager.camera.updateProjectionMatrix();
         
         this.renderer.setSize(this.width, this.height);
     };

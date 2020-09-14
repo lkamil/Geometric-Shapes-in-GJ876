@@ -174,7 +174,7 @@ function moveCameraToTopView(e) {
     let i = (inclinations.reduce((acc, value) => acc + value)) / inclinations.length; // Mean inclination
     let distance = 1;
 
-    sceneManager.travelController.setTravelPath(sceneManager.camera, i, distance);
+    sceneManager.travelController.setTravelPath(sceneManager.cameraManager.camera, i, distance);
 }
 
 function reset() {
@@ -279,9 +279,9 @@ function validateLoopFigureInput() {
 function plotLoopFigure() {
     const innerPlanet = document.querySelector('#loopFigure-checkboxes-inner > input:checked');
     const outerPlanet = document.querySelector('#loopFigure-checkboxes-outer > input:checked');
-    console.log(innerPlanet.value);
-        console.log(outerPlanet.value);
+
     if (innerPlanet.value != outerPlanet.value) {
+        sceneManager.loopFigureController.prepareDrawing();
         console.log(innerPlanet.value);
         console.log(outerPlanet.value);
     }
