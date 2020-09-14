@@ -11,6 +11,7 @@ class SceneManager {
         this.timeController = new TimeController(); // Keeps track of time
         this.travelController = new TravelController();
         this.linkLinesController = new LinkLinesController(this.scene);
+        this.loopFigureController = new LoopFigureController(this.scene);
 
         this.animationPaused = false;
     }
@@ -79,8 +80,17 @@ class SceneManager {
             }
 
             if (this.linkLinesController.active) {
-                let planetLocations = this.getLocationsOfPlanets(this.linkLinesController.involvedPlanets);
+                const planetLocations = this.getLocationsOfPlanets(this.linkLinesController.involvedPlanets);
                 this.linkLinesController.update(planetLocations[0], planetLocations[1]);
+            }
+
+            if (this.loopFigureController.active) {
+                const planetLocations = this.getLocationsOfPlanets([this.loopFigureController.innerPlanet]);
+                const innerPlanetLocation = planetLocations[0];
+                const newCameraPosition = this.cameraManager.topViewOfPlanet(59, 1, innerPlanetLocation);
+
+                this.cameraManager.setPosition(newCameraPosition);
+                this.cameraManager.setLookAt(innerPlanetLocation);
             }
         }
         
@@ -93,6 +103,7 @@ class SceneManager {
         // Reset trajectories
         this.resetTrajectories();
         this.linkLinesController.clear();
+        this.linkLinesController.active = false;
     }
 
     resetTrajectories() {

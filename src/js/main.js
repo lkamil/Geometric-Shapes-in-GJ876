@@ -32,6 +32,7 @@ function render() {
 function checkInitialStates() {
     resizeCanvas();
     validateInputLinkLines();
+    validateLoopFigureInput();
     sceneManager.setAnimationSpeed(document.getElementById("animationSpeedSlider").value);
 }
 
@@ -169,12 +170,13 @@ function hide(icon) {
 }
 
 function moveCameraToTopView(e) {
-    let inclinations = [data.planets.gj876b.i, data.planets.gj876c.i, data.planets.gj876d.i, data.planets.gj876e.i];
+    const inclinations = [data.planets.gj876b.i, data.planets.gj876c.i, data.planets.gj876d.i, data.planets.gj876e.i];
 
-    let i = (inclinations.reduce((acc, value) => acc + value)) / inclinations.length; // Mean inclination
-    let distance = 1;
+    const i = (inclinations.reduce((acc, value) => acc + value)) / inclinations.length; // Mean inclination
+    const distance = 1;
 
-    sceneManager.travelController.setTravelPath(sceneManager.cameraManager.camera, i, distance);
+    const topViewCoordinates = sceneManager.cameraManager.topViewCoordinates(i, distance);
+    sceneManager.travelController.setTravelPath(sceneManager.cameraManager.camera, topViewCoordinates);
 }
 
 function reset() {
@@ -281,9 +283,34 @@ function plotLoopFigure() {
     const outerPlanet = document.querySelector('#loopFigure-checkboxes-outer > input:checked');
 
     if (innerPlanet.value != outerPlanet.value) {
-        sceneManager.loopFigureController.prepareDrawing();
-        console.log(innerPlanet.value);
-        console.log(outerPlanet.value);
+        // Get inner planet name
+        let innerPlanetName = getPlanetName(innerPlanet.value);
+
+        // Get outer planet name
+        let outerPlanetName = getPlanetName(outerPlanet.value);
+
+        sceneManager.loopFigureController.prepareDrawing(innerPlanetName, outerPlanetName);
     }
-    
+}
+
+function getPlanetName(abbreviation) {
+    switch (abbreviation) {
+        case "b":
+            planetName = "gj876b";
+            break;
+        case "c":
+            planetName = "gj876c";
+            break;
+        case "d":
+            planetName = "gj876d";
+            break;
+        case "e":
+            planetName = "gj876e";
+            break;
+        default:
+            console.log("Cannot parse selected planet");
+            return
+    }
+
+    return planetName;
 }
