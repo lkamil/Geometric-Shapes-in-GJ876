@@ -8,7 +8,6 @@ class SceneManager {
         this.light = this.addLight(this.scene);
         this.cameraManager = new CameraManager(this.scene);
         this.orbitControls = this.initOrbitControls();
-        // this.sceneSubjects = this.createSceneSubjects(this.scene, data); 
         this.solarSystem = new SolarSystem(this.scene, data);
         this.timeController = new TimeController(); // Keeps track of time
         this.travelController = new TravelController();
@@ -88,6 +87,8 @@ class SceneManager {
                 const translationVector = this.loopFigureController.getInvertedVector(innerPlanetLocation);
 
                 this.solarSystem.translateAllObjects(translationVector);
+                const outerPlanetLocation = this.getLocationOfPlanet(this.loopFigureController.outerPlanet);
+                this.loopFigureController.addPosition(outerPlanetLocation);
             }
         }
         
@@ -102,6 +103,7 @@ class SceneManager {
         this.linkLinesController.clear();
         this.linkLinesController.active = false;
         this.loopFigureController.active = false;
+        this.loopFigureController.clear();
     }
 
     resetTrajectories() {
