@@ -5,9 +5,11 @@ class SceneManager {
         this.height = window.innerHeight;
         this.scene = this.initScene();
         this.renderer = this.initRenderer(canvas);
+        this.light = this.addLight(this.scene);
         this.cameraManager = new CameraManager(this.scene);
         this.orbitControls = this.initOrbitControls();
-        this.sceneSubjects = this.createSceneSubjects(this.scene, data); 
+        // this.sceneSubjects = this.createSceneSubjects(this.scene, data); 
+        this.solarSystem = new SolarSystem(this.scene, data);
         this.timeController = new TimeController(); // Keeps track of time
         this.travelController = new TravelController();
         this.linkLinesController = new LinkLinesController(this.scene);
@@ -50,14 +52,13 @@ class SceneManager {
         return orbitControls;
     }
 
-    createSceneSubjects(scene, data) {
-        // Add new scene subjects
-        const sceneSubjects = [
-            new AmbientLight(scene),
-            new SolarSystem(scene, data),
-        ];
-        return sceneSubjects;
+    addLight(scene) {
+        let ambientLight = new THREE.AmbientLight( 0xEDC8AB );
+        scene.add(ambientLight);
+
+        return ambientLight;
     }
+    
 
     update() {
         this.orbitControls.update();
@@ -71,9 +72,7 @@ class SceneManager {
             this.timeController.timer.update();
 
             let dt = this.timeController.dt();
-            for (let i = 0; i < this.sceneSubjects.length; i++) {
-                this.sceneSubjects[i].update(dt);
-            }
+            this.solarSystem.update(dt);
 
             if (this.linkLinesController.active) {
                 const selectedPlanets = this.linkLinesController.involvedPlanets;
@@ -86,15 +85,9 @@ class SceneManager {
 
             if (this.loopFigureController.active) {
                 const innerPlanetLocation = this.getLocationOfPlanet(this.loopFigureController.innerPlanet);
+                const translationVector = this.loopFigureController.getInvertedVector(innerPlanetLocation);
 
-                let translationVector = this.loopFigureController.getInvertedVector(innerPlanetLocation);
-
-                if (this.sceneSubjects[1] instanceof SolarSystem) {
-                    const solarSystem = this.sceneSubjects[1];
-                    solarSystem.translateAllObjects(translationVector);
-                } else {
-                    console.log("Could not get object positions");
-                }
+                this.solarSystem.translateAllObjects(translationVector);
             }
         }
         
@@ -112,33 +105,18 @@ class SceneManager {
     }
 
     resetTrajectories() {
-        for (let i = 0; i < this.sceneSubjects.length; i++) {
-            if (this.sceneSubjects[i] instanceof SolarSystem) {
-                const solarSystem = this.sceneSubjects[i];
-                solarSystem.reset();
-            }
-        }
+        this.solarSystem.reset();
     }
 
     hideTrajectories() {
-        for (let i = 0; i < this.sceneSubjects.length; i++) {
-            if (this.sceneSubjects[i] instanceof SolarSystem) {
-                const solarSystem = this.sceneSubjects[i];
-                for (let i = 0; i < solarSystem.numberOfPlanets; i++) {
-                    solarSystem.planets[i].trajectory.line.visible = false;
-                }
-            }
+        for (let i = 0; i < this.solarSystem.numberOfPlanets; i++) {
+            this.solarSystem.planets[i].trajectory.line.visible = false;
         }
     }
 
     showTrajectories() {
-        for (let i = 0; i < this.sceneSubjects.length; i++) {
-            if (this.sceneSubjects[i] instanceof SolarSystem) {
-                const solarSystem = this.sceneSubjects[i];
-                for (let i = 0; i < solarSystem.numberOfPlanets; i++) {
-                    solarSystem.planets[i].trajectory.line.visible = true;
-                }
-            }
+        for (let i = 0; i < this.solarSystem.numberOfPlanets; i++) {
+            this.solarSystem.planets[i].trajectory.line.visible = true;
         }
     }
 
@@ -153,21 +131,14 @@ class SceneManager {
     parsePlanets(checkedPlanets) {
         let parsedPlanets = [];
 
-        for (let i = 0; i < this.sceneSubjects.length; i++) {
-            // Get planets of the solar system
-            if (this.sceneSubjects[i] instanceof SolarSystem) {
-                const solarSystem = this.sceneSubjects[i];
-                const planets = solarSystem.planets;
+        const planets = this.solarSystem.planets;
                 
-                // Check if planet is in checked list
-                for(let j = 0; j < solarSystem.numberOfPlanets; j++) {
-                    if (checkedPlanets.includes(planets[j].name)) {
-                        parsedPlanets.push(planets[j]);
-                    }
-                }
+        // Check if planet is in checked list
+        for(let j = 0; j < this.solarSystem.numberOfPlanets; j++) {
+            if (checkedPlanets.includes(planets[j].name)) {
+                parsedPlanets.push(planets[j]);
             }
         }
-        
     }
 
     /**
@@ -178,21 +149,17 @@ class SceneManager {
     getLocationOfPlanet(planetName) {
         let planetLocation;
 
-        for (let i = 0; i < this.sceneSubjects.length; i++) {
-            // Access planets of the solar system
-            if (this.sceneSubjects[i] instanceof SolarSystem) {
-                const solarSystem = this.sceneSubjects[i];
-                const planets = solarSystem.planets;
-                
-                // Parse planets and get their locations
-                for(let j = 0; j < solarSystem.numberOfPlanets; j++) {
-                    if (planetName == planets[j].name) {
-                        // planetLocations.push(planets[j].mesh.position);
-                        planetLocation = planets[j].getLocation();
-                    }
-                }
+        // for (let i = 0; i < this.sceneSubjects.length; i++) {
+        // Access planets of the solar system
+        const planets = this.solarSystem.planets;
+        
+        // Parse planets and get their locations
+        for(let j = 0; j < this.solarSystem.numberOfPlanets; j++) {
+            if (planetName == planets[j].name) {
+                planetLocation = planets[j].getLocation();
             }
         }
+
         return planetLocation;
     }
 
@@ -202,18 +169,13 @@ class SceneManager {
     getAllPlanetLocations() {
         let planetLocations = [];
 
-        for (let i = 0; i < this.sceneSubjects.length; i++) {
-            // Access planets of the solar system
-            if (this.sceneSubjects[i] instanceof SolarSystem) {
-                const solarSystem = this.sceneSubjects[i];
-                const planets = solarSystem.planets;
+        const planets = this.solarSystem.planets;
                 
-                // Parse planets and get their locations
-                for(let j = 0; j < solarSystem.numberOfPlanets; j++) {
-                        planetLocations.push(planets[j].getLocation());
-                }
-            }
+        // Parse planets and get their locations
+        for(let j = 0; j < this.solarSystem.numberOfPlanets; j++) {
+            planetLocations.push(planets[j].getLocation());
         }
+
         return planetLocations;
     }
 
