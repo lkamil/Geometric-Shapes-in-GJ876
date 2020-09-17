@@ -39,4 +39,32 @@ class SolarSystem {
             this.planets[i].resetTrajectories();
         }
     }
+
+    getObjectPositions() {
+        let objectPositions = [this.star.mesh.position];
+        for (let i = 0; i < this.numberOfPlanets; i++) {
+            objectPositions.push(this.planets[i].getLocation());
+        }
+
+        return objectPositions;
+    }
+
+    setObjectPositions(newPositions) {
+        // Set position of star
+        this.star.mesh.position.copy(newPositions[0]);
+
+        // Set planet positions
+        for (let i = 1; i < this.numberOfPlanets; i++) {
+            this.planets[i].setLocation(newPositions[i]);
+        }
+    }
+
+    translateAllObjects(v) {
+        const origin = new THREE.Vector3(0, 0, 0);
+        this.star.setLocation(origin.clone().add(v)); 
+
+        for (let i = 0; i < this.numberOfPlanets; i++) {
+            this.planets[i].translatePlanet(v);
+        }
+    }
 }

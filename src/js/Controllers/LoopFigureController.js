@@ -21,4 +21,10 @@ class LoopFigureController {
         this.innerPlanet = innerPlanet;
         this.outerPlanet = outerPlanet;
     }
+
+    getInvertedVector(planetLocation) {
+        const inverted = planetLocation.clone().multiplyScalar(-1);
+
+        return inverted;
+    }
 }

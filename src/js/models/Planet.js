@@ -25,8 +25,6 @@ class Planet {
         this.mesh.receiveShadow = true;
 
         this.trajectory = new Trajectory(scene, this.position(0) ,this.orbitalPeroid);
-
-        this.location;
     }
 
     /**
@@ -184,7 +182,32 @@ class Planet {
         this.trajectory.update(pos.x, pos.y, pos.z);
     }
 
+    // getLocationAtElapsedTime(dt) {
+    //     // Calculate new planet position
+    //     let pos = this.position(dt);
+        
+    //     // Set new position
+    //     this.mesh.position.x = pos.x;
+    //     this.mesh.position.y = pos.y;
+    //     this.mesh.position.z = pos.z;
+    // }
+
     resetTrajectories() {
         this.trajectory.reset();
+    }
+
+    getLocation() {
+        return this.mesh.position;
+    }
+
+    setLocation(v) {
+        this.mesh.position.copy(v);
+        this.trajectory.update(v.x, v.y, v.z);
+    }
+
+    translatePlanet(v) {
+        this.mesh.position.add(v);
+        let l = this.mesh.position;
+        this.trajectory.changeLastEntry(l.x, l.y, l.z);
     }
 }

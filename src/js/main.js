@@ -289,6 +289,17 @@ function plotLoopFigure() {
         // Get outer planet name
         let outerPlanetName = getPlanetName(outerPlanet.value);
 
+        moveCameraToTopView();
+        sceneManager.resetScene();
+        sceneManager.hideTrajectories();
+
+        // Update show/hide button
+        document.querySelector("#hideShow").innerHTML = "Show Trajectories";
+        const eyesSlashSVG = document.querySelector("#eyes-slash-icon");
+        hide(eyesSlashSVG);
+        const eyesSVG = document.querySelector("#eyes-icon");
+        show(eyesSVG);
+
         sceneManager.loopFigureController.prepareDrawing(innerPlanetName, outerPlanetName);
     }
 }

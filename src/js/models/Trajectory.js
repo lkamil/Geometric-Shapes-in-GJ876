@@ -61,6 +61,14 @@ class Trajectory {
         this.addPosition(x, y, z);
     }
 
+    changeLastEntry(x, y, z) {
+        this.positions[0] = x;
+        this.positions[1] = y;
+        this.positions[2] = z;
+
+        this.line.geometry.attributes.position.needsUpdate = true;
+    }
+
     /**
      * Resets trajectories
      */
@@ -70,5 +78,9 @@ class Trajectory {
             this.positions[i+1] = this.initialPosition.y;
             this.positions[i+2] = this.initialPosition.z;
         }
+    }
+
+    setInitialPosition(locationVector) {
+        this.initialPosition.copy(locationVector);
     }
 }

@@ -24,4 +24,17 @@ class TravelController {
             return newCameraPosition;
         }
     }
+
+    /**
+     * Gets an array of location vectors and applies a translation vector to all of them
+     * @param {Array of location vectors} objectLocations 
+     * @param {Translation vector} v 
+     */
+    translateObjects(objectLocations, v) {
+        for (let i = 0; i < objectLocations.length; i++) {
+            objectLocations[i] = objectLocations[i].add(v);
+        }
+
+        return objectLocations;
+    }
 }

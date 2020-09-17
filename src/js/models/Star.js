@@ -15,6 +15,10 @@ class Star {
         scene.add(this.light);
     }
 
+    setLocation(l) {
+        this.mesh.position.copy(l);
+    }
+
     update(elapsedTime) {
 
     }
