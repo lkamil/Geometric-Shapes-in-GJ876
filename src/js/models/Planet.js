@@ -179,18 +179,8 @@ class Planet {
         this.mesh.position.z = pos.z;
 
         // Update trajectory
-        this.trajectory.update(pos.x, pos.y, pos.z);
+        this.trajectory.update(pos);
     }
-
-    // getLocationAtElapsedTime(dt) {
-    //     // Calculate new planet position
-    //     let pos = this.position(dt);
-        
-    //     // Set new position
-    //     this.mesh.position.x = pos.x;
-    //     this.mesh.position.y = pos.y;
-    //     this.mesh.position.z = pos.z;
-    // }
 
     resetTrajectories() {
         this.trajectory.reset();
@@ -202,12 +192,12 @@ class Planet {
 
     setLocation(v) {
         this.mesh.position.copy(v);
-        this.trajectory.update(v.x, v.y, v.z);
+        // this.trajectory.update(v.x, v.y, v.z);
+        this.trajectory.changeLatestPosition(v);
     }
 
     translatePlanet(v) {
         this.mesh.position.add(v);
-        let l = this.mesh.position;
-        this.trajectory.changeLastEntry(l.x, l.y, l.z);
+        this.trajectory.changeLatestPosition(this.mesh.position);
     }
 }

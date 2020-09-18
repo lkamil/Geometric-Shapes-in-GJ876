@@ -5,29 +5,32 @@ class Trajectory {
 
         let geometry = new THREE.BufferGeometry();
 
-        // Create and initialize positions array
+        // Create positions array
         this.positions = new Float32Array( this.maxPoints * 3); // 3 vertices per point
-        for (let i = 0; i < this.positions.length - 3; i+=3) {
-            this.positions[i] = initialPosition.x;
-            this.positions[i+1] = initialPosition.y;
-            this.positions[i+2] = initialPosition.z;
-        }
-
-        let colors = this.gradientArray();
-
-        // Set geometry attributes
         geometry.setAttribute( 'position', new THREE.BufferAttribute(this.positions, 3));
-        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        // Add gradient
+        let color = this.gradientArray();
+        geometry.setAttribute('color', new THREE.BufferAttribute(color, 3));
           
-        // Material
+        // Create Material
         const material = new THREE.LineBasicMaterial({ 
             vertexColors: true  // Geometry provides color info
         });
 
+        // Set draw range
+        this.drawRange = 0;
+        geometry.setDrawRange(0, this.drawRange);
+
+        // Create trajectory line
         this.line = new THREE.Line(geometry, material);
         scene.add(this.line);
     }
 
+    /**
+     * Returns an array of color values that represent a linear gradient
+     * from white to black.
+     */
     gradientArray() {
         let step = 1 / this.maxPoints;
         let dec = step;
@@ -43,28 +46,39 @@ class Trajectory {
         return colors;
     }
 
-    addPosition(x, y, z) {
+    /**
+     * Adds a new point to the trajectory line
+     * @param {Location vector} v 
+     */
+    addPosition(v) {
         // Shift values by three positions
         for (let i = this.positions.length - 1; i > 3; i-=3) {
             this.positions[i] = this.positions[i-3];
             this.positions[i-1] = this.positions[i-4];
             this.positions[i-2] = this.positions[i-5];
         }
-        this.positions[0] = x;
-        this.positions[1] = y;
-        this.positions[2] = z;
 
+        // Add new position
+        this.positions[0] = v.x;
+        this.positions[1] = v.y;
+        this.positions[2] = v.z;
+
+        // Increase draw range
+        this.drawRange += 1;
+        this.line.geometry.setDrawRange(0, this.drawRange);
+
+        // Update geometry
         this.line.geometry.attributes.position.needsUpdate = true;
     }
 
-    update(x, y, z) {
-        this.addPosition(x, y, z);
+    update(v) {
+        this.addPosition(v);
     }
 
-    changeLastEntry(x, y, z) {
-        this.positions[0] = x;
-        this.positions[1] = y;
-        this.positions[2] = z;
+    changeLatestPosition(v) {
+        this.positions[0] = v.x;
+        this.positions[1] = v.y;
+        this.positions[2] = v.z;
 
         this.line.geometry.attributes.position.needsUpdate = true;
     }
@@ -73,14 +87,7 @@ class Trajectory {
      * Resets trajectories
      */
     reset() {
-        for (let i = 0; i < this.positions.length - 3; i+=3) {
-            this.positions[i] = this.initialPosition.x;
-            this.positions[i+1] = this.initialPosition.y;
-            this.positions[i+2] = this.initialPosition.z;
-        }
-    }
-
-    setInitialPosition(locationVector) {
-        this.initialPosition.copy(locationVector);
+        this.drawRange = 0;
+        this.line.geometry.setDrawRange(0, this.drawRange);
     }
 }
