@@ -4,9 +4,9 @@ class TravelController {
     }
 
     /**
-     * @param {The camera that will be moved} camera
-     * @param {Mean inclination of the planetary system} inclination 
-     * @param {Distance of the camera} distance
+     * Sets travel path for moving the camera to top view
+     * @param {The camer that will be moved} camera 
+     * @param {New camera position} topViewCoordinates 
      */
     setTravelPath(camera, topViewCoordinates) {
         const curve = new THREE.LineCurve3(camera.position, topViewCoordinates);
@@ -23,18 +23,5 @@ class TravelController {
             let newCameraPosition = this.moveAlongPoints.shift();
             return newCameraPosition;
         }
-    }
-
-    /**
-     * Gets an array of location vectors and applies a translation vector to all of them
-     * @param {Array of location vectors} objectLocations 
-     * @param {Translation vector} v 
-     */
-    translateObjects(objectLocations, v) {
-        for (let i = 0; i < objectLocations.length; i++) {
-            objectLocations[i] = objectLocations[i].add(v);
-        }
-
-        return objectLocations;
     }
 }
