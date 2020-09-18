@@ -191,6 +191,7 @@ input[type="radio"] + label::before {
 .global-button {
     color: #D0F8DD;
     margin-bottom: 4px;
+    display: block;
 }
 
 .global-button:hover {
@@ -269,10 +270,45 @@ input[type="radio"] + label::before {
     margin-top: 16px;
 }
 
-/* .menu-content.clicked {
-    display: block;
-    opacity: 100%;
-} */
+/* Styles for Switch */
+
+input[type="checkbox"]#switch + label {
+    position: relative;
+    display: inline-flex;
+    cursor: pointer;
+}
+  
+input[type="checkbox"]#switch + label:before {
+    width: 21px;
+    height: 12px;
+    border-radius: 30px;
+    border: 1px solid #D0F8DD;
+    background-color: transparent;
+    transition: background-color 0.2s linear;
+    margin-top: 0;
+}
+  
+input[type="checkbox"]#switch + label:after {
+    width: 8px;
+    height: 8px;
+    border-radius: 30px;
+    background-color: #D0F8DD;
+    content: "";
+    transition: margin 0.1s linear;
+    position: absolute;
+    left: 4px;
+    top: 3px;
+}
+  
+input[type="checkbox"]:checked#switch + label:before {
+    background-color: #D0F8DD;
+    background-image: none;
+}
+
+input[type="checkbox"]:checked#switch + label:after {
+    margin: 0 0 0 8px;
+    background-color: #1d1d1d;
+}
 
 /* Classes for animations */
 
