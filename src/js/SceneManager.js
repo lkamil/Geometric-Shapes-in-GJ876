@@ -21,16 +21,6 @@ class SceneManager {
     initScene() {
         const scene = new THREE.Scene();
 
-        // Add background image
-        // scene.background = new THREE.Color("#09071e");
-        // let geometry = new THREE.SphereGeometry( 1.5, 8, 8);
-        // geometry.scale( - 1, 1, 1 );
-        // var material = new THREE.MeshBasicMaterial( {
-        //     map: new THREE.TextureLoader().load( '../assets/images/8k_stars.jpg' )
-        // } );
-        // let mesh = new THREE.Mesh( geometry, material );
-        // mesh.name = "sceneTexture";
-        // scene.add( mesh );
         let backgroundTexture = this.backgroundTexture();
         scene.add(backgroundTexture);
         
@@ -85,6 +75,7 @@ class SceneManager {
 
             let dt = this.timeController.dt();
             this.solarSystem.update(dt);
+            this.updateStats(dt);
 
             if (this.linkLinesController.active) {
                 const selectedPlanets = this.linkLinesController.involvedPlanets;
@@ -107,6 +98,13 @@ class SceneManager {
         
         this.renderer.render(this.scene, this.cameraManager.camera);
         this.labelRenderer.render(this.scene, this.cameraManager.camera);
+    }
+
+    updateStats(dt) {
+        let passedDays = Math.round(dt * 10) / 10;
+        let passedYears = Math.round(passedDays / 365.25 * 100) / 100;
+        document.getElementById("passedDaysValue").innerHTML = passedDays;
+        document.getElementById("passedYearsValue").innerHTML = passedYears;
     }
 
     resetScene() {

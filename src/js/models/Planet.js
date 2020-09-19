@@ -7,11 +7,12 @@ class Planet {
         this.mass = mJupToSolarMass(data.mass); // Convert unit and set planet's mass
         this.orbitalPeroid = data.orbitalPeriod;
         this.i = degToRad(data.i);
-        this.timeOfPerihelionPassage = 0; // TODO: Use time of perihelon passage
-        this.w = data.argOfPeriapsis;
+        // this.timeOfPerihelionPassage = data.timeOfPerihelionPassage; // TODO: Use time of perihelon passage
+        this.timeOfPerihelionPassage = 0;
+        this.w = degToRad(data.argOfPeriapsis);
         this.o = data.longitudeOfAscendingNode;
-        this.ma0 = data.meanAnomaly; // Mean anomaly at epoch
-        this.SGP = SGP;
+        this.ma0 = degToRad(data.meanAnomaly); // Mean anomaly at epoch
+        this.SGP = SGP; //Standard gravitational parameter
 
         // "Private" Properties used for more efficient calculation
         this._aToPowerOf3 = Math.pow(this.a, 3);
@@ -51,6 +52,23 @@ class Planet {
         let pos = this.cartesianPosition2(v, r);
 
         return pos;
+    }
+
+    /**
+     * Returns the mean anomaly at a specific point in time
+     * 
+     * @param {Orbital Period (in days)} oP 
+     * @param {Point in time (in days)} t 
+     * @param {Time of perihelion passage (in JD) if different from t0} tp
+     */
+    meanAnomaly(oP, t, tp) {
+        // Time diffence
+        let dt = t - tp;
+        let m = this.ma0 + dt * Math.sqrt(this.SGP / this._aToPowerOf3);
+        
+        // Normalize m to a value between 0 and 2PI
+        m  = m % (2 * Math.PI);
+        return m;
     }
 
     /**
@@ -95,24 +113,7 @@ class Planet {
             i++;
             //debugger
         }
-        
         return eA;
-    }
-
-    /**
-     * Returns the mean anomaly at a specific point in time
-     * 
-     * @param {Orbital Period (in days)} oP 
-     * @param {Point in time} t 
-     * @param {Time of perihelion passage (in JD)} tp
-     */
-    meanAnomaly(oP, t, tp) {
-        //let m = (2 * Math.PI / oP) * (t - tp);
-        let m = this.ma0 + (t-tp) * Math.sqrt(this.SGP / this._aToPowerOf3);
-
-        // Normalize m to a value between 0 and 2PI
-        m  = m % 2 * Math.PI;
-        return m;
     }
 
     /**
