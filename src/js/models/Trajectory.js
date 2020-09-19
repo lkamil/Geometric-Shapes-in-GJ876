@@ -46,6 +46,15 @@ class Trajectory {
         return colors;
     }
 
+    lightModeColor() {
+        const colors = new Float32Array(this.maxPoints * 3);
+        for (let i = 0; i < colors.length; i+=1) {
+            colors[i] = 0.7;
+        }
+
+        return colors;
+    }
+
     /**
      * Adds a new point to the trajectory line
      * @param {Location vector} v 
@@ -89,5 +98,17 @@ class Trajectory {
     reset() {
         this.drawRange = 0;
         this.line.geometry.setDrawRange(0, this.drawRange);
+    }
+
+    switchToLightMode() {
+        let color = this.lightModeColor();
+        this.line.geometry.setAttribute('color', new THREE.BufferAttribute(color, 3));
+        this.line.geometry.attributes.color.needsUpdate = true;
+    }
+
+    switchToDarkMode() {
+        let color = this.gradientArray();
+        this.line.geometry.setAttribute('color', new THREE.BufferAttribute(color, 3));
+        this.line.geometry.attributes.color.needsUpdate = true;
     }
 }

@@ -54,7 +54,7 @@ class SolarSystem {
         this.star.mesh.position.copy(newPositions[0]);
 
         // Set planet positions
-        for (let i = 1; i < this.numberOfPlanets; i++) {
+        for (let i = 0; i < this.numberOfPlanets; i++) {
             this.planets[i].setLocation(newPositions[i]);
         }
     }
@@ -65,6 +65,18 @@ class SolarSystem {
 
         for (let i = 0; i < this.numberOfPlanets; i++) {
             this.planets[i].translatePlanet(v);
+        }
+    }
+
+    switchToLightMode() {
+        for (let i = 0; i < this.numberOfPlanets; i++) {
+            this.planets[i].trajectory.switchToLightMode();
+        }
+    }
+
+    switchToDarkMode() {
+        for (let i = 0; i < this.numberOfPlanets; i++) {
+            this.planets[i].trajectory.switchToDarkMode();
         }
     }
 }

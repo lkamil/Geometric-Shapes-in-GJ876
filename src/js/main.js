@@ -34,6 +34,10 @@ function checkInitialStates() {
     validateInputLinkLines();
     validateLoopFigureInput();
     sceneManager.setAnimationSpeed(document.getElementById("animationSpeedSlider").value);
+
+    if (document.getElementById("switch").checked) {
+        sceneManager.switchToLightMode();
+    }
 }
 
 function bindEventListeners() { 
@@ -71,6 +75,9 @@ function bindEventListeners() {
 
     const toggleLoopFigureMenuButton = document.getElementById("openDrawLoopFigureMenu");
     toggleLoopFigureMenuButton.addEventListener("click", toggleMenuAnimation, false);
+
+    const lightModeSwitch = document.getElementById("switch");
+    lightModeSwitch.addEventListener('change', toggleLightMode, false);
 
     const animationSpeedSlider = document.getElementById("animationSpeedSlider");
     animationSpeedSlider.oninput = function() {
@@ -208,6 +215,14 @@ function limitSelectedCheckboxes(e) {
 
 function setAnimationSpeed(speed) {
     sceneManager.setAnimationSpeed(speed);
+}
+
+function toggleLightMode(e) {
+    if (this.checked) {
+        sceneManager.switchToLightMode();
+    } else {
+        sceneManager.switchToDarkMode();
+    }
 }
 
 function validateInputLinkLines() {

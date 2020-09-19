@@ -5,6 +5,7 @@ class SceneManager {
         this.height = window.innerHeight;
         this.scene = this.initScene();
         this.renderer = this.initRenderer(canvas);
+        this.labelRenderer = this.initLabelRenderer(canvas);
         this.light = this.addLight(this.scene);
         this.cameraManager = new CameraManager(this.scene);
         this.orbitControls = this.initOrbitControls();
@@ -22,31 +23,43 @@ class SceneManager {
 
         // Add background image
         // scene.background = new THREE.Color("#09071e");
-        let geometry = new THREE.SphereGeometry( 1.5, 8, 8);
-        geometry.scale( - 1, 1, 1 );
-        var material = new THREE.MeshBasicMaterial( {
-            map: new THREE.TextureLoader().load( '../assets/images/8k_stars.jpg' )
-        } );
-        let mesh = new THREE.Mesh( geometry, material );
-        scene.add( mesh );
-
+        // let geometry = new THREE.SphereGeometry( 1.5, 8, 8);
+        // geometry.scale( - 1, 1, 1 );
+        // var material = new THREE.MeshBasicMaterial( {
+        //     map: new THREE.TextureLoader().load( '../assets/images/8k_stars.jpg' )
+        // } );
+        // let mesh = new THREE.Mesh( geometry, material );
+        // mesh.name = "sceneTexture";
+        // scene.add( mesh );
+        let backgroundTexture = this.backgroundTexture();
+        scene.add(backgroundTexture);
+        
         return scene;
     }
 
     initRenderer(canvas) {
         let renderer = new THREE.WebGLRenderer();
         renderer.setSize(this.width, this.height); // Define the size of the scene
-
         //renderer.shadowMap.enabled = true;
 
-        // Append renderer??
         canvas.appendChild(renderer.domElement);
 
         return renderer;
     }
 
+    initLabelRenderer(canvas) {
+        let labelRenderer = new CSS2DRenderer();
+		labelRenderer.setSize(this.width, this.height);
+        labelRenderer.domElement.style.position = 'absolute';
+        labelRenderer.domElement.style.top = '0px';
+        canvas.appendChild(labelRenderer.domElement);
+
+        return labelRenderer;
+    }
+
     initOrbitControls() {
-        let orbitControls = new THREE.OrbitControls(this.cameraManager.camera, this.renderer.domElement);
+        // let orbitControls = new THREE.OrbitControls(this.cameraManager.camera, this.renderer.domElement);
+        let orbitControls = new THREE.OrbitControls(this.cameraManager.camera, this.labelRenderer.domElement);
 
         return orbitControls;
     }
@@ -93,6 +106,7 @@ class SceneManager {
         }
         
         this.renderer.render(this.scene, this.cameraManager.camera);
+        this.labelRenderer.render(this.scene, this.cameraManager.camera);
     }
 
     resetScene() {
@@ -189,5 +203,43 @@ class SceneManager {
         this.cameraManager.camera.updateProjectionMatrix();
         
         this.renderer.setSize(this.width, this.height);
+        this.labelRenderer.setSize(this.width, this.height);
     };
+
+    switchToLightMode() {
+        // Remove background texture
+        for (let i = 0; i < this.scene.children.length; i++) {
+            // debugger
+            if (this.scene.children[i].name == "sceneTexture") {
+                let sceneTexture = this.scene.children[i];
+                this.scene.remove(sceneTexture);
+                break;
+            }
+        }
+        
+        // Set new background color
+        this.scene.background = new THREE.Color("#fff");
+        this.solarSystem.switchToLightMode();
+
+    }
+
+    switchToDarkMode() {
+        let backgroundTexture = this.backgroundTexture();
+        this.scene.add(backgroundTexture);
+
+        this.scene.background = new THREE.Color("#000");
+        this.solarSystem.switchToDarkMode();
+    }
+
+    backgroundTexture() {
+        let geometry = new THREE.SphereGeometry( 1.5, 8, 8);
+        geometry.scale( - 1, 1, 1 );
+        let material = new THREE.MeshBasicMaterial( {
+            map: new THREE.TextureLoader().load( '../assets/images/8k_stars.jpg' )
+        } );
+        let mesh = new THREE.Mesh(geometry, material);
+        mesh.name = "sceneTexture";
+
+        return mesh;
+    }
 }

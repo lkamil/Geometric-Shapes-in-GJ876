@@ -13,7 +13,6 @@ class Planet {
         this.ma0 = data.meanAnomaly; // Mean anomaly at epoch
         this.SGP = SGP;
 
-
         // "Private" Properties used for more efficient calculation
         this._aToPowerOf3 = Math.pow(this.a, 3);
         
@@ -25,6 +24,18 @@ class Planet {
         this.mesh.receiveShadow = true;
 
         this.trajectory = new Trajectory(scene, this.position(0) ,this.orbitalPeroid);
+        this.label = this.createLabel();
+    }
+
+    createLabel() {
+        let planetDiv = document.createElement( 'div' );
+		planetDiv.className = 'label';
+		planetDiv.textContent = this.name;
+        planetDiv.style.marginTop = '-10px';
+		let label = new CSS2DObject( planetDiv );
+        this.mesh.add(label);
+        
+        return label;
     }
 
     /**
@@ -180,6 +191,8 @@ class Planet {
 
         // Update trajectory
         this.trajectory.update(pos);
+
+        // this.label.position.set(pos);
     }
 
     resetTrajectories() {

@@ -10,19 +10,19 @@ class CoordinateAxes {
         // Create x axis
         const maxX = new THREE.Vector3(max, 0, 0); 
         const xAxisGeometry = new THREE.BufferGeometry().setFromPoints([origin, maxX]);
-        const xAxisMaterial = new THREE.LineBasicMaterial({color: 0x262C2F});
+        const xAxisMaterial = new THREE.LineBasicMaterial({color: 0xff0000});
         const xAxis = new THREE.Line(xAxisGeometry, xAxisMaterial);
 
         // Create y axis
         const maxY = new THREE.Vector3(0, max, 0); 
         const yAxisGeometry = new THREE.BufferGeometry().setFromPoints([origin, maxY]);
-        const yAxisMaterial = new THREE.LineBasicMaterial({color: 0x262C2F});
+        const yAxisMaterial = new THREE.LineBasicMaterial({color: 0x00ff00});
         const yAxis = new THREE.Line(yAxisGeometry, yAxisMaterial);
 
         // Create z axis
         const maxZ = new THREE.Vector3(0, 0, max); 
         const zAxisGeometry = new THREE.BufferGeometry().setFromPoints([origin, maxZ]);
-        const zAxisMaterial = new THREE.LineBasicMaterial({color: 0x262C2F});
+        const zAxisMaterial = new THREE.LineBasicMaterial({color: 0x000ff});
         const zAxis = new THREE.Line(zAxisGeometry, zAxisMaterial);
 
         scene.add(xAxis);
