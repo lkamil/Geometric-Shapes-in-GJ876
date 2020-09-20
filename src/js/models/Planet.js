@@ -214,4 +214,22 @@ class Planet {
         this.mesh.position.add(v);
         this.trajectory.changeLatestPosition(this.mesh.position);
     }
+
+    switchToLightMode() {
+        this.hide();
+        this.trajectory.switchToLightMode();
+    }
+
+    switchToDarkMode() {
+        this.show();
+        this.trajectory.switchToDarkMode();
+    }
+
+    hide() {
+        this.mesh.visible = false;
+    }
+
+    show() {
+        this.mesh.visible = true;
+    }
 }

@@ -70,13 +70,15 @@ class SolarSystem {
 
     switchToLightMode() {
         for (let i = 0; i < this.numberOfPlanets; i++) {
-            this.planets[i].trajectory.switchToLightMode();
+            this.planets[i].switchToLightMode();
         }
+        this.star.mesh.material.color.setHex(0xdddddd);
     }
 
     switchToDarkMode() {
         for (let i = 0; i < this.numberOfPlanets; i++) {
-            this.planets[i].trajectory.switchToDarkMode();
+            this.planets[i].switchToDarkMode();
         }
+        this.star.mesh.material.color.setHex(0x813D3D);
     }
 }

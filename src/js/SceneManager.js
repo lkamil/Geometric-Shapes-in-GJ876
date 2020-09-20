@@ -55,7 +55,7 @@ class SceneManager {
     }
 
     addLight(scene) {
-        let ambientLight = new THREE.AmbientLight( 0xEDC8AB );
+        let ambientLight = new THREE.AmbientLight( 0xffffff );
         scene.add(ambientLight);
 
         return ambientLight;
