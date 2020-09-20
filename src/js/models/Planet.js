@@ -216,20 +216,22 @@ class Planet {
     }
 
     switchToLightMode() {
-        this.hide();
         this.trajectory.switchToLightMode();
     }
 
     switchToDarkMode() {
-        this.show();
         this.trajectory.switchToDarkMode();
     }
 
     hide() {
         this.mesh.visible = false;
+        this.label.visible = false;
+        this.trajectory.line.visible = false;
     }
 
     show() {
         this.mesh.visible = true;
+        this.label.visible = true;
+        this.trajectory.line.visible = true;
     }
 }

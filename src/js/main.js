@@ -316,6 +316,18 @@ function plotLoopFigure() {
         show(eyesSVG);
 
         sceneManager.loopFigureController.prepareDrawing(innerPlanetName, outerPlanetName);
+
+        // Get Planets that are not selected and hide them
+        let allPlanetNames = ["gj876b", "gj876c", "gj876d", "gj876e"];
+        let notSelected = allPlanetNames.filter(p => (p != innerPlanetName)).filter(p => p != outerPlanetName);
+
+        // Hide star
+        sceneManager.solarSystem.star.mesh.visible = false;
+
+        // Hide planets
+        for (let i = 0; i < notSelected.length; i++) {
+            sceneManager.hidePlanet(notSelected[i]);
+        }
     }
 }
 

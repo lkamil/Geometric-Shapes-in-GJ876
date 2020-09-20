@@ -6,6 +6,7 @@ class SceneManager {
         this.scene = this.initScene();
         this.renderer = this.initRenderer(canvas);
         this.labelRenderer = this.initLabelRenderer(canvas);
+        this.coordinateAxes = this.initCoordinateAxes(this.scene);
         this.light = this.addLight(this.scene);
         this.cameraManager = new CameraManager(this.scene);
         this.orbitControls = this.initOrbitControls();
@@ -52,6 +53,15 @@ class SceneManager {
         let orbitControls = new THREE.OrbitControls(this.cameraManager.camera, this.labelRenderer.domElement);
 
         return orbitControls;
+    }
+
+    initCoordinateAxes(scene) {
+        let size = 0.8;
+        let coordinateAxes = new CoordinateAxes(scene, size);
+        
+        coordinateAxes.hide();
+
+        return coordinateAxes;
     }
 
     addLight(scene) {
@@ -193,6 +203,16 @@ class SceneManager {
         return planetLocations;
     }
 
+    hidePlanet(planetName) {
+        // console.log(planetName);
+        for (let i = 0; i < this.solarSystem.numberOfPlanets; i++) {
+            if (this.solarSystem.planets[i].name == planetName) {
+                // console.log(this.solarSystem.planets[i].name);
+                this.solarSystem.planets[i].hide();
+            }
+        }
+    }
+
     onWindowResize () {
         this.width = window.innerWidth - 260;
         this.heigt = window.innerHeight;
@@ -207,7 +227,6 @@ class SceneManager {
     switchToLightMode() {
         // Remove background texture
         for (let i = 0; i < this.scene.children.length; i++) {
-            // debugger
             if (this.scene.children[i].name == "sceneTexture") {
                 let sceneTexture = this.scene.children[i];
                 this.scene.remove(sceneTexture);
@@ -219,6 +238,8 @@ class SceneManager {
         this.scene.background = new THREE.Color("#fff");
         this.solarSystem.switchToLightMode();
 
+        // Show coordinate axes
+        this.coordinateAxes.show();
     }
 
     switchToDarkMode() {
@@ -227,6 +248,9 @@ class SceneManager {
 
         this.scene.background = new THREE.Color("#000");
         this.solarSystem.switchToDarkMode();
+
+        // Hide coordinate axes
+        this.coordinateAxes.hide();
     }
 
     backgroundTexture() {
