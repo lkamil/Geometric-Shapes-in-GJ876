@@ -151,6 +151,28 @@ input[type="radio"] + label::before {
     border-radius: 10px;
 }
 
+#interval-wrap {
+    margin-bottom: 24px;
+}
+
+.interval-label {
+    font-size: 15px;
+}
+
+.interval-label:hover {
+    text-shadow: none;
+}
+
+input[type="number"] {
+    width: 42px;
+    background-color: transparent;
+    border: none;
+    font-size: inherit;
+    /* border-bottom: 1px solid #CAD2DC; */
+    color: #CAD2DC;
+    font-size: 15px;
+}
+
 .checkboxes {
     margin: 10px 0 24px 0;
 }

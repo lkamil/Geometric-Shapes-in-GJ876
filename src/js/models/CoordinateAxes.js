@@ -43,7 +43,7 @@ class CoordinateAxes {
             pos.z += i;
 
             // Create Dot and set its position
-            let geometry = new THREE.BoxGeometry(0.001, 0.007, 0.007);
+            let geometry = new THREE.BoxGeometry(0.001, 0.004, 0.004);
             let material = new THREE.MeshBasicMaterial( {color: 0x676767} );
             let dot = new THREE.Mesh( geometry, material );
             dot.position.copy(pos);

@@ -248,6 +248,8 @@ function drawLinkLines(e) {
         const eyesSVG = document.querySelector("#eyes-icon");
         show(eyesSVG);
 
+        let interval = document.getElementById("interval").value;
+        console.log(interval);
         const checkboxes = document.querySelectorAll('#linkLine-checkboxes input');
         let checkedPlanets = [];
         for (let i = 0; i < checkboxes.length; i++) {
@@ -271,7 +273,7 @@ function drawLinkLines(e) {
                 }
             }
         }
-        sceneManager.linkLinesController.prepareDrawing(checkedPlanets);    
+        sceneManager.linkLinesController.prepareDrawing(interval, checkedPlanets);    
     }
 }
 

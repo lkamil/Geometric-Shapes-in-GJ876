@@ -93,7 +93,7 @@ class SceneManager {
                 for (let i = 0; i < selectedPlanets.length; i++) {
                     planetLocations.push(this.getLocationOfPlanet(selectedPlanets[i]));
                 }
-                this.linkLinesController.update(planetLocations[0], planetLocations[1]);
+                this.linkLinesController.update(dt, planetLocations[0], planetLocations[1]);
             }
 
             if (this.loopFigureController.active) {

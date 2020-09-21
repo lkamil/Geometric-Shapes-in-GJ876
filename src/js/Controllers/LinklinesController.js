@@ -1,7 +1,8 @@
 class LinkLinesController {
     constructor(scene) {
-        this.interval = 3;
-        this.counter = 0;
+        this.interval = 0.1;
+        this.oldTime = 0;
+        this.count = 0;
         this.lines = new THREE.Object3D();
         this.involvedPlanets = []; // Holds the names of the two planets
         this.active = false;
@@ -19,11 +20,15 @@ class LinkLinesController {
 
     /**
      * Sets active state and planet names
+     * @param {Elapsed time between each line (in days)} i
      * @param {Array that holds the planets names} planets 
      */
-    prepareDrawing(planets) {
+    prepareDrawing(i, planets) {
         this.involvedPlanets = planets;
         this.active = true;
+        this.oldTime = 0;
+        this.count = 0;
+        this.interval = i;
     }
 
     endDrawing() {
@@ -35,17 +40,24 @@ class LinkLinesController {
         this.lines.children = [];
     }
 
+    setInterval(i) {
+        
+    }
+
     /**
      * Adds a new link line at set intervall
      * @param {Current location of a planet} p1Location 
      * @param {Current location of another planet} p2Location 
      */
-    update(p1Location, p2Location) {
-        if (this.counter >= this.interval) {
+    update(dt, p1Location, p2Location) {
+        let elapsedTimeSinceLastCall = dt - this.oldTime;
+        if (this.count >= this.interval) {
             this.newLinkLine(p1Location, p2Location);
-            this.counter = 0;
+            this.count = 0;
         } else {
-            this.counter += 1;
+            this.count += elapsedTimeSinceLastCall;
         }
+
+        this.oldTime = dt;
     }
 }
