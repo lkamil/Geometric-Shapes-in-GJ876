@@ -63,6 +63,7 @@ function bindEventListeners() {
     linkLinesCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', limitSelectedCheckboxes, false);
         checkbox.addEventListener('change', validateInputLinkLines, false);
+        checkbox.addEventListener('change', setSuggestedLinkLinesInterval, false);
     });
 
     const loopFigureRadioButtons = document.querySelectorAll('.checkboxes.loopFigure input');
@@ -82,6 +83,7 @@ function bindEventListeners() {
     const animationSpeedSlider = document.getElementById("animationSpeedSlider");
     animationSpeedSlider.oninput = function() {
         sceneManager.setAnimationSpeed(this.value);
+        setSuggestedLinkLinesInterval();
     }
 
     // Draw Buttons
@@ -248,33 +250,59 @@ function drawLinkLines(e) {
         const eyesSVG = document.querySelector("#eyes-icon");
         show(eyesSVG);
 
+        // Get interval and convert it from minutes to days
         let interval = document.getElementById("interval").value;
-        console.log(interval);
-        const checkboxes = document.querySelectorAll('#linkLine-checkboxes input');
-        let checkedPlanets = [];
-        for (let i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i].checked) {
-                // Get associated planet of checked box
-                switch (checkboxes[i].id) {
-                    case "ll-b":
-                        checkedPlanets.push("gj876b");
-                        break;
-                    case "ll-c":
-                        checkedPlanets.push("gj876c");
-                        break;
-                    case "ll-d":
-                        checkedPlanets.push("gj876d");
-                        break;
-                    case "ll-e":
-                        checkedPlanets.push("gj876e");
-                        break;
-                    default:
-                        break;
+        interval /= 1440;
+
+        let checkedPlanets = parseSelectedPlanetsInLinkLinesMenu(checkedBoxes);
+        
+        sceneManager.linkLinesController.prepareDrawing(interval, checkedPlanets);    
+    }
+}
+
+function setSuggestedLinkLinesInterval() {
+    const speedFactor = document.getElementById("animationSpeedSlider").value;
+    // Check if 2 planets for drawing link lines are selected
+    const checkedBoxes = document.querySelectorAll('#linkLine-checkboxes input:checked');
+    if (checkedBoxes.length == 2) {
+        let checkedPlanets = parseSelectedPlanetsInLinkLinesMenu(checkedBoxes);
+        // Get orbital periods
+        let orbitalPeriods = [];
+        for (let i = 0; i < checkedPlanets.length; i++) {
+            for(let j = 0; j < Object.keys(data.planets).length; j++) {
+                let planet = Object.values(data.planets)[j];
+                if (planet.label == checkedPlanets[i]) {
+                    orbitalPeriods.push(planet.orbitalPeriod);
                 }
             }
         }
-        sceneManager.linkLinesController.prepareDrawing(interval, checkedPlanets);    
+        let recommenedInterval = sceneManager.linkLinesController.recommendInterval(speedFactor, orbitalPeriods);
+        document.getElementById("interval").value = recommenedInterval;
     }
+}
+
+function parseSelectedPlanetsInLinkLinesMenu(checkedBoxes) {
+    let selectedPlanets = [];
+    for (let i = 0; i < checkedBoxes.length; i++) {
+        switch (checkedBoxes[i].id) {
+            case "ll-b":
+                selectedPlanets.push("gj876b");
+                break;
+            case "ll-c":
+                selectedPlanets.push("gj876c");
+                break;
+            case "ll-d":
+                selectedPlanets.push("gj876d");
+                break;
+            case "ll-e":
+                selectedPlanets.push("gj876e");
+                break;
+            default:
+                break;
+        }
+    }
+
+    return selectedPlanets;
 }
 
 function validateLoopFigureInput() {

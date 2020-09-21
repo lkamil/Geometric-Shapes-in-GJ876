@@ -164,7 +164,7 @@ input[type="radio"] + label::before {
 }
 
 input[type="number"] {
-    width: 42px;
+    width: 48px;
     background-color: transparent;
     border: none;
     font-size: inherit;

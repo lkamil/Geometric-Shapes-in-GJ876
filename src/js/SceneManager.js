@@ -204,10 +204,8 @@ class SceneManager {
     }
 
     hidePlanet(planetName) {
-        // console.log(planetName);
         for (let i = 0; i < this.solarSystem.numberOfPlanets; i++) {
             if (this.solarSystem.planets[i].name == planetName) {
-                // console.log(this.solarSystem.planets[i].name);
                 this.solarSystem.planets[i].hide();
             }
         }

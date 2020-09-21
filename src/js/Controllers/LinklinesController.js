@@ -40,8 +40,16 @@ class LinkLinesController {
         this.lines.children = [];
     }
 
-    setInterval(i) {
+    recommendInterval(speedFactor, orbitalPeriods) {
+        let smallestOrbitalPeriod = Math.min(...orbitalPeriods);
         
+        let recommendedInterval = smallestOrbitalPeriod / (100 * speedFactor);
+        // Convert from days to minutes
+        let inMinutes = recommendedInterval * 1440;
+        
+        // console.log("recommended interval: " + recommendedInterval);
+        return Math.round(inMinutes);
+
     }
 
     /**
