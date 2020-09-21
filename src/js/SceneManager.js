@@ -262,4 +262,12 @@ class SceneManager {
 
         return mesh;
     }
+
+    play() {
+        this.animationPaused = false;
+    }
+
+    pause() {
+        this.animationPaused = true;
+    }
 }

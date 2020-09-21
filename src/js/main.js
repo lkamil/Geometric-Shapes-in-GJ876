@@ -97,7 +97,6 @@ function bindEventListeners() {
 function resizeCanvas() {
     canvas.style.width = '100% - 260px';
     canvas.style.height = '100%';
-    // canvas.style.float = 'right';
 
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
@@ -121,26 +120,36 @@ function handleVisibilityChange(e) {
 function pausePlay(e) {
     let text = this.querySelector("#pausePlay").textContent;
 
+    if (text == "Pause Animation") {
+        pause();
+    } else {
+        play();
+    } 
+}
+
+function pause() {
+    sceneManager.pause();
+    document.querySelector("#pausePlay").innerHTML = "Play Animation";
+
+    // Switch visibility
     let pauseSVG = document.querySelector("#pause-icon");
     let playSVG = document.querySelector("#play-icon");
 
-    if (text == "Pause Animation") {
-        sceneManager.animationPaused = true;
+    show(playSVG);
+    hide(pauseSVG);
+}
 
-        this.querySelector("#pausePlay").innerHTML = "Play Animation";
+function play() {
+    sceneManager.play();
+    sceneManager.timeController.timer.reset();
+    document.querySelector("#pausePlay").innerHTML = "Pause Animation";
 
-        // Switch visibility
-        show(playSVG);
-        hide(pauseSVG);
-    } else {
-        sceneManager.timeController.timer.reset();
-        this.querySelector("#pausePlay").innerHTML = "Pause Animation";
-        sceneManager.animationPaused = false;
+    // Switch visibility
+    let pauseSVG = document.querySelector("#pause-icon");
+    let playSVG = document.querySelector("#play-icon");
 
-        // Switch visibility
-        show(pauseSVG);
-        hide(playSVG);
-    } 
+    show(pauseSVG);
+    hide(playSVG);
 }
 
 function hideShowTrajectories(e) {
@@ -256,6 +265,9 @@ function drawLinkLines(e) {
 
         let checkedPlanets = parseSelectedPlanetsInLinkLinesMenu(checkedBoxes);
         
+        if (sceneManager.animationPaused) {
+            play();
+        }
         sceneManager.linkLinesController.prepareDrawing(interval, checkedPlanets);    
     }
 }
@@ -345,6 +357,9 @@ function plotLoopFigure() {
         const eyesSVG = document.querySelector("#eyes-icon");
         show(eyesSVG);
 
+        if (sceneManager.animationPaused) {
+            play();
+        }
         sceneManager.loopFigureController.prepareDrawing(innerPlanetName, outerPlanetName);
 
         // Get Planets that are not selected and hide them
