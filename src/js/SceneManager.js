@@ -118,6 +118,7 @@ class SceneManager {
     }
 
     resetScene() {
+        // Reset scene
         this.timeController.timer.hardReset();
 
         // Reset trajectories
@@ -133,6 +134,9 @@ class SceneManager {
 
         // Show all celestial objects
         this.solarSystem.showAllObjects();
+
+        // Move star to center
+        this.solarSystem.star.moveToCenter();
     }
 
     resetTrajectories() {

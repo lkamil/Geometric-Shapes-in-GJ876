@@ -6,15 +6,17 @@ class Star {
         let sunGeometry = new THREE.SphereGeometry(this.radius, 20, 20);
         let sunMaterial = new THREE.MeshPhongMaterial({color: 0x813D3D});
         this.mesh = new THREE.Mesh(sunGeometry, sunMaterial);
-        this.mesh.position.set = new THREE.Vector3(0, 0, 0);
+        let center = new THREE.Vector3(0, 0, 0);
+        this.mesh.position.copy(center);
     }
 
-    setLocation(l) {
-        this.mesh.position.copy(l);
+    translate(v) {
+        this.mesh.position.copy(v);
     }
 
-    update(elapsedTime) {
-
+    moveToCenter() {
+        const center = new THREE.Vector3(0, 0, 0,);
+        this.mesh.position.copy(center);
     }
 
     show() {
@@ -23,5 +25,9 @@ class Star {
 
     hide() {
         this.mesh.visible = false;
+    }
+
+    update(dt) {
+
     }
 }

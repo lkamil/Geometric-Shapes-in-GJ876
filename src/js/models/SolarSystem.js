@@ -1,6 +1,6 @@
 class SolarSystem {
     constructor(scene, data) {
-        this.star = new Star(scene, data.gj876);
+        this.star = new Star(data.gj876);
         this.SGP = constant.GC * this.star.mass; // Standard gravitational parameter  
 
         // Create planets
@@ -60,8 +60,7 @@ class SolarSystem {
     }
 
     translateAllObjects(v) {
-        const origin = new THREE.Vector3(0, 0, 0);
-        this.star.setLocation(origin.clone().add(v)); 
+        this.star.translate(v);
 
         for (let i = 0; i < this.numberOfPlanets; i++) {
             this.planets[i].translatePlanet(v);
