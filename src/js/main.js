@@ -268,7 +268,19 @@ function drawLinkLines(e) {
         if (sceneManager.animationPaused) {
             play();
         }
-        sceneManager.linkLinesController.prepareDrawing(interval, checkedPlanets);    
+        sceneManager.linkLinesController.prepareDrawing(interval, checkedPlanets); 
+        
+        // Get Planets that are not selected and hide them
+        let allPlanetNames = ["gj876b", "gj876c", "gj876d", "gj876e"];
+        let notSelected = allPlanetNames.filter(p => !checkedPlanets.includes(p));
+
+        // Hide star
+        sceneManager.solarSystem.star.hide();
+
+        // Hide planets
+        for (let i = 0; i < notSelected.length; i++) {
+            sceneManager.hidePlanet(notSelected[i]);
+        }
     }
 }
 
@@ -367,7 +379,7 @@ function plotLoopFigure() {
         let notSelected = allPlanetNames.filter(p => (p != innerPlanetName)).filter(p => p != outerPlanetName);
 
         // Hide star
-        sceneManager.solarSystem.star.mesh.visible = false;
+        sceneManager.solarSystem.star.hide();
 
         // Hide planets
         for (let i = 0; i < notSelected.length; i++) {
