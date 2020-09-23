@@ -122,10 +122,17 @@ class SceneManager {
 
         // Reset trajectories
         this.resetTrajectories();
+
+        // Clear link lines
         this.linkLinesController.clear();
         this.linkLinesController.active = false;
+
+        // Clear plot of loop figure
         this.loopFigureController.active = false;
         this.loopFigureController.clear();
+
+        // Show all celestial objects
+        this.solarSystem.showAllObjects();
     }
 
     resetTrajectories() {

@@ -1,5 +1,5 @@
 class Star {
-    constructor(scene, data) {
+    constructor(data) {
         this.radius = rSunToAU(data.radius);
         this.mass = data.mass; // Unit: Solar Mass (1SM = 1.98847×1030 kg)
 
@@ -17,4 +17,11 @@ class Star {
 
     }
 
+    show() {
+        this.mesh.visible = true;
+    }
+
+    hide() {
+        this.mesh.visible = false;
+    }
 }

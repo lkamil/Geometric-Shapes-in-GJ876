@@ -81,4 +81,12 @@ class SolarSystem {
         }
         this.star.mesh.material.color.setHex(0x813D3D);
     }
+
+    showAllObjects() {
+        this.star.show();
+
+        for (let i = 0; i < this.numberOfPlanets; i++) {
+            this.planets[i].show();
+        }
+    }
 }
