@@ -89,11 +89,14 @@ class SceneManager {
 
             if (this.linkLinesController.active) {
                 const selectedPlanets = this.linkLinesController.involvedPlanets;
+
                 let planetLocations = [];
                 for (let i = 0; i < selectedPlanets.length; i++) {
                     planetLocations.push(this.getLocationOfPlanet(selectedPlanets[i]));
                 }
-                this.linkLinesController.update(dt, planetLocations[0], planetLocations[1]);
+
+                let starLocation = this.solarSystem.star.getLocation();
+                this.linkLinesController.update(dt, starLocation, planetLocations[0], planetLocations[1]);     
             }
 
             if (this.loopFigureController.active) {

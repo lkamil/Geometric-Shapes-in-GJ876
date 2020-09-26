@@ -275,7 +275,7 @@ function drawLinkLines(e) {
         let notSelected = allPlanetNames.filter(p => !checkedPlanets.includes(p));
 
         // Hide star
-        sceneManager.solarSystem.star.hide();
+        // sceneManager.solarSystem.star.hide();
 
         // Hide planets
         for (let i = 0; i < notSelected.length; i++) {

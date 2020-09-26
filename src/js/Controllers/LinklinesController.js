@@ -6,13 +6,14 @@ class LinkLinesController {
         this.lines = new THREE.Object3D();
         this.involvedPlanets = []; // Holds the names of the two planets
         this.active = false;
+        this.conjunctionsController = new ConjunctionsController(scene);
         
         scene.add(this.lines);
     }
 
     newLinkLine(p1Location, p2Location) {
         const points = [p1Location, p2Location];
-        const lineMaterial = new THREE.LineBasicMaterial( { color: 0x000ff, transparent: true, opacity: 0.3 } );
+        const lineMaterial = new THREE.LineBasicMaterial( { color: 0xff1237, transparent: true, opacity: 0.3 } );
         const lineGeometry = new THREE.BufferGeometry().setFromPoints( points );
         const line = new THREE.Line( lineGeometry, lineMaterial );
         this.lines.add(line);
@@ -57,7 +58,18 @@ class LinkLinesController {
      * @param {Current location of a planet} p1Location 
      * @param {Current location of another planet} p2Location 
      */
-    update(dt, p1Location, p2Location) {
+    update(dt, starLocation, p1Location, p2Location) {
+        let isConjunction = this.conjunctionsController.isConjunction(starLocation, p1Location, p2Location);
+
+        // First line must be drawn on conjunction
+        if (this.lines.children.length == 0 && !isConjunction) {
+            return;
+        }
+
+        if (isConjunction) {
+            this.conjunctionsController.addConjunction(p1Location);
+        }
+        
         let elapsedTimeSinceLastCall = dt - this.oldTime;
         if (this.count >= this.interval) {
             this.newLinkLine(p1Location, p2Location);
@@ -66,6 +78,6 @@ class LinkLinesController {
             this.count += elapsedTimeSinceLastCall;
         }
 
-        this.oldTime = dt;
+        this.oldTime = dt;    
     }
 }

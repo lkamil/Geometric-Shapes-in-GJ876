@@ -27,6 +27,10 @@ class Star {
         this.mesh.visible = false;
     }
 
+    getLocation() {
+        return this.mesh.position;
+    }
+
     update(dt) {
 
     }
