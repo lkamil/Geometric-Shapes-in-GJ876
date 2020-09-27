@@ -38,6 +38,10 @@ function checkInitialStates() {
     if (document.getElementById("switch").checked) {
         sceneManager.switchToLightMode();
     }
+
+    hideShowConjunctionsLine();
+    hideShowOppositionsLine();
+    
 }
 
 function bindEventListeners() { 
@@ -85,6 +89,12 @@ function bindEventListeners() {
         sceneManager.setAnimationSpeed(this.value);
         setSuggestedLinkLinesInterval();
     }
+
+    let showConjunctions = document.getElementById("ll-conjunctions");
+    showConjunctions.addEventListener('change', hideShowConjunctionsLine, false);
+
+    let showOppositions = document.getElementById("ll-oppositions");
+    showOppositions.addEventListener('change', hideShowOppositionsLine, false);
 
     // Draw Buttons
     const drawLinkLinesButton = document.getElementById("drawLinkLinesButton");
@@ -408,4 +418,22 @@ function getPlanetName(abbreviation) {
     }
 
     return planetName;
+}
+
+function hideShowConjunctionsLine() {
+    let showConjunctions = document.getElementById("ll-conjunctions");
+    if (showConjunctions.checked) {
+        sceneManager.linkLinesController.showConjunctions();
+    } else {
+        sceneManager.linkLinesController.hideConjunctions();
+    }
+}
+
+function hideShowOppositionsLine() {
+    let showOppositions = document.getElementById("ll-oppositions");
+    if (showOppositions.checked) {
+        sceneManager.linkLinesController.showOppositions();
+    } else {
+        sceneManager.linkLinesController.hideOppositions();
+    }
 }

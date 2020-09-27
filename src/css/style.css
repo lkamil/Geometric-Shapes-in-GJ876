@@ -278,6 +278,10 @@ input[type="number"] {
     cursor: not-allowed;
 }
 
+.draw-settings {
+    margin-bottom: 24px;
+}
+
 .menu-content {
     /* display: none; */
     margin-top: 16px;

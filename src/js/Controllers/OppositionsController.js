@@ -1,5 +1,6 @@
 class OppositionsController {
     constructor(scene) {
+        this.lightMode = false;
         this.points = [];
         // Create Line Geometry
         let geometry = new THREE.BufferGeometry();
@@ -12,14 +13,43 @@ class OppositionsController {
         geometry.setDrawRange(0, this.drawRange);
 
         // Create material
-        const material = new THREE.LineBasicMaterial({color: 0xf5f5f5});
+        let c = this.getColor();
+        const material = new THREE.LineBasicMaterial({color: c});
 
         // Create loop figure object
-        this.oppositionsLine = new THREE.Line(geometry, material);
+        this.line = new THREE.Line(geometry, material);
 
-        scene.add(this.oppositionsLine);
+        scene.add(this.line);
 
         this.foundOppositionRecently = false;
+    }
+
+    switchToLightMode() {
+        this.lightMode = true;
+        let c = this.getColor();
+        this.changeColor(c);
+    }
+
+    switchToDarkMode() {
+        this.lightMode = false;
+        let c = this.getColor();
+        this.changeColor();
+    }
+
+    changeColor(c) {
+        this.line.material.color = c;
+        this.line.material.needsUpdate = true;
+    }
+
+    getColor() {
+        let c;
+        if (this.lightMode) {
+            c = new THREE.Color(0x17544B);
+        } else {
+            c = new THREE.Color(0xf5f5f5);
+        }
+
+        return c;
     }
 
     /**
@@ -45,7 +75,7 @@ class OppositionsController {
                             outerPlanetLocation.clone().sub(innerPlanetLocation));
         approx = approx.length();
 
-        // Next conjunction approximation
+        // Next opposition approximation
         let nextApprox = new THREE.Vector3();
         nextApprox.crossVectors(starLocation.clone().sub(nextInnerPlanetLocation), 
                                 nextOuterPlanetLocation.clone().sub(nextInnerPlanetLocation));
@@ -66,7 +96,7 @@ class OppositionsController {
                 return false;
             }
         } else {
-            if (approx > 0.01 && this.foundConjunctionRecently) {
+            if (approx > 0.01 && this.foundOppositionRecently) {
                 this.foundOppositionRecently = false;
             }
             return false;
@@ -85,7 +115,15 @@ class OppositionsController {
         this.points[2] = v.z;
 
         this.drawRange += 1;
-        this.oppositionsLine.geometry.setDrawRange(0, this.drawRange);
-        this.oppositionsLine.geometry.attributes.position.needsUpdate = true;
+        this.line.geometry.setDrawRange(0, this.drawRange);
+        this.line.geometry.attributes.position.needsUpdate = true;
+    }
+
+    hide() {
+        this.line.visible = false;
+    }
+
+    show() {
+        this.line.visible = true;
     }
 }

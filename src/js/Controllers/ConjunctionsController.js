@@ -1,5 +1,6 @@
 class ConjunctionsController {
     constructor(scene) {
+        this.lightMode = false;
         this.points = [];
         // Create Line Geometry
         let geometry = new THREE.BufferGeometry();
@@ -12,7 +13,8 @@ class ConjunctionsController {
         geometry.setDrawRange(0, this.drawRange);
 
         // Create material
-        const material = new THREE.LineBasicMaterial({color: 0xf5f5f5});
+        let c = this.getColor();
+        const material = new THREE.LineBasicMaterial({color: c});
 
         // Create loop figure object
         this.conjunctionsLine = new THREE.Line(geometry, material);
@@ -20,9 +22,51 @@ class ConjunctionsController {
         scene.add(this.conjunctionsLine);
 
         this.foundConjunctionRecently = false;
-        this.foundOppositionRecently = false;
     }
 
+    switchToLightMode() {
+        this.lightMode = true;
+        let c = this.getColor();
+        this.changeColor(c);
+    }
+
+    switchToDarkMode() {
+        this.lightMode = false;
+        let c = this.getColor();
+        this.changeColor(c);
+    }
+
+    changeColor(c) {
+        this.conjunctionsLine.material.color = c;
+        this.conjunctionsLine.material.needsUpdate = true;
+    }
+
+    getColor() {
+        let c;
+        if (this.lightMode) {
+            c = new THREE.Color(0x0320AA);
+        } else {
+            c = new THREE.Color(0xf5f5f5);
+        }
+
+        return c;
+    }
+
+    getNumberOfConjunctions() {
+        return this.drawRange;
+    }
+
+    reset() {
+        this.drawRange = 0;
+    }
+
+    hide() {
+        this.conjunctionsLine.visible = false;
+    }
+
+    show() {
+        this.conjunctionsLine.visible = true;
+    }
     /**
      * Checks if the current constellation is a conjunction
      * @param {Elapsed time} dt 

@@ -7,6 +7,7 @@ class LinkLinesController {
         this.involvedPlanets = []; // Holds the names of the two planets
         this.active = false;
         this.conjunctionsController = new ConjunctionsController(scene);
+        this.oppositionsController = new OppositionsController(scene);
         this.lightMode = false; // Default is dark mode
         
         scene.add(this.lines);
@@ -15,7 +16,7 @@ class LinkLinesController {
     newLinkLine(p1Location, p2Location) {
         const points = [p1Location, p2Location];
         let c = this.getColor();
-        const lineMaterial = new THREE.LineBasicMaterial( { color: c, transparent: true, opacity: 0.3 } );
+        const lineMaterial = new THREE.LineBasicMaterial( { color: c, transparent: true, opacity: 0.4 } );
         const lineGeometry = new THREE.BufferGeometry().setFromPoints( points );
         const line = new THREE.Line( lineGeometry, lineMaterial );
         this.lines.add(line);
@@ -47,18 +48,24 @@ class LinkLinesController {
         this.lightMode = true;
         let c = this.getColor();
         this.changeColor(c);
+
+        this.conjunctionsController.switchToLightMode();
+        this.oppositionsController.switchToLightMode();
     }
 
     switchToDarkMode() {
         this.lightMode = false;
         let c = this.getColor();
         this.changeColor(c);
+
+        this.conjunctionsController.switchToDarkMode();
+        this.oppositionsController.switchToDarkMode();
     }
 
     getColor() {
         let c;
         if (this.lightMode) {
-            c = new THREE.Color(0x3D5567);
+            c = new THREE.Color(0x0071FF);
         } else {
             c = new THREE.Color(0xff1237);
         }
@@ -86,6 +93,22 @@ class LinkLinesController {
         return Math.round(inMinutes);
     }
 
+    showConjunctions() {
+        this.conjunctionsController.show();
+    }
+
+    hideConjunctions() {
+        this.conjunctionsController.hide();
+    }
+
+    showOppositions() {
+        this.oppositionsController.show();
+    }
+
+    hideOppositions() {
+        this.oppositionsController.hide();
+    }
+
     /**
      * Adds a new link line at set intervall
      * @param {Current location of a planet} p1Location 
@@ -93,6 +116,7 @@ class LinkLinesController {
      */
     update(dt, delta, starLocation, innerPlanet, outerPlanet) {
         let isConjunction = this.conjunctionsController.isConjunction(dt, delta, starLocation, innerPlanet, outerPlanet);
+        let isOpposition = this.oppositionsController.isOpposition(dt, delta, starLocation, innerPlanet, outerPlanet);
 
         let innerPlanetLocation = innerPlanet.getLocation();
         let outerPlanetLocation = outerPlanet.getLocation();
@@ -104,6 +128,10 @@ class LinkLinesController {
 
         if (isConjunction) {
             this.conjunctionsController.addConjunction(outerPlanetLocation);
+        }
+
+        if (isOpposition) {
+            this.oppositionsController.addOpposition(outerPlanetLocation);
         }
         
         let elapsedTimeSinceLastCall = dt - this.oldTime;
