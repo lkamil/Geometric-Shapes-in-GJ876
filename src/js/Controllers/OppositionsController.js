@@ -52,6 +52,11 @@ class OppositionsController {
         return c;
     }
 
+    clear() {
+        this.drawRange = 0;
+        this.line.geometry.setDrawRange(0, this.drawRange);
+    }
+
     /**
      * Checks if the current constellation is a opposition
      * @param {Elapsed time} dt 

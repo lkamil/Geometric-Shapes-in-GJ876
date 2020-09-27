@@ -41,6 +41,7 @@ function checkInitialStates() {
 
     hideShowConjunctionsLine();
     hideShowOppositionsLine();
+    hideShowLinkLines();
     
 }
 

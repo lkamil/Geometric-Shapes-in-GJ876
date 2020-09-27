@@ -42,6 +42,9 @@ class LinkLinesController {
 
     clear() {
         this.lines.children = [];
+
+        this.conjunctionsController.clear();
+        this.oppositionsController.clear();
     }
 
     switchToLightMode() {

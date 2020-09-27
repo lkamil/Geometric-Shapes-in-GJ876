@@ -56,8 +56,9 @@ class ConjunctionsController {
         return this.drawRange;
     }
 
-    reset() {
+    clear() {
         this.drawRange = 0;
+        this.conjunctionsLine.geometry.setDrawRange(0, this.drawRange);
     }
 
     hide() {
