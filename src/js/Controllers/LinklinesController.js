@@ -7,13 +7,15 @@ class LinkLinesController {
         this.involvedPlanets = []; // Holds the names of the two planets
         this.active = false;
         this.conjunctionsController = new ConjunctionsController(scene);
+        this.lightMode = false; // Default is dark mode
         
         scene.add(this.lines);
     }
 
     newLinkLine(p1Location, p2Location) {
         const points = [p1Location, p2Location];
-        const lineMaterial = new THREE.LineBasicMaterial( { color: 0xff1237, transparent: true, opacity: 0.3 } );
+        let c = this.getColor();
+        const lineMaterial = new THREE.LineBasicMaterial( { color: c, transparent: true, opacity: 0.3 } );
         const lineGeometry = new THREE.BufferGeometry().setFromPoints( points );
         const line = new THREE.Line( lineGeometry, lineMaterial );
         this.lines.add(line);
@@ -41,6 +43,38 @@ class LinkLinesController {
         this.lines.children = [];
     }
 
+    switchToLightMode() {
+        this.lightMode = true;
+        let c = this.getColor();
+        this.changeColor(c);
+    }
+
+    switchToDarkMode() {
+        this.lightMode = false;
+        let c = this.getColor();
+        this.changeColor(c);
+    }
+
+    getColor() {
+        let c;
+        if (this.lightMode) {
+            c = new THREE.Color(0x3D5567);
+        } else {
+            c = new THREE.Color(0xff1237);
+        }
+
+        return c;
+    }
+
+    changeColor(c) {
+        let lines = this.lines.children;
+
+        for (let i = 0; i < lines.length; i++) {
+            lines[i].material.color = new THREE.Color(c);
+            lines[i].material.needsUpdate = true;
+        }
+    }
+
     recommendInterval(speedFactor, orbitalPeriods) {
         let smallestOrbitalPeriod = Math.min(...orbitalPeriods);
         
@@ -50,7 +84,6 @@ class LinkLinesController {
         
         // console.log("recommended interval: " + recommendedInterval);
         return Math.round(inMinutes);
-
     }
 
     /**

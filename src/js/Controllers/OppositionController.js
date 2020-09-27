@@ -1,4 +1,4 @@
-class ConjunctionsController {
+class OppositionsController {
     constructor(scene) {
         this.points = [];
         // Create Line Geometry
@@ -15,23 +15,22 @@ class ConjunctionsController {
         const material = new THREE.LineBasicMaterial({color: 0xf5f5f5});
 
         // Create loop figure object
-        this.conjunctionsLine = new THREE.Line(geometry, material);
+        this.oppositionsLine = new THREE.Line(geometry, material);
 
-        scene.add(this.conjunctionsLine);
+        scene.add(this.oppositionsLine);
 
-        this.foundConjunctionRecently = false;
         this.foundOppositionRecently = false;
     }
 
     /**
-     * Checks if the current constellation is a conjunction
+     * Checks if the current constellation is a opposition
      * @param {Elapsed time} dt 
      * @param {Delta time} delta 
      * @param {Location of Star} starLocation 
      * @param {Inner Planet Object} innerPlanet 
      * @param {Outer Planet Object} outerPlanet 
      */
-    isConjunction(dt, delta, starLocation, innerPlanet, outerPlanet) {
+    isOpposition(dt, delta, starLocation, innerPlanet, outerPlanet) {
         // Current values: 
         let innerPlanetLocation = innerPlanet.getLocation();
         let outerPlanetLocation = outerPlanet.getLocation();
@@ -53,28 +52,28 @@ class ConjunctionsController {
         nextApprox = nextApprox.length();
 
         // If the current approximation is better than next approximation, conjunction or opposition is found
-        if (approx < nextApprox && approx < 0.01 && !this.foundConjunctionRecently) {
-            // Check if conjunction (and not opposition)
-            // Distance from inner Planet to outer planet must be smaller than dist from
+        if (approx < nextApprox && approx < 0.01 && !this.foundOppositionRecently) {
+            // Check if opposition (and not conjunction)
+            // Distance from inner Planet to outer planet must be bigger than dist from
             // outer planet to sun
             let distOuterToSun = outerPlanetLocation.distanceTo(starLocation);
             let distOuterToInner = outerPlanetLocation.distanceTo(innerPlanetLocation);
 
-            if (distOuterToInner < distOuterToSun) {
-                this.foundConjunctionRecently = true;
+            if (distOuterToInner > distOuterToSun) {
+                this.foundOppositionRecently = true;
                 return true;
             } else {
                 return false;
             }
         } else {
             if (approx > 0.01 && this.foundConjunctionRecently) {
-                this.foundConjunctionRecently = false;
+                this.foundOppositionRecently = false;
             }
             return false;
         }
     }
 
-    addConjunction(v) {
+    addOpposition(v) {
         // Shift values by three positions
         for (let i = this.points.length - 1; i > 3; i-=3) {
             this.points[i] = this.points[i-3];
@@ -86,7 +85,7 @@ class ConjunctionsController {
         this.points[2] = v.z;
 
         this.drawRange += 1;
-        this.conjunctionsLine.geometry.setDrawRange(0, this.drawRange);
-        this.conjunctionsLine.geometry.attributes.position.needsUpdate = true;
+        this.oppositionsLine.geometry.setDrawRange(0, this.drawRange);
+        this.oppositionsLine.geometry.attributes.position.needsUpdate = true;
     }
 }

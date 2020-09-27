@@ -270,6 +270,9 @@ class SceneManager {
 
         // Show coordinate axes
         this.coordinateAxes.show();
+
+        // Change controllers color
+        this.linkLinesController.switchToLightMode();
     }
 
     switchToDarkMode() {
@@ -281,6 +284,9 @@ class SceneManager {
 
         // Hide coordinate axes
         this.coordinateAxes.hide();
+
+        // Change controllers color
+        this.linkLinesController.switchToDarkMode();
     }
 
     backgroundTexture() {
