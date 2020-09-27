@@ -9,6 +9,10 @@ class TimeController {
         this.timer.setFixedDelta(this.baseFixedDelta * newFactor);
     }
 
+    getDelta() {
+        return this.timer.getDelta();
+    }
+
     dt() {
         const elapsed = this.timer.getElapsed();
         return elapsed;

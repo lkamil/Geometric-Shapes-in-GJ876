@@ -28,8 +28,8 @@ class LinkLinesController {
         this.involvedPlanets = planets;
         this.active = true;
         this.oldTime = 0;
-        this.count = 0;
         this.interval = i;
+        this.count = this.interval;
     }
 
     endDrawing() {
@@ -58,8 +58,11 @@ class LinkLinesController {
      * @param {Current location of a planet} p1Location 
      * @param {Current location of another planet} p2Location 
      */
-    update(dt, starLocation, p1Location, p2Location) {
-        let isConjunction = this.conjunctionsController.isConjunction(starLocation, p1Location, p2Location);
+    update(dt, delta, starLocation, innerPlanet, outerPlanet) {
+        let isConjunction = this.conjunctionsController.isConjunction(dt, delta, starLocation, innerPlanet, outerPlanet);
+
+        let innerPlanetLocation = innerPlanet.getLocation();
+        let outerPlanetLocation = outerPlanet.getLocation();
 
         // First line must be drawn on conjunction
         if (this.lines.children.length == 0 && !isConjunction) {
@@ -67,12 +70,12 @@ class LinkLinesController {
         }
 
         if (isConjunction) {
-            this.conjunctionsController.addConjunction(p1Location);
+            this.conjunctionsController.addConjunction(outerPlanetLocation);
         }
         
         let elapsedTimeSinceLastCall = dt - this.oldTime;
         if (this.count >= this.interval) {
-            this.newLinkLine(p1Location, p2Location);
+            this.newLinkLine(innerPlanetLocation, outerPlanetLocation);
             this.count = 0;
         } else {
             this.count += elapsedTimeSinceLastCall;

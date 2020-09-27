@@ -88,15 +88,19 @@ class SceneManager {
             this.updateStats(dt);
 
             if (this.linkLinesController.active) {
-                const selectedPlanets = this.linkLinesController.involvedPlanets;
+                const selectedPlanetNames = this.linkLinesController.involvedPlanets;
 
-                let planetLocations = [];
-                for (let i = 0; i < selectedPlanets.length; i++) {
-                    planetLocations.push(this.getLocationOfPlanet(selectedPlanets[i]));
+                // let planetLocations = [];
+                let planets = [];
+                for (let i = 0; i < selectedPlanetNames.length; i++) {
+                    // planetLocations.push(this.getLocationOfPlanet(selectedPlanets[i]));
+                    planets.push(this.getPlanetByName(selectedPlanetNames[i]));
                 }
 
                 let starLocation = this.solarSystem.star.getLocation();
-                this.linkLinesController.update(dt, starLocation, planetLocations[0], planetLocations[1]);     
+                // this.linkLinesController.update(dt, starLocation, planetLocations[0], planetLocations[1]);
+                let delta = this.timeController.getDelta();  
+                this.linkLinesController.update(dt, delta, starLocation, planets[0], planets[1]);
             }
 
             if (this.loopFigureController.active) {
@@ -199,6 +203,20 @@ class SceneManager {
         }
 
         return planetLocation;
+    }
+
+    // TODO: Add error handling
+    getPlanetByName(planetName) {
+        let planet;
+
+        let planets = this.solarSystem.planets;
+        for (let i = 0; i < this.solarSystem.numberOfPlanets; i++) {
+            if (planetName == planets[i].name) {
+                planet = planets[i];
+            } 
+        }
+
+        return planet
     }
 
     /**

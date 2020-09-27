@@ -19,30 +19,78 @@ class ConjunctionsController {
 
         scene.add(this.conjunctionsLine);
 
-        this.lastXLength = 0;
+        this.foundConjunctionRecently = false;
     }
 
-    /**
-     * Gets three location vectors and checks if they are on one line
-     * @param {Location of sun} p1 
-     * @param {Location of inner planet} p2 
-     * @param {Location of outer planet} p3 
-     */
-    isConjunction(lStar, lInner, lOuter) {
-        let x = new THREE.Vector3();  
-        x.crossVectors(lStar.clone().sub(lInner), lOuter.clone().sub(lInner));
+    
+    // isConjunction(lStar, lInner, lOuter) {
+    //     let x = new THREE.Vector3();  
+    //     x.crossVectors(lStar.clone().sub(lInner), lOuter.clone().sub(lInner));
 
-        if (x.length() <= 0.0015) { // All points are on the same line
-            // Check if inner Planet is between sun and outer planet
-            let distOuterToSun = lOuter.distanceTo(lStar);
-            let distOuterToInner = lOuter.distanceTo(lInner);
+    //     // Check if inner Planet is between sun and outer planet
+    //     let distOuterToSun = lOuter.distanceTo(lStar);
+    //     let distOuterToInner = lOuter.distanceTo(lInner);
+
+    //     if (distOuterToInner < distOuterToSun) {
+    //         // Check if points are more on one line than last value
+    //         if (x.length() <= this.lastXLength) {
+    //             this.lastXLength = x.length();
+    //         } else if (x.length() > this.lastXLength) {
+    //             // Last value was higher approximation
+    //             return true;
+    //         }
+    //     } else {
+    //         return false;
+    //     }
+    // }
+
+    /**
+     * Checks if the current constellation is a conjunction
+     * @param {Elapsed time} dt 
+     * @param {Delta time} delta 
+     * @param {Location of Star} starLocation 
+     * @param {Inner Planet Object} innerPlanet 
+     * @param {Outer Planet Object} outerPlanet 
+     */
+    isConjunction(dt, delta, starLocation, innerPlanet, outerPlanet) {
+        // Current values: 
+        let innerPlanetLocation = innerPlanet.getLocation();
+        let outerPlanetLocation = outerPlanet.getLocation();
+
+        // Next values:
+        let nextInnerPlanetLocation = innerPlanet.position(dt + delta);
+        let nextOuterPlanetLocation = outerPlanet.position(dt + delta);
+
+        // Current conjunction approximation
+        let approx = new THREE.Vector3();
+        approx.crossVectors(starLocation.clone().sub(innerPlanetLocation), 
+                            outerPlanetLocation.clone().sub(innerPlanetLocation));
+        approx = approx.length();
+
+        // Next conjunction approximation
+        let nextApprox = new THREE.Vector3();
+        nextApprox.crossVectors(starLocation.clone().sub(nextInnerPlanetLocation), 
+                                nextOuterPlanetLocation.clone().sub(nextInnerPlanetLocation));
+        nextApprox = nextApprox.length();
+
+        // If the current approximation is better than next approximation, conjunction or opposition is found
+        if (approx < nextApprox && approx < 0.01 && !this.foundConjunctionRecently) {
+            // Check if conjunction (and not opposition)
+            // Distance from inner Planet to outer planet must be smaller than dist from
+            // outer planet to sun
+            let distOuterToSun = outerPlanetLocation.distanceTo(starLocation);
+            let distOuterToInner = outerPlanetLocation.distanceTo(innerPlanetLocation);
 
             if (distOuterToInner < distOuterToSun) {
+                this.foundConjunctionRecently = true;
                 return true;
             } else {
                 return false;
             }
         } else {
+            if (approx > 0.01 && this.foundConjunctionRecently) {
+                this.foundConjunctionRecently = false;
+            }
             return false;
         }
     }
