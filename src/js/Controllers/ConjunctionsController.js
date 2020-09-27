@@ -46,7 +46,7 @@ class ConjunctionsController {
         if (this.lightMode) {
             c = new THREE.Color(0x0320AA);
         } else {
-            c = new THREE.Color(0xf5f5f5);
+            c = new THREE.Color(0x5E9AE5);
         }
 
         return c;

@@ -33,7 +33,7 @@ class OppositionsController {
     switchToDarkMode() {
         this.lightMode = false;
         let c = this.getColor();
-        this.changeColor();
+        this.changeColor(c);
     }
 
     changeColor(c) {
@@ -44,9 +44,9 @@ class OppositionsController {
     getColor() {
         let c;
         if (this.lightMode) {
-            c = new THREE.Color(0x17544B);
+            c = new THREE.Color(0xAB3644);
         } else {
-            c = new THREE.Color(0xf5f5f5);
+            c = new THREE.Color(0xD3747E);
         }
 
         return c;

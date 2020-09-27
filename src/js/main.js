@@ -96,6 +96,9 @@ function bindEventListeners() {
     let showOppositions = document.getElementById("ll-oppositions");
     showOppositions.addEventListener('change', hideShowOppositionsLine, false);
 
+    let showLinkLines = document.getElementById("ll-visibility");
+    showLinkLines.addEventListener('change', hideShowLinkLines, false);
+
     // Draw Buttons
     const drawLinkLinesButton = document.getElementById("drawLinkLinesButton");
     drawLinkLinesButton.addEventListener('click', drawLinkLines, false);
@@ -435,5 +438,14 @@ function hideShowOppositionsLine() {
         sceneManager.linkLinesController.showOppositions();
     } else {
         sceneManager.linkLinesController.hideOppositions();
+    }
+}
+
+function hideShowLinkLines() {
+    let showLinkLines = document.getElementById("ll-visibility");
+    if (showLinkLines.checked) {
+        sceneManager.linkLinesController.show();
+    } else {
+        sceneManager.linkLinesController.hide();
     }
 }

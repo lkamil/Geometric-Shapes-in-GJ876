@@ -109,6 +109,14 @@ class LinkLinesController {
         this.oppositionsController.hide();
     }
 
+    show() {
+        this.lines.visible = true;
+    }
+
+    hide() {
+        this.lines.visible = false;
+    }
+
     /**
      * Adds a new link line at set intervall
      * @param {Current location of a planet} p1Location 
