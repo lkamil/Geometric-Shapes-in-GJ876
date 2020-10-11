@@ -201,11 +201,11 @@ function hide(icon) {
     icon.classList.add("hidden");
 }
 
-function moveCameraToTopView(e) {
+function moveCameraToTopView(e, distance = 1) {
     const inclinations = [data.planets.gj876b.i, data.planets.gj876c.i, data.planets.gj876d.i, data.planets.gj876e.i];
 
     const i = (inclinations.reduce((acc, value) => acc + value)) / inclinations.length; // Mean inclination
-    const distance = 1;
+    // const distance = 1;
 
     const topViewCoordinates = sceneManager.cameraManager.topViewCoordinates(i, distance);
     sceneManager.travelController.setTravelPath(sceneManager.cameraManager.camera, topViewCoordinates);

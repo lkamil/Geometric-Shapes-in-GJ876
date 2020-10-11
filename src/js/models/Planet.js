@@ -64,7 +64,8 @@ class Planet {
     meanAnomaly(oP, t, tp) {
         // Time diffence
         let dt = t - tp;
-        let m = this.ma0 + dt * Math.sqrt(this.SGP / this._aToPowerOf3);
+        //let m = this.ma0 + dt * Math.sqrt(this.SGP / this._aToPowerOf3);
+        let m = this.ma0 + dt * (Math.PI * 2) / oP;
         
         // Normalize m to a value between 0 and 2PI
         m  = m % (2 * Math.PI);
@@ -76,7 +77,6 @@ class Planet {
      * @param {Eccentric anomaly (can be calculated with keplers equation)} ev 
      */
     trueAnomaly(ev) {
-        //let v = 2 * Math.atan(Math.sqrt((1+this.e) / (1-this.e)) * Math.tan(ev / 2));
         let v = 2 * Math.atan2((Math.sqrt(1 + this.e) * Math.sin(ev / 2)),
                                (Math.sqrt(1 - this.e) * Math.cos(ev / 2)));
 
@@ -86,33 +86,29 @@ class Planet {
     /**
      * Returns the eccentric anomaly at a specific point in time.
      * Uses Newton's Method to solve Kepler's Equation.
-     * The eccentric anomaly is needed to calculate the true anomaly.
      * 
      * @param {MeanAnomaly at specific point in time} m 
      * @param {Numeric eccentricity} e 
      */
     eccentricAnomaly(m, e) {
-        let maxI = 10; // Maximum Iterations
+        let maxI = 15; // Maximum Iterations
         let i = 0;
-        // let precision = Math.pow(10, -8); // Set precision to eight decimal places
+        let precision = Math.pow(10, -7);
 
-        // If eccentricity is small, set initial value of eccentric anomaly equal to mean anomaly
-        // Otherwise PI is a better initial value
         let lastEA; // E_i
-        let eA;
-        //let eA = (e < 0.8 ? m : Math.PI); //E_i+1
-        if (e < 0.8) {
-            eA = m;
-        } else {
-            eA = 3.14159;
-        }
+        let eA = m; // Set inital value of E_i+1 to mean anomaly
        
         while (i < maxI) {
             lastEA = eA;
             eA = lastEA - (m - lastEA + e * Math.sin(lastEA)) / (e * Math.cos(lastEA) - 1);
-            i++;
-            //debugger
+
+            if (Math.abs(eA - lastEA) < precision) {
+                return eA;
+            } else {
+                i++;
+            }
         }
+
         return eA;
     }
 
@@ -150,7 +146,7 @@ class Planet {
         
         let z = (oz * (Math.cos(this.w) * Math.cos(this.o) - Math.sin(this.w) * Math.cos(this.i) * Math.sin(this.o))) - 
                 (ox * (Math.sin(this.w) * Math.cos(this.o) + Math.cos(this.w) * Math.cos(this.i) * Math.sin(this.o)));
-        //debugger
+
         return new THREE.Vector3(x, y, z);
     }
 

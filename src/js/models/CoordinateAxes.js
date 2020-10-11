@@ -1,10 +1,30 @@
 class CoordinateAxes {
     constructor(scene, size) {
         this.size = size;
+        this.scene = scene;
         this.axes = this.initAxes(scene);
         this.marks = this.initMarks(scene);
 
         this.hide();
+    }
+
+    setSize(s) {
+        this.reset();
+
+        this.size = s;
+
+        this.axes = this.initAxes(this.scene);
+        this.marks = this.initMarks(this.scene);
+    }
+
+    reset() {
+        this.marks.parent.remove(this.marks);
+        for (let i = 0; i < this.marks.children.length; i++) {
+            let label = this.marks.children[i].children[0];
+            label.parent.remove(label);
+        }
+
+        this.axes.parent.remove(this.axes);
     }
 
     initAxes(scene) {
