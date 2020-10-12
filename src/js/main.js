@@ -77,7 +77,8 @@ function bindEventListeners() {
     });
 
     const hideShowButton = document.querySelector("#hideShowButton");
-    hideShowButton.addEventListener("click", hideShowTrajectories, false);
+    hideShowButton.addEventListener("click", hideShowLabels, false);
+    // hideShowButton.addEventListener("click", hideShowTrajectories, false);
 
     const toggleLoopFigureMenuButton = document.getElementById("openDrawLoopFigureMenu");
     toggleLoopFigureMenuButton.addEventListener("click", toggleMenuAnimation, false);
@@ -191,6 +192,31 @@ function hideShowTrajectories(e) {
     } 
 }
 
+function hideShowLabels(e) {
+    let text = this.querySelector("#hideShow").textContent;
+
+    let eyesSlashSVG = document.querySelector("#eyes-slash-icon");
+    let eyesSVG = document.querySelector("#eyes-icon");
+
+    if (text == "Hide labels") {
+        sceneManager.hideLabels();
+
+        this.querySelector("#hideShow").innerHTML = "Show labels";
+
+        // Switch visbility 
+        show(eyesSVG);
+        hide(eyesSlashSVG);
+    } else {
+        sceneManager.showLabels();
+
+        this.querySelector("#hideShow").innerHTML = "Hide labels";
+
+        // Switch visbility 
+        hide(eyesSVG);
+        show(eyesSlashSVG);
+    } 
+}
+
 function show(icon) {
     icon.classList.remove("hidden");
     icon.classList.add("visible");
@@ -267,11 +293,11 @@ function drawLinkLines(e) {
         sceneManager.resetScene();
         sceneManager.hideTrajectories();
 
-        document.querySelector("#hideShow").innerHTML = "Show Trajectories";
-        const eyesSlashSVG = document.querySelector("#eyes-slash-icon");
-        hide(eyesSlashSVG);
-        const eyesSVG = document.querySelector("#eyes-icon");
-        show(eyesSVG);
+        // document.querySelector("#hideShow").innerHTML = "Show labels";
+        // const eyesSlashSVG = document.querySelector("#eyes-slash-icon");
+        // hide(eyesSlashSVG);
+        // const eyesSVG = document.querySelector("#eyes-icon");
+        // show(eyesSVG);
 
         // Get interval and convert it from minutes to days
         let interval = document.getElementById("interval").value;
@@ -377,11 +403,11 @@ function plotLoopFigure() {
         sceneManager.hideTrajectories();
 
         // Update show/hide button
-        document.querySelector("#hideShow").innerHTML = "Show Trajectories";
-        const eyesSlashSVG = document.querySelector("#eyes-slash-icon");
-        hide(eyesSlashSVG);
-        const eyesSVG = document.querySelector("#eyes-icon");
-        show(eyesSVG);
+        // document.querySelector("#hideShow").innerHTML = "Show Trajectories";
+        // const eyesSlashSVG = document.querySelector("#eyes-slash-icon");
+        // hide(eyesSlashSVG);
+        // const eyesSVG = document.querySelector("#eyes-icon");
+        // show(eyesSVG);
 
         if (sceneManager.animationPaused) {
             play();

@@ -162,6 +162,29 @@ class SceneManager {
         }
     }
 
+    hideLabels() {
+        for (let i = 0; i < this.solarSystem.numberOfPlanets; i++) {
+            this.solarSystem.planets[i].label.visible = false;
+        }
+    }
+
+    showLabels() {
+        if (this.linkLinesController.active) {
+            const selectedPlanetNames = this.linkLinesController.involvedPlanets;
+
+            for (let i = 0; i < selectedPlanetNames.length; i++) {
+                this.getPlanetByName(selectedPlanetNames[i]).label.visible = true;
+            }
+        } else if (this.loopFigureController.active) {
+            this.getPlanetByName(this.loopFigureController.innerPlanet).label.visible = true;
+            this.getPlanetByName(this.loopFigureController.outerPlanet).label.visible = true;
+        } else {
+            for (let i = 0; i < this.solarSystem.numberOfPlanets; i++) {
+                this.solarSystem.planets[i].label.visible = true;
+            }
+        }
+    }
+
     setAnimationSpeed(speed) {
         this.timeController.setSpeedFactor(speed);
     }
