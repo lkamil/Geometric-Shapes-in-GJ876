@@ -98,7 +98,7 @@ class ConjunctionsController {
         nextApprox = nextApprox.length();
 
         // If the current approximation is better than next approximation, conjunction or opposition is found
-        if (approx < nextApprox && approx < 0.01 && !this.foundConjunctionRecently) {
+        if (approx < nextApprox && approx < 0.0013 && !this.foundConjunctionRecently) {
             // Check if conjunction (and not opposition)
             // Distance from inner Planet to outer planet must be smaller than dist from
             // outer planet to sun
@@ -112,7 +112,7 @@ class ConjunctionsController {
                 return false;
             }
         } else {
-            if (approx > 0.01 && this.foundConjunctionRecently) {
+            if (approx > 0.0013 && this.foundConjunctionRecently) {
                 this.foundConjunctionRecently = false;
             }
             return false;
@@ -133,5 +133,7 @@ class ConjunctionsController {
         this.drawRange += 1;
         this.conjunctionsLine.geometry.setDrawRange(0, this.drawRange);
         this.conjunctionsLine.geometry.attributes.position.needsUpdate = true;
+
+        // console.log("Anzahl Konjunktionen: " + this.drawRange);
     }
 }

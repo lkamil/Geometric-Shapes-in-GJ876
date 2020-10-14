@@ -85,9 +85,9 @@ class OppositionsController {
         nextApprox.crossVectors(starLocation.clone().sub(nextInnerPlanetLocation), 
                                 nextOuterPlanetLocation.clone().sub(nextInnerPlanetLocation));
         nextApprox = nextApprox.length();
-
+        // debugger
         // If the current approximation is better than next approximation, conjunction or opposition is found
-        if (approx < nextApprox && approx < 0.01 && !this.foundOppositionRecently) {
+        if (approx < nextApprox && approx < 0.0013 && !this.foundOppositionRecently) {
             // Check if opposition (and not conjunction)
             // Distance from inner Planet to outer planet must be bigger than dist from
             // outer planet to sun
@@ -101,7 +101,7 @@ class OppositionsController {
                 return false;
             }
         } else {
-            if (approx > 0.01 && this.foundOppositionRecently) {
+            if (approx > 0.0013 && this.foundOppositionRecently) {
                 this.foundOppositionRecently = false;
             }
             return false;

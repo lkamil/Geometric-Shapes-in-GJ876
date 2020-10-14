@@ -22,6 +22,7 @@ class LoopFigureController {
 
         // Create material
         const material = new THREE.LineBasicMaterial({color: 0xff1237});
+        // const material = new THREE.LineBasicMaterial({color: 0x000000});
 
         // Create loop figure object
         this.loopFigure = new THREE.Line(geometry, material);

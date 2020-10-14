@@ -56,7 +56,7 @@ class SceneManager {
     }
 
     initCoordinateAxes(scene) {
-        let size = 0.8;
+        let size = 1.4;
         let coordinateAxes = new CoordinateAxes(scene, size);
         
         coordinateAxes.hide();
@@ -90,17 +90,20 @@ class SceneManager {
             if (this.linkLinesController.active) {
                 const selectedPlanetNames = this.linkLinesController.involvedPlanets;
 
-                // let planetLocations = [];
                 let planets = [];
                 for (let i = 0; i < selectedPlanetNames.length; i++) {
-                    // planetLocations.push(this.getLocationOfPlanet(selectedPlanets[i]));
                     planets.push(this.getPlanetByName(selectedPlanetNames[i]));
                 }
 
                 let starLocation = this.solarSystem.star.getLocation();
-                // this.linkLinesController.update(dt, starLocation, planetLocations[0], planetLocations[1]);
                 let delta = this.timeController.getDelta();  
                 this.linkLinesController.update(dt, delta, starLocation, planets[0], planets[1]);
+
+                // Automatically Pause after a specific number of conjunctions
+                // if (this.linkLinesController.conjunctionsController.getNumberOfConjunctions() == 4) {
+                //     this.pause();
+                // }
+                
             }
 
             if (this.loopFigureController.active) {
@@ -165,6 +168,7 @@ class SceneManager {
     hideLabels() {
         for (let i = 0; i < this.solarSystem.numberOfPlanets; i++) {
             this.solarSystem.planets[i].label.visible = false;
+            this.solarSystem.planets[i].mesh.visible = false;
         }
     }
 
@@ -174,13 +178,18 @@ class SceneManager {
 
             for (let i = 0; i < selectedPlanetNames.length; i++) {
                 this.getPlanetByName(selectedPlanetNames[i]).label.visible = true;
+                this.getPlanetByName(selectedPlanetNames[i]).mesh.visible = true;
             }
         } else if (this.loopFigureController.active) {
             this.getPlanetByName(this.loopFigureController.innerPlanet).label.visible = true;
+            this.getPlanetByName(this.loopFigureController.innerPlanet).mesh.visible = true;
+
             this.getPlanetByName(this.loopFigureController.outerPlanet).label.visible = true;
+            this.getPlanetByName(this.loopFigureController.outerPlanet).mesh.visible = true;
         } else {
             for (let i = 0; i < this.solarSystem.numberOfPlanets; i++) {
                 this.solarSystem.planets[i].label.visible = true;
+                this.solarSystem.planets[i].mesh.visible = true;
             }
         }
     }

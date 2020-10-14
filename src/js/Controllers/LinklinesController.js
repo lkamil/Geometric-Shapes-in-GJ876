@@ -16,7 +16,7 @@ class LinkLinesController {
     newLinkLine(p1Location, p2Location) {
         const points = [p1Location, p2Location];
         let c = this.getColor();
-        const lineMaterial = new THREE.LineBasicMaterial( { color: c, transparent: true, opacity: 0.4 } );
+        const lineMaterial = new THREE.LineBasicMaterial( { color: c, transparent: true, opacity: 0.3 } );
         const lineGeometry = new THREE.BufferGeometry().setFromPoints( points );
         const line = new THREE.Line( lineGeometry, lineMaterial );
         this.lines.add(line);
@@ -68,7 +68,7 @@ class LinkLinesController {
     getColor() {
         let c;
         if (this.lightMode) {
-            c = new THREE.Color(0x0071FF);
+            c = new THREE.Color(0x000000);
         } else {
             c = new THREE.Color(0xff1237);
         }
